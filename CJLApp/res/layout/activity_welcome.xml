@@ -1,12 +1,40 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/welcome_black"
     tools:context="${relativePackage}.${activityClass}" >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+    <Button
+        android:id="@+id/studentButton"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="5"
+        android:textSize="25sp"
+        android:text="@string/student_query"
+        android:textColor="@color/white"
+        android:onClick="onClickStudent"
+        android:background="@color/welcome_black" />
 
-</RelativeLayout>
+    <Button
+		android:id="@+id/facultyButton"
+	    android:layout_width="fill_parent"
+	    android:layout_height="0dp"
+	    android:layout_weight="5"
+	    android:text="@string/coach_query"
+	    android:textSize="25sp"
+   		android:textColor="@color/white"
+        android:onClick="onClickCoach"
+	    android:background="@color/welcome_blue" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:text="@string/copyright" />
+
+</LinearLayout>

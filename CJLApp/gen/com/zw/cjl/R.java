@@ -858,10 +858,13 @@ containing a value of this type.
         public static final int abc_split_action_bar_is_narrow=0x7f060002;
     }
     public static final class color {
-        public static final int abc_search_url_text_holo=0x7f070003;
+        public static final int abc_search_url_text_holo=0x7f070006;
         public static final int abc_search_url_text_normal=0x7f070000;
         public static final int abc_search_url_text_pressed=0x7f070002;
         public static final int abc_search_url_text_selected=0x7f070001;
+        public static final int welcome_black=0x7f070004;
+        public static final int welcome_blue=0x7f070003;
+        public static final int white=0x7f070005;
     }
     public static final class dimen {
         /**  Default height of an action bar. 
@@ -1095,6 +1098,7 @@ containing a value of this type.
         public static final int end=0x7f050013;
         public static final int expand_activities_button=0x7f050026;
         public static final int expanded_menu=0x7f05002c;
+        public static final int facultyButton=0x7f05003d;
         public static final int home=0x7f050014;
         public static final int homeAsUp=0x7f050005;
         public static final int icon=0x7f05002a;
@@ -1124,9 +1128,13 @@ containing a value of this type.
         public static final int showHome=0x7f050004;
         public static final int showTitle=0x7f050006;
         public static final int split_action_bar=0x7f05001e;
+        public static final int studentButton=0x7f05003c;
         public static final int submit_area=0x7f050039;
         public static final int tabMode=0x7f050002;
+        public static final int textView1=0x7f05003e;
         public static final int title=0x7f05002b;
+        public static final int titleImage=0x7f05003f;
+        public static final int titleText=0x7f050040;
         public static final int top_action_bar=0x7f050020;
         public static final int up=0x7f050021;
         public static final int useLogo=0x7f050003;
@@ -1184,6 +1192,7 @@ containing a value of this type.
         public static final int abc_simple_decor=0x7f030017;
         public static final int activity_welcome=0x7f030018;
         public static final int support_simple_spinner_dropdown_item=0x7f030019;
+        public static final int welcome_title=0x7f03001a;
     }
     public static final class string {
         /**  Content description for the action bar "home" affordance. [CHAR LIMIT=NONE] 
@@ -1227,7 +1236,11 @@ containing a value of this type.
          */
         public static final int abc_shareactionprovider_share_with_application=0x7f0a000b;
         public static final int app_name=0x7f0a000d;
+        public static final int coach_query=0x7f0a0012;
+        public static final int copyright=0x7f0a000f;
         public static final int hello_world=0x7f0a000e;
+        public static final int login=0x7f0a0010;
+        public static final int student_query=0x7f0a0011;
     }
     public static final class style {
         /** 
@@ -1256,6 +1269,7 @@ containing a value of this type.
  All customizations that are NOT specific to a particular API-level can go here. 
          */
         public static final int AppTheme=0x7f0b008c;
+        public static final int CustomizedWindowTitleBackground=0x7f0b008d;
         /**  Mimic text appearance in select_dialog_item.xml 
          */
         public static final int TextAppearance_AppCompat_Base_CompactMenu_Dialog=0x7f0b0063;
@@ -1458,6 +1472,9 @@ containing a value of this type.
         public static final int Widget_AppCompat_ProgressBar=0x7f0b000a;
         public static final int Widget_AppCompat_ProgressBar_Horizontal=0x7f0b0009;
         public static final int Widget_AppCompat_Spinner_DropDown_ActionBar=0x7f0b0022;
+        /**  All customizations that are NOT specific to a particular API-level can go here. 
+         */
+        public static final int titlebarstyle=0x7f0b008e;
     }
     public static final class styleable {
         /**  ============================================ 
