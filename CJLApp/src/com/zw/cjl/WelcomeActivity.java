@@ -1,12 +1,16 @@
 package com.zw.cjl;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 
-public class Welcome extends Activity {
+public class WelcomeActivity extends Activity {
 
+	// 用户类型
+	String userType;
+	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,17 +23,26 @@ public class Welcome extends Activity {
     
     // 助理考试员
     public void onClickCoach(View v) {
-    	
+    	userType = "1";
+    	startLogin();
     }
     
     // 学员
     public void onClickStudent(View v) {
-    	
+    	userType = "2";
+    	startLogin();
     }
 
     // 业务员
     public void onClickAssistant(View v) {
-    	
+    	userType = "3";
+    	startLogin();
     }
-    
+ 
+    private void startLogin() {
+    	Intent intent=new Intent();
+		intent.setClass(getApplicationContext(), LoginActivity.class);
+		intent.putExtra("userType", userType);
+		startActivity(intent);	
+    }
 }
