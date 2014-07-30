@@ -2,11 +2,78 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/welcome_blue"
+    android:focusable="true"   
+	android:focusableInTouchMode="true"
     tools:context="${relativePackage}.${activityClass}" >
 
     <TextView
+        android:id="@+id/loginText"
+        android:layout_width="fill_parent"
+        android:layout_height="100dip"
+        android:textSize="23sp"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:paddingTop="30dp"
+        android:text="@string/student_query" />
+
+    <EditText
+        android:id="@+id/username"
+        android:layout_width="wrap_content"
+        android:layout_height="50dip"
+        android:layout_below="@+id/loginText"
+        android:hint="@string/username"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/top_rounded_edit" 
+        android:textColorHint="@color/dark_gray"
+        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true"
+        android:singleLine="true"
+        android:paddingLeft="10dp"
+        android:textSize="20sp"
+        android:maxLength="18"
+        android:ems="18" >
+    </EditText>
+
+    <EditText
+        android:id="@+id/password"
+        android:hint="@string/password"
+        android:layout_width="wrap_content"
+        android:layout_height="50dip"
+        android:layout_below="@+id/username"
+        android:layout_alignLeft="@+id/username"
+        android:layout_alignRight="@+id/username"
+        android:background="@drawable/bottom_rounded_edit" 
+        android:textColorHint="@color/dark_gray"
+        android:layout_marginTop="0dp"
+        android:maxLength="11"
+        android:ems="11"
+        android:paddingLeft="10dp"
+        android:textSize="20sp"
+        android:inputType="textPassword" />
+    
+    <CheckBox
+        android:id="@+id/ifSave"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+        android:layout_alignRight="@+id/password"
+        android:layout_below="@+id/password"
+        android:text="@string/remember_password"
+        android:textColor="@color/gray" />
+    
+    <Button
+        android:id="@+id/loginButton"
+        android:layout_width="wrap_content"
+        android:layout_height="50dip"
+        android:background="@drawable/rounded_button"
+        android:layout_alignLeft="@+id/username"
+        android:layout_alignRight="@+id/username"
+        android:layout_below="@+id/ifSave"
+        android:layout_marginTop="0dp"
+        android:onClick="onClickLogin"
+        android:text="@string/login"
+        android:textSize="22sp"
+        android:textColor="@color/white" />
 
 </RelativeLayout>

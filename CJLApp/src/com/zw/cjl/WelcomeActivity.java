@@ -9,7 +9,7 @@ import android.view.Window;
 public class WelcomeActivity extends Activity {
 
 	// 用户类型
-	String userType;
+	private String userType;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
