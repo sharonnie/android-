@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ze.cjl.network.HttpRequest;
 
@@ -154,7 +155,7 @@ public class LoginActivity extends Activity {
 				
 				
 				if(1 == resultCode) {
-					if (null != progressDlg)
+					if (progressDlg.isShowing())
 					{
 						progressDlg.dismiss();
 					}
@@ -174,7 +175,16 @@ public class LoginActivity extends Activity {
 						startCoachActivity();
 					}
 					else if (userType.equals("3")) { // 业务员界面
-						startAssistantActivity();
+						String jxid = null;
+						String sfzh = null;
+						try {
+							jxid = jsonObj.getString("jxid");
+							sfzh = jsonObj.getString("sfzh");
+						} catch (JSONException e) {
+							e.printStackTrace();
+						}
+						
+						startAssistantActivity(sfzh, jxid);
 					}
 					else
 					{
@@ -199,7 +209,6 @@ public class LoginActivity extends Activity {
 			if(hasError) {
 				Message message = new Message();
                 Bundle bundle = new Bundle();
-                bundle.putBoolean("isNetError", hasError);
                 bundle.putString("resultMsg", resultMsg);
                 message.setData(bundle);
                 loginResultHandler.sendMessage(message);
@@ -211,7 +220,13 @@ public class LoginActivity extends Activity {
 	// 处理结果
 	private Handler loginResultHandler = new Handler() {
     	public void handleMessage(Message msg) {
-    	
+    		String resultMsg = msg.getData().getString("resultMsg");
+    		
+    		if(progressDlg.isShowing()) { 
+    			progressDlg.dismiss(); 
+    		}
+    		
+    		Toast.makeText(getApplicationContext(), resultMsg, Toast.LENGTH_SHORT).show();
     	}
 	};
 	
@@ -224,7 +239,8 @@ public class LoginActivity extends Activity {
 		//intent.setClass(getApplicationContext(), StudentActivity.class);
 		
 		// 传入身份证和城市信息
-		Bundle bundle = new Bundle();		
+		Bundle bundle = new Bundle();	
+		bundle.putString("userType", "2");
         bundle.putString("identity", strUsername);
         bundle.putString("cityDivision", cityDivision);
         intent.putExtras(bundle);
@@ -238,20 +254,23 @@ public class LoginActivity extends Activity {
 		
 		// 传入身份证和城市信息
 		Bundle bundle = new Bundle();		
+		bundle.putString("userType", "1");
         bundle.putString("identity", strUsername);
         //bundle.putString("cityDivision", cityDivision);
         intent.putExtras(bundle);
         startActivity(intent);
 	}
 	
-	private void startAssistantActivity ()
+	private void startAssistantActivity (String sfzh, String jxid)
 	{
 		Intent intent = new Intent();
 		intent.setClass(getApplicationContext(), MainActivity.class);
 		
 		// 传入身份证和城市信息
-		Bundle bundle = new Bundle();		
-        bundle.putString("identity", strUsername);
+		Bundle bundle = new Bundle();
+		bundle.putString("userType", "3");
+        bundle.putString("identity", sfzh);
+        bundle.putString("jxid", jxid);
         intent.putExtras(bundle);
         startActivity(intent);
 	}
@@ -282,7 +301,7 @@ public class LoginActivity extends Activity {
 			editor.putBoolean("studentIfSave", true);			
 			editor.putString("studentIdentity", strUsername);
 			editor.putString("studentPhone", strPassword);
-		} else if (userType.equals("2")) {
+		} else if (userType.equals("3")) {
 		// 保存学员信息
 			editor.putBoolean("assistantIfSave", true);			
 			editor.putString("assistantUsername", strUsername);

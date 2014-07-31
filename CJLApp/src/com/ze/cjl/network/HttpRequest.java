@@ -12,7 +12,7 @@ import com.zw.cjl.server.MobileUrls;
 import com.zw.cjl.server.TeleUrls;
 
 public class HttpRequest {
-	static boolean userTeleNetwork = false;
+	static boolean userTeleNetwork = true;
 	static int loginType = 0;
 	
 	// 登录
@@ -31,6 +31,38 @@ public class HttpRequest {
 		return login(username, password);
 	}
 	
+	public static String assistantDetail(String identity) {
+		String result = null;
+		HttpURLConnection conn = null;
+		try {
+			URL url = null;
+			
+			if (userTeleNetwork) {
+				url = new URL(TeleUrls.assistantDetail(identity));
+			}
+			else {
+				url = new URL(MobileUrls.assistantDetail(identity));
+			}
+			
+			conn = (HttpURLConnection)url.openConnection();  
+			conn.setConnectTimeout(4000);  
+			conn.setRequestMethod("GET");
+			conn.connect();
+			
+			result = changeInputStream(conn.getInputStream(), "UTF-8");
+		} catch (MalformedURLException e) {
+			result = "连接地址异常";
+		} catch (ProtocolException e) {
+			result = "传输协议异常";
+		} catch (IOException e) {
+			result = "网络异常";
+		} catch(Exception e) {
+			result = "请求异常";
+		}
+		
+		return result;
+	}
+	
 	private static String login(String username, String password) {
 		String result = null;
 		HttpURLConnection conn = null;
@@ -40,17 +72,17 @@ public class HttpRequest {
 			// 助理考试员
 			if (1 == loginType)
 			{
-				url = new URL(MobileUrls.coachLogin(username, password));
+				url = new URL(TeleUrls.coachLogin(username, password));
 			}
 			// 学员
 			else if (2 == loginType)
 			{
-				url = new URL(MobileUrls.studentLogin(username, password));
+				url = new URL(TeleUrls.studentLogin(username, password));
 			}
 			// 业务员
 			else if (3 == loginType)
 			{
-				url = new URL(MobileUrls.assistantLogin(username, password));
+				url = new URL(TeleUrls.assistantLogin(username, password));
 			}
 			
 			conn = (HttpURLConnection)url.openConnection();  
@@ -71,17 +103,17 @@ public class HttpRequest {
 				// 助理考试员
 				if (1 == loginType)
 				{
-					url = new URL(TeleUrls.coachLogin(username, password));
+					url = new URL(MobileUrls.coachLogin(username, password));
 				}
 				// 学员
 				else if (2 == loginType)
 				{
-					url = new URL(TeleUrls.studentLogin(username, password));
+					url = new URL(MobileUrls.studentLogin(username, password));
 				}
 				// 业务员
 				else if (3 == loginType)
 				{
-					url = new URL(TeleUrls.assistantLogin(username, password));
+					url = new URL(MobileUrls.assistantLogin(username, password));
 				}
 				
 				
@@ -89,8 +121,9 @@ public class HttpRequest {
 				conn.setConnectTimeout(4000);  
 				conn.setRequestMethod("GET");
 				conn.connect();
+				
 				result = changeInputStream(conn.getInputStream(), "UTF-8");
-				userTeleNetwork = true;
+				userTeleNetwork = false;
 			} catch (IOException e1) {
 				result = "网络异常";
 			}
