@@ -7,13 +7,14 @@ import android.view.View;
 import android.view.Window;
 
 public class WelcomeActivity extends Activity {
-
+	public static Activity instance = null;
 	// 用户类型
 	private String userType;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        instance = this;
         
         // 替换默认的Title
         requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);   

@@ -1,6 +1,7 @@
 package com.zw.cjl;
 
-import com.ze.cjl.network.HttpRequest;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -14,6 +15,8 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.ze.cjl.network.HttpRequest;
 
 public class LoginActivity extends Activity {
 	
@@ -112,7 +115,95 @@ public class LoginActivity extends Activity {
 	class LoginThread implements Runnable {
     	@Override
     	public void run() {
-    		String result = HttpRequest.assistantLogin(strUsername, strPassword);
+    		String result = null;
+    		
+    		// 助理考试员登录
+    		if (userType.equals("1"))
+    		{
+    			result = HttpRequest.coachLogin(strUsername, strPassword);
+    		}
+    		// 学员登录
+    		else if (userType.equals("2"))
+    		{
+    			result = HttpRequest.studentLogin(strUsername, strPassword);
+    		}
+    		// 业务员登录
+    		else if (userType.equals("3"))
+    		{
+    			result = HttpRequest.assistantLogin(strUsername, strPassword);
+    		}
+    		
+    		boolean hasError = false; 
+			String resultMsg = "";
+			
+			// resultCode=1时表示成功
+			if (0 >= result.indexOf("resultCode")) {
+				hasError = true; 
+				resultMsg = result;
+			} 
+			else 
+			{
+				JSONObject jsonObj = null;
+				Integer resultCode = 0;
+				try {
+					jsonObj = new JSONObject(result);
+					resultCode = jsonObj.getInt("resultCode");
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+				
+				
+				if(1 == resultCode) {
+					if (null != progressDlg)
+					{
+						progressDlg.dismiss();
+					}
+					
+					if (userType.equals("2")) //学员界面
+					{
+						String cityDivision = null;
+						try {
+							cityDivision = jsonObj.getString("cityDivision");
+						} catch (JSONException e) {
+							e.printStackTrace();
+						}
+						 
+						startStudentActivity(cityDivision);
+					}
+					else if (userType.equals("1")) { // 助理考试员界面
+						startCoachActivity();
+					}
+					else if (userType.equals("3")) { // 业务员界面
+						startAssistantActivity();
+					}
+					else
+					{
+						hasError = true;
+						resultMsg = "不存在的用户类型";
+					}
+					
+	                
+	                // 登陆后关闭登陆页面和欢迎页面
+	                LoginActivity.this.finish();
+	                WelcomeActivity.instance.finish();
+				} else {
+					hasError = true; 
+					try {
+						resultMsg = jsonObj.getString("resultMsg");
+					} catch (JSONException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+			
+			if(hasError) {
+				Message message = new Message();
+                Bundle bundle = new Bundle();
+                bundle.putBoolean("isNetError", hasError);
+                bundle.putString("resultMsg", resultMsg);
+                message.setData(bundle);
+                loginResultHandler.sendMessage(message);
+			}
     		
     	}
 	}
@@ -123,6 +214,47 @@ public class LoginActivity extends Activity {
     	
     	}
 	};
+	
+	private void startStudentActivity (String cityDivision)
+	{
+		if (null == cityDivision)
+			return;
+		
+		Intent intent = new Intent();
+		//intent.setClass(getApplicationContext(), StudentActivity.class);
+		
+		// 传入身份证和城市信息
+		Bundle bundle = new Bundle();		
+        bundle.putString("identity", strUsername);
+        bundle.putString("cityDivision", cityDivision);
+        intent.putExtras(bundle);
+        startActivity(intent);
+	}
+	
+	private void startCoachActivity ()
+	{
+		Intent intent = new Intent();
+		//intent.setClass(getApplicationContext(), CoachActivity.class);
+		
+		// 传入身份证和城市信息
+		Bundle bundle = new Bundle();		
+        bundle.putString("identity", strUsername);
+        //bundle.putString("cityDivision", cityDivision);
+        intent.putExtras(bundle);
+        startActivity(intent);
+	}
+	
+	private void startAssistantActivity ()
+	{
+		Intent intent = new Intent();
+		intent.setClass(getApplicationContext(), MainActivity.class);
+		
+		// 传入身份证和城市信息
+		Bundle bundle = new Bundle();		
+        bundle.putString("identity", strUsername);
+        intent.putExtras(bundle);
+        startActivity(intent);
+	}
 	
 	private void getViews() {
 		cbRememberPassword = (CheckBox)findViewById(R.id.ifSave);

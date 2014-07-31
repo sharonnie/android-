@@ -18,4 +18,13 @@ public class TeleUrls {
 		return ip + BaseUrls.allStudents(orgId, isPolice);
 	}
 	
+	public static String studentLogin(String username, String password)
+	{
+		return ip + BaseUrls.studentLogin(username, password);
+	}
+	
+	public static String coachLogin(String username, String password)
+	{
+		return ip + BaseUrls.coachLogin(username, password);
+	}
 }
