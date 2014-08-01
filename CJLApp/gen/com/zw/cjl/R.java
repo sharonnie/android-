@@ -1095,8 +1095,11 @@ containing a value of this type.
         public static final int activity_chooser_view_content=0x7f050025;
         public static final int always=0x7f05000b;
         public static final int beginning=0x7f050011;
+        public static final int car_list=0x7f05004b;
         public static final int cars=0x7f050043;
         public static final int checkbox=0x7f05002d;
+        public static final int coach_list=0x7f05004d;
+        public static final int coachs=0x7f050054;
         public static final int collapseActionView=0x7f05000d;
         public static final int default_activity_button=0x7f050028;
         public static final int dialog=0x7f05000e;
@@ -1117,17 +1120,27 @@ containing a value of this type.
         public static final int list_item=0x7f050029;
         public static final int loginButton=0x7f050040;
         public static final int loginText=0x7f05003c;
+        public static final int mainTabLayout=0x7f050042;
+        public static final int mainViewpager=0x7f050041;
         public static final int middle=0x7f050012;
         public static final int my_center=0x7f050046;
         public static final int never=0x7f050009;
         public static final int none=0x7f050010;
         public static final int normal=0x7f050000;
-        public static final int order=0x7f050045;
+        public static final int order_list=0x7f05004f;
+        public static final int orders=0x7f050045;
         public static final int password=0x7f05003e;
         public static final int personal=0x7f050044;
+        public static final int personalTabLayout=0x7f050052;
+        public static final int personalViewpager=0x7f050055;
         public static final int progress_circular=0x7f050018;
         public static final int progress_horizontal=0x7f050019;
         public static final int radio=0x7f05002f;
+        public static final int search=0x7f050057;
+        public static final int searchCar=0x7f05004a;
+        public static final int searchCoach=0x7f05004c;
+        public static final int searchOrder=0x7f05004e;
+        public static final int searchStudent=0x7f050050;
         public static final int search_badge=0x7f050032;
         public static final int search_bar=0x7f050031;
         public static final int search_button=0x7f050033;
@@ -1138,24 +1151,25 @@ containing a value of this type.
         public static final int search_plate=0x7f050036;
         public static final int search_src_text=0x7f050037;
         public static final int search_voice_btn=0x7f05003b;
+        public static final int self_info_list=0x7f050056;
         public static final int shortcut=0x7f05002e;
         public static final int showCustom=0x7f050007;
         public static final int showHome=0x7f050004;
         public static final int showTitle=0x7f050006;
         public static final int split_action_bar=0x7f05001e;
         public static final int studentButton=0x7f050047;
+        public static final int student_list=0x7f050051;
+        public static final int students=0x7f050053;
         public static final int submit_area=0x7f050039;
-        public static final int tabLayout=0x7f050042;
         public static final int tabMode=0x7f050002;
         public static final int textView1=0x7f050049;
         public static final int title=0x7f05002b;
-        public static final int titleImage=0x7f05004b;
-        public static final int titleText=0x7f05004a;
+        public static final int titleImage=0x7f050059;
+        public static final int titleText=0x7f050058;
         public static final int top_action_bar=0x7f050020;
         public static final int up=0x7f050021;
         public static final int useLogo=0x7f050003;
         public static final int username=0x7f05003d;
-        public static final int viewpager=0x7f050041;
         public static final int withText=0x7f05000c;
     }
     public static final class integer {
@@ -1211,9 +1225,15 @@ containing a value of this type.
         public static final int activity_login=0x7f030018;
         public static final int activity_main=0x7f030019;
         public static final int activity_welcome=0x7f03001a;
-        public static final int support_simple_spinner_dropdown_item=0x7f03001b;
-        public static final int text_title=0x7f03001c;
-        public static final int welcome_title=0x7f03001d;
+        public static final int all_cars=0x7f03001b;
+        public static final int all_coachs=0x7f03001c;
+        public static final int all_orders=0x7f03001d;
+        public static final int all_students=0x7f03001e;
+        public static final int personal_page=0x7f03001f;
+        public static final int self_info=0x7f030020;
+        public static final int support_simple_spinner_dropdown_item=0x7f030021;
+        public static final int text_title=0x7f030022;
+        public static final int welcome_title=0x7f030023;
     }
     public static final class string {
         /**  Content description for the action bar "home" affordance. [CHAR LIMIT=NONE] 
@@ -1260,6 +1280,7 @@ containing a value of this type.
         public static final int assistant_query=0x7f0a0013;
         public static final int car_information=0x7f0a0019;
         public static final int cars=0x7f0a001a;
+        public static final int coach=0x7f0a0020;
         public static final int coach_query=0x7f0a0012;
         public static final int copyright=0x7f0a000f;
         public static final int hello_world=0x7f0a000e;
@@ -1271,6 +1292,8 @@ containing a value of this type.
         public static final int password=0x7f0a0015;
         public static final int personal=0x7f0a001b;
         public static final int remember_password=0x7f0a0018;
+        public static final int search=0x7f0a001e;
+        public static final int student=0x7f0a001f;
         public static final int student_query=0x7f0a0011;
         public static final int username=0x7f0a0014;
     }

@@ -6,7 +6,7 @@
     tools:context="${relativePackage}.${activityClass}" >    
     
     <android.support.v4.view.ViewPager  
-        android:id="@+id/viewpager"  
+        android:id="@+id/mainViewpager"  
         android:layout_width="wrap_content"  
         android:layout_height="0dp"  
         android:layout_weight="1.0"
@@ -15,7 +15,7 @@
     </android.support.v4.view.ViewPager> 
     
     <LinearLayout
-        android:id="@+id/tabLayout"
+        android:id="@+id/mainTabLayout"
         android:layout_width="fill_parent"
         android:background="@color/welcome_blue"
         android:layout_height="50.0dip" >
@@ -47,7 +47,7 @@
             android:textSize="18.0dip" />
         
         <TextView
-            android:id="@+id/order"
+            android:id="@+id/orders"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_weight="1.0"

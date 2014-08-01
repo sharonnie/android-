@@ -1,5 +1,7 @@
 package com.zw.cjl;
 
+import java.util.ArrayList;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -9,19 +11,31 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.view.ViewPager;
+import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ze.cjl.network.HttpRequest;
 
 public class MainActivity extends Activity {
+	// 用于退出应用
+	private long mExitTime = 0;
 	
 	private String userType = null;
 	private String jxid = null;
 	private String identity = null;
 	
 	private ProgressDialog progressDlg;
+	
+	ViewPager mainViewPager = null;
+	ViewPager personalViewPager = null;
+	
+	EditText title = null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -30,10 +44,7 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main); 
 		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.text_title);
 		
-		//EditText title = (EditText)findViewById(R.id.titleText);
-		//title.setText(R.string.car_information);
-		
-		//addPages();
+		addPages();
 		
 		// 读取传入的数据
 		Intent intent = this.getIntent();
@@ -119,22 +130,66 @@ public class MainActivity extends Activity {
 	};
 	
 	private void addPages() {
-		/*
-		ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
 		
         LayoutInflater lf = getLayoutInflater();
         
-        ArrayList<View> viewList = new ArrayList<View>();
-        viewList.add(lf.inflate(R.layout.student_test_info, null));
-        viewList.add(lf.inflate(R.layout.student_test_record, null));
+        ArrayList<View> mainViewList = new ArrayList<View>();
+        mainViewList.add(lf.inflate(R.layout.all_cars, null));
+        mainViewList.add(lf.inflate(R.layout.personal_page, null));
+        mainViewList.add(lf.inflate(R.layout.all_orders, null));
+        mainViewList.add(lf.inflate(R.layout.self_info, null));
+
+        mainViewPager = (ViewPager) findViewById(R.id.mainViewpager);
+        mainViewPager.setAdapter(new CustomPageAdapter(mainViewList));   
         
-        TextView t1 = (TextView) findViewById(R.id.studentPageInfo);
-        TextView t2 = (TextView) findViewById(R.id.studentPageData);
+        //ArrayList<View> personalViewList = new ArrayList<View>();
+        //personalViewList.add(lf.inflate(R.layout.all_students, null));
+        //personalViewList.add(lf.inflate(R.layout.all_coachs, null));
+        
+        //personalViewPager = (ViewPager) findViewById(R.id.personalViewpager);
+        //personalViewPager.setAdapter(new CustomPageAdapter(personalViewList));
+        
+        TextView t1 = (TextView) findViewById(R.id.cars);
+        TextView t2 = (TextView) findViewById(R.id.personal);
+        TextView t3 = (TextView) findViewById(R.id.orders);
+        TextView t4 = (TextView) findViewById(R.id.my_center);
         
         t1.setOnClickListener(new PageTitleClick(0));
         t2.setOnClickListener(new PageTitleClick(1));
-        
-        viewPager.setAdapter(new MyPagerAdapter(viewList));   
-        */  
+        t3.setOnClickListener(new PageTitleClick(2));
+        t4.setOnClickListener(new PageTitleClick(3));
 	}
+	
+	// 点击页面标题，切换到相应页面
+	public class PageTitleClick implements View.OnClickListener {
+		private int index = 0;
+		
+		public PageTitleClick(int i) {
+			index = i;
+			//title = (EditText)findViewById(R.id.titleText);
+			//title.setText(R.string.car_information);
+		}
+		
+		@Override
+		public void onClick(View v) {
+			mainViewPager.setCurrentItem(index);
+		}
+	}
+	
+	// 实现连按两次退出当前应用
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if(keyCode == KeyEvent.KEYCODE_BACK && 0 == event.getRepeatCount()) {
+			if(1000 < (System.currentTimeMillis() - mExitTime)) {
+				Toast.makeText(getApplicationContext(), "再按一次退出", Toast.LENGTH_SHORT).show();
+				mExitTime = System.currentTimeMillis();
+			} else {
+				finish();
+				System.exit(0);
+			} 
+			return true;
+		}
+		return super.onKeyDown(keyCode, event);
+	}
+	
 }

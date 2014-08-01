@@ -4,4 +4,7 @@
         <ignore path="src/com/zw/cjl/LoginActivity.java" />
         <ignore path="src/com/zw/cjl/MainActivity.java" />
     </issue>
+    <issue id="InflateParams">
+        <ignore path="src/com/zw/cjl/MainActivity.java" />
+    </issue>
 </lint>

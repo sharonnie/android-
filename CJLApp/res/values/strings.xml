@@ -18,5 +18,8 @@
     <string name="personal">人员</string>
     <string name="order">预约</string>
     <string name="my_center">个人中心</string>
+    <string name="search">搜索</string>
+    <string name="student">学员</string>
+    <string name="coach">助理考试员</string>
 
 </resources>
