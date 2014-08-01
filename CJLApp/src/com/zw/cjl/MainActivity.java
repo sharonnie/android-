@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,24 +26,31 @@ import com.ze.cjl.network.HttpRequest;
 public class MainActivity extends Activity {
 	// 用于退出应用
 	private long mExitTime = 0;
-	
+
 	private String userType = null;
 	private String jxid = null;
 	private String identity = null;
-	
+
 	private ProgressDialog progressDlg;
-	
+
 	ViewPager mainViewPager = null;
 	ViewPager personalViewPager = null;
-	
-	EditText title = null;
-	
+
+	TextView tvLeftTitle = null;
+	TextView tvRightTitle = null;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);   
 		setContentView(R.layout.activity_main); 
-		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.text_title);
+		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.text_text_title);
+		
+		// 设置界面开始时的title
+		tvLeftTitle = (TextView)findViewById(R.id.leftTitle);
+		tvLeftTitle.setVisibility(View.GONE);
+		tvRightTitle = (TextView)findViewById(R.id.rightTitle);
+		tvRightTitle.setText(R.string.car_information);
 		
 		addPages();
 		
@@ -135,29 +143,34 @@ public class MainActivity extends Activity {
         
         ArrayList<View> mainViewList = new ArrayList<View>();
         mainViewList.add(lf.inflate(R.layout.all_cars, null));
-        mainViewList.add(lf.inflate(R.layout.personal_page, null));
+        //mainViewList.add(lf.inflate(R.layout.personal_page, null));
+        mainViewList.add(lf.inflate(R.layout.all_students, null));
+        mainViewList.add(lf.inflate(R.layout.all_coachs, null));
         mainViewList.add(lf.inflate(R.layout.all_orders, null));
         mainViewList.add(lf.inflate(R.layout.self_info, null));
 
         mainViewPager = (ViewPager) findViewById(R.id.mainViewpager);
         mainViewPager.setAdapter(new CustomPageAdapter(mainViewList));   
+        /*
+        ArrayList<View> personalViewList = new ArrayList<View>();
+        personalViewList.add(lf.inflate(R.layout.all_students, null));
+        personalViewList.add(lf.inflate(R.layout.all_coachs, null));
         
-        //ArrayList<View> personalViewList = new ArrayList<View>();
-        //personalViewList.add(lf.inflate(R.layout.all_students, null));
-        //personalViewList.add(lf.inflate(R.layout.all_coachs, null));
+        personalViewPager = (ViewPager) findViewById(R.id.personalViewpager);
+        personalViewPager.setAdapter(new CustomPageAdapter(personalViewList));
+        */
         
-        //personalViewPager = (ViewPager) findViewById(R.id.personalViewpager);
-        //personalViewPager.setAdapter(new CustomPageAdapter(personalViewList));
+        TextView cars = (TextView) findViewById(R.id.cars);
+        TextView personal = (TextView) findViewById(R.id.personal);
+        TextView orders = (TextView) findViewById(R.id.orders);
+        TextView my_center = (TextView) findViewById(R.id.my_center);
         
-        TextView t1 = (TextView) findViewById(R.id.cars);
-        TextView t2 = (TextView) findViewById(R.id.personal);
-        TextView t3 = (TextView) findViewById(R.id.orders);
-        TextView t4 = (TextView) findViewById(R.id.my_center);
-        
-        t1.setOnClickListener(new PageTitleClick(0));
-        t2.setOnClickListener(new PageTitleClick(1));
-        t3.setOnClickListener(new PageTitleClick(2));
-        t4.setOnClickListener(new PageTitleClick(3));
+        cars.setOnClickListener(new PageTitleClick(0));
+        personal.setOnClickListener(new PageTitleClick(1));
+        students.setOnClickListener(new PageTitleClick(1));
+        coachs.setOnClickListener(new PageTitleClick(2));
+        orders.setOnClickListener(new PageTitleClick(3));
+        my_center.setOnClickListener(new PageTitleClick(4));
 	}
 	
 	// 点击页面标题，切换到相应页面
@@ -166,16 +179,31 @@ public class MainActivity extends Activity {
 		
 		public PageTitleClick(int i) {
 			index = i;
-			//title = (EditText)findViewById(R.id.titleText);
-			//title.setText(R.string.car_information);
 		}
 		
 		@Override
 		public void onClick(View v) {
+			if (1 == index || 2 == index)
+			{
+				students.setVisibility(View.VISIBLE);
+			}
+			else
+			{
+				students.setVisibility(View.GONE);
+			}
 			mainViewPager.setCurrentItem(index);
 		}
 	}
 	
+	public void onClickStudents(View v) {
+		Log.v("sssss", "onClickStudents");
+		new PageTitleClick(1);
+	}
+	
+	public void onClickCoachs(View v) {
+		Log.v("sssss", "onClickCoachs");
+		new PageTitleClick(2);
+	}
 	// 实现连按两次退出当前应用
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -191,5 +219,4 @@ public class MainActivity extends Activity {
 		}
 		return super.onKeyDown(keyCode, event);
 	}
-	
 }

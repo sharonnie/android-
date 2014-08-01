@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_vertical"
+    android:orientation="horizontal" >
+
+    <TextView
+	    android:id="@+id/leftTitle"
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"
+	    android:layout_weight="1.0"
+	    android:gravity="center"
+	    android:layout_marginTop="5dip"
+	    android:layout_marginBottom="5dip"
+	    android:text="@string/student"
+	    android:background="@drawable/tab_select"
+	    android:textColor="@color/welcome_blue"
+	    android:onClick="onClickStudents"
+	    android:textSize="18.0dip" />
+
+    <TextView
+        android:id="@+id/rightTitle"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="1.0"
+        android:gravity="center"
+        android:layout_marginTop="5dip"
+        android:layout_marginBottom="5dip"
+        android:text="@string/coach"
+        android:background="@drawable/tab_unselect"
+        android:textColor="@color/white"
+        android:onClick="onClickCoachs"
+        android:textSize="18.0dip" />
+    
+</LinearLayout>
