@@ -16,7 +16,6 @@
 	    android:text="@string/student"
 	    android:background="@drawable/tab_select"
 	    android:textColor="@color/welcome_blue"
-	    android:onClick="onClickStudents"
 	    android:textSize="18.0dip" />
 
     <TextView
@@ -30,7 +29,6 @@
         android:text="@string/coach"
         android:background="@drawable/tab_unselect"
         android:textColor="@color/white"
-        android:onClick="onClickCoachs"
         android:textSize="18.0dip" />
     
 </LinearLayout>

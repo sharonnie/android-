@@ -167,8 +167,8 @@ public class MainActivity extends Activity {
         
         cars.setOnClickListener(new PageTitleClick(0));
         personal.setOnClickListener(new PageTitleClick(1));
-        students.setOnClickListener(new PageTitleClick(1));
-        coachs.setOnClickListener(new PageTitleClick(2));
+        tvLeftTitle.setOnClickListener(new PageTitleClick(1));
+        tvRightTitle.setOnClickListener(new PageTitleClick(2));
         orders.setOnClickListener(new PageTitleClick(3));
         my_center.setOnClickListener(new PageTitleClick(4));
 	}
@@ -185,25 +185,16 @@ public class MainActivity extends Activity {
 		public void onClick(View v) {
 			if (1 == index || 2 == index)
 			{
-				students.setVisibility(View.VISIBLE);
+				tvLeftTitle.setVisibility(View.VISIBLE);
 			}
 			else
 			{
-				students.setVisibility(View.GONE);
+				tvRightTitle.setVisibility(View.GONE);
 			}
 			mainViewPager.setCurrentItem(index);
 		}
 	}
 	
-	public void onClickStudents(View v) {
-		Log.v("sssss", "onClickStudents");
-		new PageTitleClick(1);
-	}
-	
-	public void onClickCoachs(View v) {
-		Log.v("sssss", "onClickCoachs");
-		new PageTitleClick(2);
-	}
 	// 实现连按两次退出当前应用
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
