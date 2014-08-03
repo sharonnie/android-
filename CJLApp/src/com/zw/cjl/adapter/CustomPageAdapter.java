@@ -1,4 +1,4 @@
-package com.zw.cjl;
+package com.zw.cjl.adapter;
 
 import java.util.List;
 
@@ -7,6 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 public class CustomPageAdapter extends PagerAdapter {
+	@Override
+	public void setPrimaryItem(ViewGroup container, int position, Object object) {
+		super.setPrimaryItem(container, position, object);
+	}
+
 	public List<View> mListView;
 	
 	public CustomPageAdapter(List<View> mListViews) {

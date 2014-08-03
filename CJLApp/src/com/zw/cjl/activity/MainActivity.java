@@ -1,8 +1,9 @@
-package com.zw.cjl;
+package com.zw.cjl.activity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -23,7 +24,11 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.zw.cjl.network.HttpRequest;
+import com.zw.cjl.adapter.CarListAdapter;
+import com.zw.cjl.adapter.CustomPageAdapter;
+import com.zw.cjl.network.HttpGetType;
+import com.zw.cjl.pager.CustomViewPager;
+import com.zw.cjl.thread.HttpGetThread;
 
 public class MainActivity extends Activity {
 	// 用于退出应用
@@ -69,66 +74,19 @@ public class MainActivity extends Activity {
         identity = intent.getStringExtra("identity");
         jxid = intent.getStringExtra("jxid");
         
-        progressDlg = ProgressDialog.show(this, "请稍候", "数据载入中...", false, false); 
-        
         // 获取业务员详细信息
-        Thread getAssistantDetailThread = new Thread(new HttpGetThread());  
+        progressDlg = ProgressDialog.show(this, "请稍候", "数据载入中...", false, false); 
+        Thread getAssistantDetailThread = 
+        		new Thread(new HttpGetThread(HttpGetType.GET_ASSISTANT_DETAIL, 
+        								     getAssistantDetailResultHandler,
+        								     identity,
+        								     null));  
         getAssistantDetailThread.start();
 	}
 	
-	// 登录线程
-	class HttpGetThread implements Runnable {
-    	@Override
-    	public void run() {
-    		String result = null;
-    		
-    		result = HttpRequest.assistantDetail(identity);
-    		
-    		boolean hasError = false; 
-			String resultMsg = "";
-			
-			// resultCode=1时表示成功
-			if (0 >= result.indexOf("resultCode")) {
-				hasError = true; 
-				resultMsg = result;
-			} 
-			else 
-			{
-				JSONObject jsonObj = null;
-				Integer resultCode = 0;
-				try {
-					jsonObj = new JSONObject(result);
-					resultCode = jsonObj.getInt("resultCode");
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
-				
-				
-				if(1 == resultCode) {
-					resultMsg = jsonObj.toString();
-				} else {
-					hasError = true; 
-					try {
-						resultMsg = jsonObj.getString("resultMsg");
-					} catch (JSONException e) {
-						e.printStackTrace();
-					}
-				}
-			}
-			
-			
-			Message message = new Message();
-            Bundle bundle = new Bundle();
-            bundle.putString("resultMsg", resultMsg);
-            bundle.putBoolean("hasError", hasError);
-            message.setData(bundle);
-            getAssistantDetailResultHandler.sendMessage(message);
-    		
-    	}
-	}
-	
 	// 处理结果
-	private Handler getAssistantDetailResultHandler = new Handler() {
+	private Handler getAssistantDetailResultHandler = new Handler() 
+	{
     	public void handleMessage(Message msg) {
     		String resultMsg = msg.getData().getString("resultMsg");
     		boolean hasError = msg.getData().getBoolean("hasError");
@@ -142,17 +100,70 @@ public class MainActivity extends Activity {
     			Toast.makeText(getApplicationContext(), resultMsg, Toast.LENGTH_SHORT).show();
     		} else {
     			addMyCenter(resultMsg);
-    			//selfInfoString = resultMsg;
     		}
     		
     	}
 	};
 	
+	private Handler getAllCarsResultHandler = new Handler() 
+	{
+    	public void handleMessage(Message msg) {
+    		String resultMsg = msg.getData().getString("resultMsg");
+    		boolean hasError = msg.getData().getBoolean("hasError");
+    		
+    		if (progressDlg.isShowing())
+    		{
+    			progressDlg.dismiss();
+    		}
+    		
+    		if(hasError) {
+    			Toast.makeText(getApplicationContext(), resultMsg, Toast.LENGTH_SHORT).show();
+    		} else {
+    			addCars(resultMsg);
+    		}
+    		
+    	}
+	};
+	public void addCars(String cars){
+		try {
+			JSONObject jsonObj = new JSONObject(cars);
+			JSONArray jsonArray = new JSONArray(jsonObj.getString("cars"));
+
+			ListView myInfoList = (ListView)findViewById(R.id.car_list);
+			CarListAdapter carListAdapter = new CarListAdapter(this, jsonArray);
+			myInfoList.setAdapter(carListAdapter);
+			/*
+			 * ArrayList<HashMap<String, String>> listItem = 
+			 
+					new ArrayList<HashMap<String, String>>();
+			
+			for (int i = 0; i < jsonArray.length(); i++)
+			{
+				JSONObject e = jsonArray.getJSONObject(i);
+				HashMap<String, String> map = new HashMap<String, String>();
+				map.put("carNo", e.getString("carNo"));
+				map.put("ownerName", e.getString("ownerName"));
+				map.put("status", e.getString("status"));
+				listItem.add(map);
+			}
+			
+			SimpleAdapter listItemAdapter = 
+					new SimpleAdapter(this,listItem, 
+							R.layout.car_list_item,  
+							new String[] {"carNo", "ownerName", "status"},
+							new int[] {R.id.carNo, R.id.ownerName, R.id.status});
+			*/
+			
+			
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+	}
 	public void addMyCenter(String infos)
 	{
 		try {
 			JSONObject jsonObj = new JSONObject(infos);
-			ListView myInfoList = (ListView)findViewById(R.id.car_list);
+			ListView myInfoList = (ListView)findViewById(R.id.self_info_list);
 			
 			ArrayList<HashMap<String, String>> listItem = 
 					new ArrayList<HashMap<String, String>>();
@@ -188,6 +199,15 @@ public class MainActivity extends Activity {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
+		
+		// 获取所有车辆
+        progressDlg = ProgressDialog.show(this, "请稍候", "获取车辆中...", false, false); 
+        Thread getAllCars = 
+        		new Thread(new HttpGetThread(HttpGetType.GET_ALL_CARS, 
+        									 getAllCarsResultHandler,
+        								     "118",
+        								     null));  
+        getAllCars.start();
 	}
 	
 	private void addPages() {
@@ -202,7 +222,9 @@ public class MainActivity extends Activity {
         mainViewList.add(lf.inflate(R.layout.self_info, null));
 
         mainViewPager = (CustomViewPager) findViewById(R.id.mainViewpager);
-        mainViewPager.setAdapter(new CustomPageAdapter(mainViewList));   
+        mainViewPager.setAdapter(new CustomPageAdapter(mainViewList));  
+        // TODO: 优化后台页面数量
+        mainViewPager.setOffscreenPageLimit(4);
         /*
         ArrayList<View> personalViewList = new ArrayList<View>();
         personalViewList.add(lf.inflate(R.layout.all_students, null));

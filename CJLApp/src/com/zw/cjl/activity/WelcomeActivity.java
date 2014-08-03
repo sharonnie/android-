@@ -1,4 +1,4 @@
-package com.zw.cjl;
+package com.zw.cjl.activity;
 
 import android.app.Activity;
 import android.content.Intent;

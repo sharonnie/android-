@@ -63,6 +63,70 @@ public class HttpRequest {
 		return result;
 	}
 	
+	public static String allStudents(String orgId) {
+		String result = null;
+		HttpURLConnection conn = null;
+		try {
+			URL url = null;
+			
+			if (userTeleNetwork) {
+				url = new URL(TeleUrls.allStudents(orgId));
+			}
+			else {
+				url = new URL(MobileUrls.allStudents(orgId));
+			}
+			
+			conn = (HttpURLConnection)url.openConnection();  
+			conn.setConnectTimeout(4000);  
+			conn.setRequestMethod("GET");
+			conn.connect();
+			
+			result = changeInputStream(conn.getInputStream(), "UTF-8");
+		} catch (MalformedURLException e) {
+			result = "连接地址异常";
+		} catch (ProtocolException e) {
+			result = "传输协议异常";
+		} catch (IOException e) {
+			result = "网络异常";
+		} catch(Exception e) {
+			result = "请求异常";
+		}
+		
+		return result;
+	}
+	
+	public static String allCars(String orgId) {
+		String result = null;
+		HttpURLConnection conn = null;
+		try {
+			URL url = null;
+			
+			if (userTeleNetwork) {
+				url = new URL(TeleUrls.allCars(orgId));
+			}
+			else {
+				url = new URL(MobileUrls.allCars(orgId));
+			}
+			
+			conn = (HttpURLConnection)url.openConnection();  
+			conn.setConnectTimeout(4000);  
+			conn.setRequestMethod("GET");
+			conn.connect();
+			
+			result = changeInputStream(conn.getInputStream(), "UTF-8");
+		} catch (MalformedURLException e) {
+			result = "连接地址异常";
+		} catch (ProtocolException e) {
+			result = "传输协议异常";
+		} catch (IOException e) {
+			result = "网络异常";
+		} catch(Exception e) {
+			result = "请求异常";
+		}
+		
+		return result;
+	}
+	
 	private static String login(String username, String password) {
 		String result = null;
 		HttpURLConnection conn = null;

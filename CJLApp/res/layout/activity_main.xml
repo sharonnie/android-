@@ -5,14 +5,14 @@
     android:orientation="vertical"
     tools:context="${relativePackage}.${activityClass}" >    
     
-    <com.zw.cjl.CustomViewPager  
+    <com.zw.cjl.pager.CustomViewPager  
         android:id="@+id/mainViewpager"  
         android:layout_width="wrap_content"  
         android:layout_height="0dp"  
         android:layout_weight="1.0"
         android:background="#EFEEE8"
         android:layout_gravity="center" >         
-    </com.zw.cjl.CustomViewPager> 
+    </com.zw.cjl.pager.CustomViewPager> 
     
     <LinearLayout
         android:id="@+id/mainTabLayout"

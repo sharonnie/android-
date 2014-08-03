@@ -15,9 +15,9 @@ public class BaseUrls {
 	}
 	
 	// 3. 获取所有学员
-	public static String allStudents(String orgId, String isPolice)
+	public static String allStudents(String orgId)
 	{
-		return "app/findAllStudents?orgId=" + orgId + "&isPolice=" + isPolice;
+		return "app/findAllStudents?orgId=" + orgId;
 	}
 	
 	// 4. 获取学员测试情况
@@ -33,9 +33,9 @@ public class BaseUrls {
 	}
 	
 	// 6. 获取所有助理考试员
-	public static String allCoachs(String orgId, String isPolice)
+	public static String allCoachs(String orgId)
 	{
-		return "app/findAllCoaches?orgId=" + orgId + "&isPolice=" + isPolice;
+		return "app/findAllCoaches?orgId=" + orgId;
 	}
 	
 	// 7. 获取助理考试员及关联学员
@@ -45,9 +45,9 @@ public class BaseUrls {
 	}
 	
 	// 8. 获取所有车辆信息
-	public static String allCars(String orgId, String isPolice)
+	public static String allCars(String orgId)
 	{
-		return "app/findAllCars?orgId=" + orgId + "&isPolice=" + isPolice;
+		return "app/findAllCars?orgId=" + orgId;
 	}
 	
 	// 9. 获取车辆详细信息

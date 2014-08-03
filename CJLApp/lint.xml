@@ -8,6 +8,7 @@
         <ignore path="src/com/zw/cjl/MainActivity.java" />
     </issue>
     <issue id="InflateParams">
+        <ignore path="src/com/zw/cjl/CarListAdapter.java" />
         <ignore path="src/com/zw/cjl/MainActivity.java" />
     </issue>
     <issue id="ResourceAsColor">

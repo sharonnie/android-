@@ -1,4 +1,4 @@
-package com.zw.cjl;
+package com.zw.cjl.activity;
 
 import org.json.JSONException;
 import org.json.JSONObject;

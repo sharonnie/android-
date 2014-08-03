@@ -15,9 +15,9 @@ public class MobileUrls {
 	}
 	
 	// Ñ§Ô±
-	public static String allStudents(String orgId, String isPolice)
+	public static String allStudents(String orgId)
 	{
-		return ip + BaseUrls.allStudents(orgId, isPolice);
+		return ip + BaseUrls.allStudents(orgId);
 	}
 	
 	public static String studentLogin(String username, String password)
@@ -41,9 +41,9 @@ public class MobileUrls {
 		return ip + BaseUrls.coachLogin(username, password);
 	}
 	
-	public static String allCoachs(String orgId, String isPolice)
+	public static String allCoachs(String orgId)
 	{
-		return ip + BaseUrls.allCoachs(orgId, isPolice);
+		return ip + BaseUrls.allCoachs(orgId);
 	}
 	
 	public static String coachAndStudents(String identity)
@@ -52,9 +52,9 @@ public class MobileUrls {
 	}
 	
 	// ³µÁ¾
-	public static String allCars(String orgId, String isPolice)
+	public static String allCars(String orgId)
 	{
-		return ip + BaseUrls.allCars(orgId, isPolice);
+		return ip + BaseUrls.allCars(orgId);
 	}
 	
 	public static String carDetail(String jxid, String carNo)
