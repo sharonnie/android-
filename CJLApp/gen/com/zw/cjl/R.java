@@ -1116,14 +1116,14 @@ containing a value of this type.
         public static final int ifRoom=0x7f05000a;
         public static final int ifSave=0x7f05003f;
         public static final int image=0x7f050027;
-        public static final int leftTitle=0x7f050055;
+        public static final int leftTitle=0x7f050057;
         public static final int listMode=0x7f050001;
         public static final int list_item=0x7f050029;
         public static final int loginButton=0x7f050040;
         public static final int loginText=0x7f05003c;
         public static final int mainTabLayout=0x7f050042;
-        public static final int mainTitle=0x7f050053;
-        public static final int mainTitleLayout=0x7f050054;
+        public static final int mainTitle=0x7f050055;
+        public static final int mainTitleLayout=0x7f050056;
         public static final int mainViewpager=0x7f050041;
         public static final int middle=0x7f050012;
         public static final int my_center=0x7f050046;
@@ -1137,7 +1137,7 @@ containing a value of this type.
         public static final int progress_circular=0x7f050018;
         public static final int progress_horizontal=0x7f050019;
         public static final int radio=0x7f05002f;
-        public static final int rightTitle=0x7f050056;
+        public static final int rightTitle=0x7f050058;
         public static final int searchCar=0x7f05004a;
         public static final int searchCoach=0x7f05004c;
         public static final int searchOrder=0x7f05004e;
@@ -1152,6 +1152,8 @@ containing a value of this type.
         public static final int search_plate=0x7f050036;
         public static final int search_src_text=0x7f050037;
         public static final int search_voice_btn=0x7f05003b;
+        public static final int selfInfoData=0x7f050054;
+        public static final int selfInfoName=0x7f050053;
         public static final int self_info_list=0x7f050052;
         public static final int shortcut=0x7f05002e;
         public static final int showCustom=0x7f050007;
@@ -1164,8 +1166,8 @@ containing a value of this type.
         public static final int tabMode=0x7f050002;
         public static final int textView1=0x7f050049;
         public static final int title=0x7f05002b;
-        public static final int titleImage=0x7f050057;
-        public static final int titleText=0x7f050058;
+        public static final int titleImage=0x7f050059;
+        public static final int titleText=0x7f05005a;
         public static final int top_action_bar=0x7f050020;
         public static final int up=0x7f050021;
         public static final int useLogo=0x7f050003;
@@ -1230,9 +1232,10 @@ containing a value of this type.
         public static final int all_orders=0x7f03001d;
         public static final int all_students=0x7f03001e;
         public static final int self_info=0x7f03001f;
-        public static final int support_simple_spinner_dropdown_item=0x7f030020;
-        public static final int text_text_title=0x7f030021;
-        public static final int welcome_title=0x7f030022;
+        public static final int self_info_list_item=0x7f030020;
+        public static final int support_simple_spinner_dropdown_item=0x7f030021;
+        public static final int text_text_title=0x7f030022;
+        public static final int welcome_title=0x7f030023;
     }
     public static final class string {
         /**  Content description for the action bar "home" affordance. [CHAR LIMIT=NONE] 

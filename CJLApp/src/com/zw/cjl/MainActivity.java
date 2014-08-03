@@ -1,6 +1,7 @@
 package com.zw.cjl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -17,6 +18,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -102,13 +105,7 @@ public class MainActivity extends Activity {
 				
 				
 				if(1 == resultCode) {
-					if (progressDlg.isShowing())
-					{
-						progressDlg.dismiss();
-					}
-					
-					
-					
+					resultMsg = jsonObj.toString();
 				} else {
 					hasError = true; 
 					try {
@@ -119,13 +116,13 @@ public class MainActivity extends Activity {
 				}
 			}
 			
-			if(hasError) {
-				Message message = new Message();
-                Bundle bundle = new Bundle();
-                bundle.putString("resultMsg", resultMsg);
-                message.setData(bundle);
-                getAssistantDetailResultHandler.sendMessage(message);
-			}
+			
+			Message message = new Message();
+            Bundle bundle = new Bundle();
+            bundle.putString("resultMsg", resultMsg);
+            bundle.putBoolean("hasError", hasError);
+            message.setData(bundle);
+            getAssistantDetailResultHandler.sendMessage(message);
     		
     	}
 	}
@@ -134,14 +131,64 @@ public class MainActivity extends Activity {
 	private Handler getAssistantDetailResultHandler = new Handler() {
     	public void handleMessage(Message msg) {
     		String resultMsg = msg.getData().getString("resultMsg");
+    		boolean hasError = msg.getData().getBoolean("hasError");
     		
-    		if(progressDlg.isShowing()) { 
-    			progressDlg.dismiss(); 
+    		if (progressDlg.isShowing())
+    		{
+    			progressDlg.dismiss();
     		}
     		
-    		Toast.makeText(getApplicationContext(), resultMsg, Toast.LENGTH_SHORT).show();
+    		if(hasError) {
+    			Toast.makeText(getApplicationContext(), resultMsg, Toast.LENGTH_SHORT).show();
+    		} else {
+    			addMyCenter(resultMsg);
+    			//selfInfoString = resultMsg;
+    		}
+    		
     	}
 	};
+	
+	public void addMyCenter(String infos)
+	{
+		try {
+			JSONObject jsonObj = new JSONObject(infos);
+			ListView myInfoList = (ListView)findViewById(R.id.car_list);
+			
+			ArrayList<HashMap<String, String>> listItem = 
+					new ArrayList<HashMap<String, String>>();
+			
+			HashMap<String, String> map1 = new HashMap<String, String>();
+			map1.put("name", "驾校");
+			map1.put("data", jsonObj.getString("jxmc"));
+			listItem.add(map1);
+			
+			HashMap<String, String> map2 = new HashMap<String, String>();
+			map2.put("name", "姓名");
+			map2.put("data", jsonObj.getString("xm"));
+			listItem.add(map2);
+			
+			HashMap<String, String> map3 = new HashMap<String, String>();
+			map3.put("name", "身份证号");
+			map3.put("data", jsonObj.getString("sfzh"));
+			listItem.add(map3);
+			
+			HashMap<String, String> map4 = new HashMap<String, String>();
+			map4.put("name", "手机号码");
+			map4.put("data", jsonObj.getString("sjhm"));
+			listItem.add(map4);
+			
+			SimpleAdapter listItemAdapter = 
+					new SimpleAdapter(this,listItem, 
+							R.layout.self_info_list_item,  
+							new String[] {"name", "data"},
+							new int[] {R.id.selfInfoName, R.id.selfInfoData});
+			
+			myInfoList.setAdapter(listItemAdapter);
+			
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	private void addPages() {
 		
@@ -149,7 +196,6 @@ public class MainActivity extends Activity {
         
         ArrayList<View> mainViewList = new ArrayList<View>();
         mainViewList.add(lf.inflate(R.layout.all_cars, null));
-        //mainViewList.add(lf.inflate(R.layout.personal_page, null));
         mainViewList.add(lf.inflate(R.layout.all_students, null));
         mainViewList.add(lf.inflate(R.layout.all_coachs, null));
         mainViewList.add(lf.inflate(R.layout.all_orders, null));
