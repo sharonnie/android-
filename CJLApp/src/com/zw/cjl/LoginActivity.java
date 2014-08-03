@@ -17,7 +17,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.ze.cjl.network.HttpRequest;
+import com.zw.cjl.network.HttpRequest;
 
 public class LoginActivity extends Activity {
 	

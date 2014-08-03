@@ -12,16 +12,15 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
-import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.ze.cjl.network.HttpRequest;
+import com.zw.cjl.network.HttpRequest;
 
 public class MainActivity extends Activity {
 	// 用于退出应用
@@ -33,11 +32,18 @@ public class MainActivity extends Activity {
 
 	private ProgressDialog progressDlg;
 
-	ViewPager mainViewPager = null;
+	CustomViewPager mainViewPager = null;
 	ViewPager personalViewPager = null;
 
-	TextView tvLeftTitle = null;
-	TextView tvRightTitle = null;
+	TextView tvMainTitle = null;
+	LinearLayout mainTitleLayout = null;
+	
+	TextView cars = null;
+    TextView personal = null;
+    TextView orders = null;
+    TextView my_center = null;
+    TextView tvLeftTitle = null;
+    TextView tvRightTitle = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -47,10 +53,10 @@ public class MainActivity extends Activity {
 		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.text_text_title);
 		
 		// 设置界面开始时的title
-		tvLeftTitle = (TextView)findViewById(R.id.leftTitle);
-		tvLeftTitle.setVisibility(View.GONE);
-		tvRightTitle = (TextView)findViewById(R.id.rightTitle);
-		tvRightTitle.setText(R.string.car_information);
+		tvMainTitle = (TextView)findViewById(R.id.mainTitle);
+		tvMainTitle.setText(R.string.car_information);
+		mainTitleLayout = (LinearLayout)findViewById(R.id.mainTitleLayout);
+		mainTitleLayout.setVisibility(View.GONE);
 		
 		addPages();
 		
@@ -149,7 +155,7 @@ public class MainActivity extends Activity {
         mainViewList.add(lf.inflate(R.layout.all_orders, null));
         mainViewList.add(lf.inflate(R.layout.self_info, null));
 
-        mainViewPager = (ViewPager) findViewById(R.id.mainViewpager);
+        mainViewPager = (CustomViewPager) findViewById(R.id.mainViewpager);
         mainViewPager.setAdapter(new CustomPageAdapter(mainViewList));   
         /*
         ArrayList<View> personalViewList = new ArrayList<View>();
@@ -160,10 +166,12 @@ public class MainActivity extends Activity {
         personalViewPager.setAdapter(new CustomPageAdapter(personalViewList));
         */
         
-        TextView cars = (TextView) findViewById(R.id.cars);
-        TextView personal = (TextView) findViewById(R.id.personal);
-        TextView orders = (TextView) findViewById(R.id.orders);
-        TextView my_center = (TextView) findViewById(R.id.my_center);
+        cars = (TextView) findViewById(R.id.cars);
+        personal = (TextView) findViewById(R.id.personal);
+        orders = (TextView) findViewById(R.id.orders);
+        my_center = (TextView) findViewById(R.id.my_center);
+        tvLeftTitle = (TextView)findViewById(R.id.leftTitle);
+        tvRightTitle = (TextView)findViewById(R.id.rightTitle);
         
         cars.setOnClickListener(new PageTitleClick(0));
         personal.setOnClickListener(new PageTitleClick(1));
@@ -183,16 +191,90 @@ public class MainActivity extends Activity {
 		
 		@Override
 		public void onClick(View v) {
-			if (1 == index || 2 == index)
+			switch (index)
 			{
-				tvLeftTitle.setVisibility(View.VISIBLE);
+			case 0:
+				mainTitleLayout.setVisibility(View.GONE);
+				tvMainTitle.setVisibility(View.VISIBLE);
+				tvMainTitle.setText(R.string.car_information);
+				
+				setTabsUnselected();
+				
+				cars.setBackgroundResource(R.drawable.tab_select);
+				cars.setTextColor(getResources().getColor(R.color.welcome_blue));
+				break;
+			case 1:
+				mainTitleLayout.setVisibility(View.VISIBLE);
+				tvMainTitle.setVisibility(View.GONE);
+				
+				setTabsUnselected();
+				
+				personal.setBackgroundResource(R.drawable.tab_select);
+				personal.setTextColor(getResources().getColor(R.color.welcome_blue));
+				
+				tvLeftTitle.setBackgroundResource(R.drawable.tab_select);
+				tvLeftTitle.setTextColor(getResources().getColor(R.color.welcome_blue));
+				
+				break;
+			case 2:
+				mainTitleLayout.setVisibility(View.VISIBLE);
+				tvMainTitle.setVisibility(View.GONE);
+				
+				setTabsUnselected();
+				
+				personal.setBackgroundResource(R.drawable.tab_select);
+				personal.setTextColor(getResources().getColor(R.color.welcome_blue));
+				
+				tvRightTitle.setBackgroundResource(R.drawable.tab_select);
+				tvRightTitle.setTextColor(getResources().getColor(R.color.welcome_blue));
+				
+				break;
+			case 3:
+				mainTitleLayout.setVisibility(View.GONE);
+				tvMainTitle.setVisibility(View.VISIBLE);
+				tvMainTitle.setText(R.string.order);
+				
+				setTabsUnselected();
+				
+				orders.setBackgroundResource(R.drawable.tab_select);
+				orders.setTextColor(getResources().getColor(R.color.welcome_blue));
+				
+				break;
+			case 4:
+				mainTitleLayout.setVisibility(View.GONE);
+				tvMainTitle.setVisibility(View.VISIBLE);
+				tvMainTitle.setText(R.string.my_center);
+				setTabsUnselected();
+				
+				my_center.setBackgroundResource(R.drawable.tab_select);
+				my_center.setTextColor(getResources().getColor(R.color.welcome_blue));
+				
+				break;
 			}
-			else
-			{
-				tvRightTitle.setVisibility(View.GONE);
-			}
+			
 			mainViewPager.setCurrentItem(index);
 		}
+	}
+	
+	public void setTabsUnselected()
+	{
+		cars.setBackgroundResource(R.drawable.tab_unselect);
+		cars.setTextColor(getResources().getColor(R.color.white));
+		
+		personal.setBackgroundResource(R.drawable.tab_unselect);
+		personal.setTextColor(getResources().getColor(R.color.white));
+		
+		orders.setBackgroundResource(R.drawable.tab_unselect);
+		orders.setTextColor(getResources().getColor(R.color.white));
+		
+		my_center.setBackgroundResource(R.drawable.tab_unselect);
+		my_center.setTextColor(getResources().getColor(R.color.white));
+		
+		tvLeftTitle.setBackgroundResource(R.drawable.tab_unselect);
+		tvLeftTitle.setTextColor(getResources().getColor(R.color.white));
+		
+		tvRightTitle.setBackgroundResource(R.drawable.tab_unselect);
+		tvRightTitle.setTextColor(getResources().getColor(R.color.white));
 	}
 	
 	// 实现连按两次退出当前应用

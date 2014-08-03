@@ -1,34 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:layout_gravity="center_vertical"
-    android:orientation="horizontal" >
-
+    android:layout_gravity="center_vertical" >
+	
     <TextView
-	    android:id="@+id/leftTitle"
+	    android:id="@+id/mainTitle"
 	    android:layout_width="fill_parent"
 	    android:layout_height="fill_parent"
-	    android:layout_weight="1.0"
 	    android:gravity="center"
 	    android:layout_marginTop="5dip"
 	    android:layout_marginBottom="5dip"
-	    android:text="@string/student"
-	    android:background="@drawable/tab_select"
-	    android:textColor="@color/welcome_blue"
-	    android:textSize="18.0dip" />
-
-    <TextView
-        android:id="@+id/rightTitle"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_weight="1.0"
-        android:gravity="center"
-        android:layout_marginTop="5dip"
-        android:layout_marginBottom="5dip"
-        android:text="@string/coach"
-        android:background="@drawable/tab_unselect"
-        android:textColor="@color/white"
-        android:textSize="18.0dip" />
+	    android:background="@color/welcome_blue"
+	    android:textColor="@color/white"
+	    android:textSize="20.0dip" />
+	
+	<LinearLayout 
+	    android:id="@+id/mainTitleLayout"
+		android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"
+	    android:layout_marginTop="5dip"
+	    android:layout_marginBottom="5dip"
+	    android:layout_gravity="center_vertical"
+	    android:orientation="horizontal" >
+	    
+		    <TextView
+			    android:id="@+id/leftTitle"
+			    android:layout_width="fill_parent"
+			    android:layout_height="fill_parent"
+			    android:layout_weight="1.0"
+			    android:gravity="center"
+			    android:layout_marginLeft="20dip"
+			    android:layout_marginTop="2dip"
+			    android:layout_marginBottom="2dip"
+			    android:text="@string/student"
+			    android:background="@drawable/tab_select"
+			    android:textColor="@color/welcome_blue"
+			    android:textSize="18.0dip" />
+		
+		    <TextView
+		        android:id="@+id/rightTitle"
+		        android:layout_width="fill_parent"
+		        android:layout_height="fill_parent"
+		        android:layout_weight="1.0"
+		        android:gravity="center"
+		        android:layout_marginRight="20dip"
+			    android:layout_marginTop="2dip"
+			    android:layout_marginBottom="2dip"
+		        android:text="@string/coach"
+		        android:background="@drawable/tab_unselect"
+		        android:textColor="@color/white"
+		        android:textSize="18.0dip" />
+    	</LinearLayout>
     
-</LinearLayout>
+</RelativeLayout>

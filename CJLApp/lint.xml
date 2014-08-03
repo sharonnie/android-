@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <lint>
+    <issue id="ClickableViewAccessibility">
+        <ignore path="src/com/zw/cjl/CustomViewPager.java" />
+    </issue>
     <issue id="HandlerLeak">
         <ignore path="src/com/zw/cjl/LoginActivity.java" />
         <ignore path="src/com/zw/cjl/MainActivity.java" />
     </issue>
     <issue id="InflateParams">
+        <ignore path="src/com/zw/cjl/MainActivity.java" />
+    </issue>
+    <issue id="ResourceAsColor">
         <ignore path="src/com/zw/cjl/MainActivity.java" />
     </issue>
 </lint>
