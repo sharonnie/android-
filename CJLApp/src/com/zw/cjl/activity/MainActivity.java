@@ -49,7 +49,6 @@ public class MainActivity extends Activity {
 	private long mExitTime = 0;
 
 	private String userType = null;
-	private String jxid = null;
 	private String identity = null;
 
 	private ProgressDialog progressDlg;
@@ -89,7 +88,6 @@ public class MainActivity extends Activity {
 		Intent intent = this.getIntent();
 		userType = intent.getStringExtra("userType");
         identity = intent.getStringExtra("identity");
-        jxid = intent.getStringExtra("jxid");
         
         // 获取业务员详细信息
         progressDlg = ProgressDialog.show(this, "请稍候", "数据载入中...", false, false); 
@@ -179,6 +177,12 @@ public class MainActivity extends Activity {
 				CarListAdapter adapter = (CarListAdapter)arg0.getAdapter();
 				List<Car> carlist = adapter.getmCarList();
 				Car car = carlist.get(position);
+				
+				Intent intent=new Intent();
+				intent.setClass(getApplicationContext(), CarDetailActivity.class);
+				intent.putExtra("jxid", ""+car._schoolId);
+				intent.putExtra("carNo", car._carNo);
+				startActivity(intent);	
 			}
 	    });
 		
