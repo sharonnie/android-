@@ -1162,6 +1162,7 @@ containing a value of this type.
         public static final int showCustom=0x7f050007;
         public static final int showHome=0x7f050004;
         public static final int showTitle=0x7f050006;
+        public static final int singleTextTitle=0x7f05005d;
         public static final int split_action_bar=0x7f05001e;
         public static final int status=0x7f050054;
         public static final int studentButton=0x7f050047;
@@ -1170,8 +1171,8 @@ containing a value of this type.
         public static final int tabMode=0x7f050002;
         public static final int textView1=0x7f050049;
         public static final int title=0x7f05002b;
-        public static final int titleImage=0x7f05005d;
-        public static final int titleText=0x7f05005e;
+        public static final int titleImage=0x7f05005e;
+        public static final int titleText=0x7f05005f;
         public static final int top_action_bar=0x7f050020;
         public static final int up=0x7f050021;
         public static final int useLogo=0x7f050003;
@@ -1228,19 +1229,21 @@ containing a value of this type.
         public static final int abc_search_dropdown_item_icons_2line=0x7f030015;
         public static final int abc_search_view=0x7f030016;
         public static final int abc_simple_decor=0x7f030017;
-        public static final int activity_login=0x7f030018;
-        public static final int activity_main=0x7f030019;
-        public static final int activity_welcome=0x7f03001a;
-        public static final int all_cars=0x7f03001b;
-        public static final int all_coachs=0x7f03001c;
-        public static final int all_orders=0x7f03001d;
-        public static final int all_students=0x7f03001e;
-        public static final int car_list_item=0x7f03001f;
-        public static final int self_info=0x7f030020;
-        public static final int self_info_list_item=0x7f030021;
-        public static final int support_simple_spinner_dropdown_item=0x7f030022;
-        public static final int text_text_title=0x7f030023;
-        public static final int welcome_title=0x7f030024;
+        public static final int activity_car_detail=0x7f030018;
+        public static final int activity_login=0x7f030019;
+        public static final int activity_main=0x7f03001a;
+        public static final int activity_welcome=0x7f03001b;
+        public static final int all_cars=0x7f03001c;
+        public static final int all_coachs=0x7f03001d;
+        public static final int all_orders=0x7f03001e;
+        public static final int all_students=0x7f03001f;
+        public static final int car_list_item=0x7f030020;
+        public static final int self_info=0x7f030021;
+        public static final int self_info_list_item=0x7f030022;
+        public static final int support_simple_spinner_dropdown_item=0x7f030023;
+        public static final int text_text_title=0x7f030024;
+        public static final int text_title=0x7f030025;
+        public static final int welcome_title=0x7f030026;
     }
     public static final class string {
         /**  Content description for the action bar "home" affordance. [CHAR LIMIT=NONE] 
@@ -1302,6 +1305,7 @@ containing a value of this type.
         public static final int search=0x7f0a001e;
         public static final int student=0x7f0a001f;
         public static final int student_query=0x7f0a0011;
+        public static final int title_activity_car_detail=0x7f0a0021;
         public static final int username=0x7f0a0014;
     }
     public static final class style {

@@ -33,6 +33,10 @@
             android:name=".MainActivity"
             android:theme="@style/titlebarstyle" >
         </activity>
+        <activity
+            android:name=".CarDetailActivity"
+            android:theme="@style/titlebarstyle" >
+        </activity>
     </application>
 
 </manifest>

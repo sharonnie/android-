@@ -2,11 +2,12 @@ package com.zw.cjl.activity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -18,6 +19,8 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -26,11 +29,22 @@ import android.widget.Toast;
 
 import com.zw.cjl.adapter.CarListAdapter;
 import com.zw.cjl.adapter.CustomPageAdapter;
+import com.zw.cjl.dto.Car;
+import com.zw.cjl.dto.Database;
 import com.zw.cjl.network.HttpGetType;
 import com.zw.cjl.pager.CustomViewPager;
 import com.zw.cjl.thread.HttpGetThread;
+import com.zw.cjl.watcher.CarTextWatcher;
 
+@SuppressLint({ "HandlerLeak", "InflateParams" })
 public class MainActivity extends Activity {
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		db.close();
+	}
+
+
 	// 用于退出应用
 	private long mExitTime = 0;
 
@@ -45,6 +59,7 @@ public class MainActivity extends Activity {
 
 	TextView tvMainTitle = null;
 	LinearLayout mainTitleLayout = null;
+	Database db = null;
 	
 	TextView cars = null;
     TextView personal = null;
@@ -68,6 +83,8 @@ public class MainActivity extends Activity {
 		
 		addPages();
 		
+		db = new Database(this);
+		
 		// 读取传入的数据
 		Intent intent = this.getIntent();
 		userType = intent.getStringExtra("userType");
@@ -79,10 +96,12 @@ public class MainActivity extends Activity {
         Thread getAssistantDetailThread = 
         		new Thread(new HttpGetThread(HttpGetType.GET_ASSISTANT_DETAIL, 
         								     getAssistantDetailResultHandler,
+        								     db,
         								     identity,
         								     null));  
         getAssistantDetailThread.start();
 	}
+	
 	
 	// 处理结果
 	private Handler getAssistantDetailResultHandler = new Handler() 
@@ -124,41 +143,74 @@ public class MainActivity extends Activity {
     		
     	}
 	};
+	
+	private Handler getAllStudentsResultHandler = new Handler() 
+	{
+    	public void handleMessage(Message msg) {
+    		String resultMsg = msg.getData().getString("resultMsg");
+    		boolean hasError = msg.getData().getBoolean("hasError");
+    		
+    		if (progressDlg.isShowing())
+    		{
+    			progressDlg.dismiss();
+    		}
+    		
+    		if(hasError) {
+    			Toast.makeText(getApplicationContext(), resultMsg, Toast.LENGTH_SHORT).show();
+    		} else {
+    			addStudents(resultMsg);
+    		}
+    	}
+	};
+	
 	public void addCars(String cars){
+		
+		ListView carList = (ListView)findViewById(R.id.car_list);
+		CarListAdapter carListAdapter = new CarListAdapter(this, db);
+		carList.setAdapter(carListAdapter);
+		
+		EditText searchCar = (EditText)findViewById(R.id.searchCar);
+	    searchCar.addTextChangedListener(new CarTextWatcher(carListAdapter));
+	    
+	    carList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View view,
+					int position, long id) {
+				CarListAdapter adapter = (CarListAdapter)arg0.getAdapter();
+				List<Car> carlist = adapter.getmCarList();
+				Car car = carlist.get(position);
+			}
+	    });
+		
+		// 获取所有学员
+        //progressDlg = ProgressDialog.show(this, "请稍候", "获取学员中...", false, false); 
+		
+        //Thread getAllStudents = 
+        //		new Thread(new HttpGetThread(HttpGetType.GET_ALL_STUDENTS,
+        //									 getAllStudentsResultHandler,
+        //								     "118",
+        //								     null));  
+        //getAllStudents.start();
+	}
+	
+	public void addStudents(String students){
 		try {
-			JSONObject jsonObj = new JSONObject(cars);
+			JSONObject jsonObj = new JSONObject(students);
+			/*
 			JSONArray jsonArray = new JSONArray(jsonObj.getString("cars"));
 
 			ListView myInfoList = (ListView)findViewById(R.id.car_list);
 			CarListAdapter carListAdapter = new CarListAdapter(this, jsonArray);
 			myInfoList.setAdapter(carListAdapter);
-			/*
-			 * ArrayList<HashMap<String, String>> listItem = 
-			 
-					new ArrayList<HashMap<String, String>>();
 			
-			for (int i = 0; i < jsonArray.length(); i++)
-			{
-				JSONObject e = jsonArray.getJSONObject(i);
-				HashMap<String, String> map = new HashMap<String, String>();
-				map.put("carNo", e.getString("carNo"));
-				map.put("ownerName", e.getString("ownerName"));
-				map.put("status", e.getString("status"));
-				listItem.add(map);
-			}
-			
-			SimpleAdapter listItemAdapter = 
-					new SimpleAdapter(this,listItem, 
-							R.layout.car_list_item,  
-							new String[] {"carNo", "ownerName", "status"},
-							new int[] {R.id.carNo, R.id.ownerName, R.id.status});
+			EditText searchCar = (EditText)findViewById(R.id.searchCar);
+		    searchCar.addTextChangedListener(new CarTextWatcher(carListAdapter));
 			*/
-			
-			
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
 	}
+	
 	public void addMyCenter(String infos)
 	{
 		try {
@@ -205,6 +257,7 @@ public class MainActivity extends Activity {
         Thread getAllCars = 
         		new Thread(new HttpGetThread(HttpGetType.GET_ALL_CARS, 
         									 getAllCarsResultHandler,
+        								     db,
         								     "118",
         								     null));  
         getAllCars.start();
@@ -225,14 +278,6 @@ public class MainActivity extends Activity {
         mainViewPager.setAdapter(new CustomPageAdapter(mainViewList));  
         // TODO: 优化后台页面数量
         mainViewPager.setOffscreenPageLimit(4);
-        /*
-        ArrayList<View> personalViewList = new ArrayList<View>();
-        personalViewList.add(lf.inflate(R.layout.all_students, null));
-        personalViewList.add(lf.inflate(R.layout.all_coachs, null));
-        
-        personalViewPager = (ViewPager) findViewById(R.id.personalViewpager);
-        personalViewPager.setAdapter(new CustomPageAdapter(personalViewList));
-        */
         
         cars = (TextView) findViewById(R.id.cars);
         personal = (TextView) findViewById(R.id.personal);

@@ -1,8 +1,6 @@
 package com.zw.cjl.adapter;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -15,21 +13,40 @@ import android.widget.Filterable;
 import android.widget.TextView;
 
 import com.zw.cjl.activity.R;
-import com.zw.cjl.format.Status;
+import com.zw.cjl.dto.Car;
+import com.zw.cjl.dto.Database;
+import com.zw.cjl.filter.CarFilter;
 
 @SuppressLint("InflateParams")
 public class CarListAdapter extends BaseAdapter implements Filterable {
-	private JSONArray mArray = null;
+	private Database _db = null;
 	private LayoutInflater mInflater = null;
+	private CarFilter filter = null;
+	private List<Car> mCarList = null;
 	
-	public CarListAdapter(Context context, JSONArray array) {
-		mArray = array;
+	public CarListAdapter(Context context, 
+						  Database db) {
 		mInflater = LayoutInflater.from(context);
+		_db = db;
+		mCarList = _db.getCars(0, 100);
+	}
+
+	public void setmCarList(List<Car> mCarList) {
+		this.mCarList = mCarList;
+	}
+
+	public List<Car> getmCarList() {
+		return mCarList;
 	}
 
 	@Override
 	public int getCount() {
-		return mArray.length();
+		if (null != mCarList)
+		{
+			return mCarList.size();
+		}
+		
+		return 0;
 	}
 
 	@Override
@@ -65,23 +82,24 @@ public class CarListAdapter extends BaseAdapter implements Filterable {
 		{
 			item = (TextViewHolder)convertView.getTag();
 		}
-		JSONObject e;
-		try {
-			e = mArray.getJSONObject(position);
-			item.carNo.setText(e.getString("carNo"));
-			item.ownerName.setText(e.getString("ownerName"));
-			item.status.setText(Status.carStatusToString(e.getString("status")));
-		} catch (JSONException e1) {
-			e1.printStackTrace();
-		}
+		
+		Car car = mCarList.get(position);
+		
+		item.carNo.setText(car._carNo);
+		item.ownerName.setText(car._ownerName);
+		item.status.setText(car._status);
 		
 		return convertView;
 	}
 
 	@Override
 	public Filter getFilter() {
-		// TODO Auto-generated method stub
-		return null;
+		if (null == filter)
+		{
+			filter = new CarFilter(this, mCarList, _db);
+		}
+		
+		return filter;
 	}
 
 }

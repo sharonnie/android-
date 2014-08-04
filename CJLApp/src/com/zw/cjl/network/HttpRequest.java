@@ -33,31 +33,11 @@ public class HttpRequest {
 	
 	public static String assistantDetail(String identity) {
 		String result = null;
-		HttpURLConnection conn = null;
-		try {
-			URL url = null;
-			
-			if (userTeleNetwork) {
-				url = new URL(TeleUrls.assistantDetail(identity));
-			}
-			else {
-				url = new URL(MobileUrls.assistantDetail(identity));
-			}
-			
-			conn = (HttpURLConnection)url.openConnection();  
-			conn.setConnectTimeout(4000);  
-			conn.setRequestMethod("GET");
-			conn.connect();
-			
-			result = changeInputStream(conn.getInputStream(), "UTF-8");
-		} catch (MalformedURLException e) {
-			result = "连接地址异常";
-		} catch (ProtocolException e) {
-			result = "传输协议异常";
-		} catch (IOException e) {
-			result = "网络异常";
-		} catch(Exception e) {
-			result = "请求异常";
+		
+		if (userTeleNetwork) {
+			result = httpRequest(TeleUrls.assistantDetail(identity));
+		} else {
+			result = httpRequest(MobileUrls.assistantDetail(identity));
 		}
 		
 		return result;
@@ -65,31 +45,11 @@ public class HttpRequest {
 	
 	public static String allStudents(String orgId) {
 		String result = null;
-		HttpURLConnection conn = null;
-		try {
-			URL url = null;
-			
-			if (userTeleNetwork) {
-				url = new URL(TeleUrls.allStudents(orgId));
-			}
-			else {
-				url = new URL(MobileUrls.allStudents(orgId));
-			}
-			
-			conn = (HttpURLConnection)url.openConnection();  
-			conn.setConnectTimeout(4000);  
-			conn.setRequestMethod("GET");
-			conn.connect();
-			
-			result = changeInputStream(conn.getInputStream(), "UTF-8");
-		} catch (MalformedURLException e) {
-			result = "连接地址异常";
-		} catch (ProtocolException e) {
-			result = "传输协议异常";
-		} catch (IOException e) {
-			result = "网络异常";
-		} catch(Exception e) {
-			result = "请求异常";
+		
+		if (userTeleNetwork) {
+			result = httpRequest(TeleUrls.allStudents(orgId));
+		} else {
+			result = httpRequest(MobileUrls.allStudents(orgId));
 		}
 		
 		return result;
@@ -97,16 +57,21 @@ public class HttpRequest {
 	
 	public static String allCars(String orgId) {
 		String result = null;
+		
+		if (userTeleNetwork) {
+			result = httpRequest(TeleUrls.allCars(orgId));
+		} else {
+			result = httpRequest(MobileUrls.allCars(orgId));
+		}
+		
+		return result;
+	}
+	
+	public static String httpRequest(String string) {
+		String result = null;
 		HttpURLConnection conn = null;
 		try {
-			URL url = null;
-			
-			if (userTeleNetwork) {
-				url = new URL(TeleUrls.allCars(orgId));
-			}
-			else {
-				url = new URL(MobileUrls.allCars(orgId));
-			}
+			URL url = new URL(string);
 			
 			conn = (HttpURLConnection)url.openConnection();  
 			conn.setConnectTimeout(4000);  
