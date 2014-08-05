@@ -15,10 +15,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -37,13 +40,7 @@ import com.zw.cjl.thread.HttpGetThread;
 import com.zw.cjl.watcher.CarTextWatcher;
 
 @SuppressLint({ "HandlerLeak", "InflateParams" })
-public class MainActivity extends Activity {
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		db.close();
-	}
-
+public class MainActivity extends Activity implements OnScrollListener{
 
 	// 用于退出应用
 	private long mExitTime = 0;
@@ -166,6 +163,25 @@ public class MainActivity extends Activity {
 		ListView carList = (ListView)findViewById(R.id.car_list);
 		CarListAdapter carListAdapter = new CarListAdapter(this, db);
 		carList.setAdapter(carListAdapter);
+		carList.setOnScrollListener(new AbsListView.OnScrollListener() {
+
+			@Override
+			public void onScrollStateChanged(AbsListView view, int scrollState) {
+				Log.v("aaaa", "Scroll state changed!");
+			}
+
+			@Override
+			public void onScroll(AbsListView view, int firstVisibleItem,
+					int visibleItemCount, int totalItemCount) {
+				Log.v("aaaa", "from " + firstVisibleItem + " count " + visibleItemCount + "total " + totalItemCount);
+				if (firstVisibleItem + visibleItemCount < totalItemCount)
+				{
+					CarListAdapter adapter = (CarListAdapter)view.getAdapter();
+					
+				}
+			} 
+			
+		});
 		
 		EditText searchCar = (EditText)findViewById(R.id.searchCar);
 	    searchCar.addTextChangedListener(new CarTextWatcher(carListAdapter));
@@ -409,4 +425,22 @@ public class MainActivity extends Activity {
 		}
 		return super.onKeyDown(keyCode, event);
 	}
+
+	@Override
+	public void onScrollStateChanged(AbsListView view, int scrollState) {
+		Log.v("MainActivity", "Scroll state changed!");
+	}
+
+	@Override
+	public void onScroll(AbsListView view, int firstVisibleItem,
+			int visibleItemCount, int totalItemCount) {
+		Log.v("MainActivity", "from " + firstVisibleItem + " count " + visibleItemCount + "total " + totalItemCount);
+	}
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		db.close();
+	}
+
 }

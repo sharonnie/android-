@@ -28,7 +28,7 @@ public class CarListAdapter extends BaseAdapter implements Filterable {
 						  Database db) {
 		mInflater = LayoutInflater.from(context);
 		_db = db;
-		mCarList = _db.getCars(0, 100);
+		mCarList = _db.getCars(0, 10);
 	}
 
 	public void setmCarList(List<Car> mCarList) {
