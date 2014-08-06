@@ -56,13 +56,13 @@ public class CarDetailActivity extends Activity {
 		carNo = intent.getStringExtra("carNo");
 		
 		//progressDlg = ProgressDialog.show(this, "请稍候", "数据载入中...", false, false); 
-        Thread getAssistantDetailThread = 
+        Thread getCarDetailThread = 
         		new Thread(new HttpGetThread(HttpGetType.GET_CAR_DETAIL, 
         									 getCarDetailResultHandler,
         								     null,
         								     ""+jxid,
         								     carNo));  
-        getAssistantDetailThread.start();
+        getCarDetailThread.start();
 	}
 	
 	// 处理结果

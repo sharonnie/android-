@@ -7,7 +7,7 @@
 
     <TextView
         android:id="@+id/carDetailName"
-        android:layout_marginLeft="10dip"
+        android:layout_marginLeft="20dip"
         android:textColor="@color/black"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

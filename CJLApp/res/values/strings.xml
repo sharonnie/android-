@@ -22,5 +22,6 @@
     <string name="student">学员</string>
     <string name="coach">助理考试员</string>
     <string name="title_activity_car_detail">车辆信息</string>
+    <string name="title_activity_student">StudentActivity</string>
 
 </resources>

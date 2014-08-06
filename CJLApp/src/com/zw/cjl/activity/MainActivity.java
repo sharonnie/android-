@@ -530,12 +530,11 @@ public class MainActivity extends Activity implements OnScrollListener{
 				StudentListAdapter adapter = (StudentListAdapter)arg0.getAdapter();
 				List<Student> studentlist = adapter.getmStudentList();
 				Student student = studentlist.get(position);
-				/*
+				
 				Intent intent=new Intent();
-				intent.setClass(getApplicationContext(), CarDetailActivity.class);
-				intent.putExtra("jxid", ""+car._schoolId);
-				intent.putExtra("carNo", car._carNo);
-				startActivity(intent);	*/
+				intent.setClass(getApplicationContext(), StudentDetailActivity.class);
+				intent.putExtra("identity", student.sfzmhm);
+				startActivity(intent);	
 			}
 	    });
 	}
