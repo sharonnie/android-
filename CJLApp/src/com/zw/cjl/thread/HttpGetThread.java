@@ -12,12 +12,14 @@ import android.os.Handler;
 import android.os.Message;
 
 import com.zw.cjl.dto.Car;
+import com.zw.cjl.dto.Coach;
 import com.zw.cjl.dto.Database;
 import com.zw.cjl.format.Status;
 import com.zw.cjl.network.HttpGetType;
 import com.zw.cjl.network.HttpRequest;
 
 public class HttpGetThread implements Runnable {
+	private final String EVERY_TIME_GET_LIMIT = "100";
 	private HttpGetType mType = HttpGetType.GET_TYPE_INVALID;
 	private String mArg0 = null;
 	private String mArg1 = null;
@@ -33,9 +35,9 @@ public class HttpGetThread implements Runnable {
 	{
 		mType = type;
 		mHandler = handler;
+		_db = db;
 		mArg0 = arg0;
 		mArg1 = arg1;
-		_db = db;
 	}
 	
 	@Override
@@ -48,12 +50,30 @@ public class HttpGetThread implements Runnable {
 			result = HttpRequest.assistantDetail(mArg0);
 			break;
 			
+		case GET_ALL_STUDENT_NUM:
+			result = HttpRequest.allStudentNum(mArg0);
+			break;
+			
 		case GET_ALL_STUDENTS:
-			result = HttpRequest.allStudents(mArg0);
+			result = HttpRequest.allStudents(mArg0, mArg1, EVERY_TIME_GET_LIMIT);
 			break;
+			
+		case GET_ALL_COACH_NUM:
+			result = HttpRequest.allCoachNum(mArg0);
+			break;
+			
+		case GET_ALL_COACHS:
+			result = HttpRequest.allCoachs(mArg0, mArg1, EVERY_TIME_GET_LIMIT);
+			break;
+			
+		case GET_ALL_CAR_NUM:
+			result = HttpRequest.allCarNum(mArg0);
+			break;
+			
 		case GET_ALL_CARS:
-			result = HttpRequest.allCars(mArg0);
+			result = HttpRequest.allCars(mArg0, mArg1, EVERY_TIME_GET_LIMIT);
 			break;
+			
 		default:
 			break;
 		}
@@ -89,16 +109,19 @@ public class HttpGetThread implements Runnable {
 				}
 			}
 		}
+		
+		JSONObject jsonObj = null;
+		
 		switch (mType)
 		{
 		case GET_ALL_CARS:
-			JSONObject jsonObj;
 			try {
 				jsonObj = new JSONObject(resultMsg);
 				JSONArray jsonArray = new JSONArray(jsonObj.getString("cars"));
 				List<Car> carList = new ArrayList<Car>();
+				int count = jsonArray.length();
 				
-				for (int i=0; i<jsonArray.length(); i++)
+				for (int i=0; i<count; i++)
 				{
 					JSONObject e = jsonArray.getJSONObject(i);
 					Car c = new Car(e.getInt("id"),
@@ -120,10 +143,89 @@ public class HttpGetThread implements Runnable {
 					carList.add(c);
 				}
 				_db.insertCars(carList);
+				
+				resultMsg="{\"offset\":"
+						+mArg1
+						+",\"count\":"
+						+count
+						+",\"total\":"
+						+_db.getCarCount()
+						+"}";
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
 			
+			break;
+		case GET_ALL_STUDENTS:
+			break;
+		case GET_ALL_COACHS:
+			try {
+				//jsonObj = new JSONObject(resultMsg);
+				//JSONArray jsonArray = new JSONArray(jsonObj.getString("coach"));
+				List<Coach> coachList = new ArrayList<Coach>();
+				int count = 1;//jsonArray.length();
+				
+				for (int i=0; i<count; i++)
+				{
+					//JSONObject e = jsonArray.getJSONObject(i);
+					JSONObject e = new JSONObject(resultMsg);
+					Coach c = new Coach(e.getLong("id"),
+								 		e.getLong("jxid"),
+								 		e.getLong("xysl"),
+								 		e.getString("xbry"),
+								 		e.getString("xjcx"),
+								 		e.getString("xm"),
+								 		e.getString("sjhm"),
+								 		e.getString("sfzmhm"),
+								 		e.getString("jxmc"),
+								 		e.getString("division"),
+								 		e.getString("cityDivision"),
+								 		e.getString("cphm"));
+					
+					coachList.add(c);
+				}
+				_db.insertCoachs(coachList);
+				
+				resultMsg="{\"offset\":"
+						+mArg1
+						+",\"count\":"
+						+count
+						+",\"total\":"
+						+_db.getCoachCount()
+						+"}";
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+			
+			break;
+		case GET_ALL_CAR_NUM:
+			try {
+				jsonObj = new JSONObject(resultMsg);
+				_db.setCarCount(jsonObj.getLong("carAll"));
+				resultMsg="获取数据成功";
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+			break;
+			
+		case GET_ALL_COACH_NUM:
+			try {
+				jsonObj = new JSONObject(resultMsg);
+				_db.setCoachCount(jsonObj.getLong("coachAll"));
+				resultMsg="获取数据成功";
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+			break;
+			
+		case GET_ALL_STUDENT_NUM:
+			try {
+				jsonObj = new JSONObject(resultMsg);
+				_db.setStudentCount(jsonObj.getLong("studentAll"));
+				resultMsg="获取数据成功";
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
 			break;
 			
 		default:

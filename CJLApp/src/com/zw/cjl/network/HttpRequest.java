@@ -43,25 +43,73 @@ public class HttpRequest {
 		return result;
 	}
 	
-	public static String allStudents(String orgId) {
+	public static String allStudentNum(String orgId) {
 		String result = null;
 		
 		if (userTeleNetwork) {
-			result = httpRequest(TeleUrls.allStudents(orgId));
+			result = httpRequest(TeleUrls.allStudentNum(orgId));
 		} else {
-			result = httpRequest(MobileUrls.allStudents(orgId));
+			result = httpRequest(MobileUrls.allStudentNum(orgId));
 		}
 		
 		return result;
 	}
 	
-	public static String allCars(String orgId) {
+	public static String allStudents(String orgId, String offset, String limit) {
 		String result = null;
 		
 		if (userTeleNetwork) {
-			result = httpRequest(TeleUrls.allCars(orgId));
+			result = httpRequest(TeleUrls.allStudents(orgId, offset, limit));
 		} else {
-			result = httpRequest(MobileUrls.allCars(orgId));
+			result = httpRequest(MobileUrls.allStudents(orgId, offset, limit));
+		}
+		
+		return result;
+	}
+	
+	public static String allCoachNum(String orgId) {
+		String result = null;
+		
+		if (userTeleNetwork) {
+			result = httpRequest(TeleUrls.allCoachNum(orgId));
+		} else {
+			result = httpRequest(MobileUrls.allCoachNum(orgId));
+		}
+		
+		return result;
+	}
+	
+	public static String allCoachs(String orgId, String offset, String limit) {
+		String result = null;
+		
+		if (userTeleNetwork) {
+			result = httpRequest(TeleUrls.allCoachs(orgId, offset, limit));
+		} else {
+			result = httpRequest(MobileUrls.allCoachs(orgId, offset, limit));
+		}
+		
+		return result;
+	}
+	
+	public static String allCarNum(String orgId) {
+		String result = null;
+		
+		if (userTeleNetwork) {
+			result = httpRequest(TeleUrls.allCarNum(orgId));
+		} else {
+			result = httpRequest(MobileUrls.allCarNum(orgId));
+		}
+		
+		return result;
+	}
+	
+	public static String allCars(String orgId, String offset, String limit) {
+		String result = null;
+		
+		if (userTeleNetwork) {
+			result = httpRequest(TeleUrls.allCars(orgId, offset, limit));
+		} else {
+			result = httpRequest(MobileUrls.allCars(orgId, offset, limit));
 		}
 		
 		return result;

@@ -31,13 +31,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.zw.cjl.adapter.CarListAdapter;
+import com.zw.cjl.adapter.CoachListAdapter;
 import com.zw.cjl.adapter.CustomPageAdapter;
+import com.zw.cjl.adapter.StudentListAdapter;
 import com.zw.cjl.dto.Car;
+import com.zw.cjl.dto.Coach;
 import com.zw.cjl.dto.Database;
 import com.zw.cjl.network.HttpGetType;
 import com.zw.cjl.pager.CustomViewPager;
 import com.zw.cjl.thread.HttpGetThread;
 import com.zw.cjl.watcher.CarTextWatcher;
+import com.zw.cjl.watcher.CoachTextWatcher;
+import com.zw.cjl.watcher.StudentTextWatcher;
 
 @SuppressLint({ "HandlerLeak", "InflateParams" })
 public class MainActivity extends Activity implements OnScrollListener{
@@ -47,6 +52,8 @@ public class MainActivity extends Activity implements OnScrollListener{
 
 	private String userType = null;
 	private String identity = null;
+	
+	private long carNum = 0;
 
 	private ProgressDialog progressDlg;
 
@@ -63,6 +70,8 @@ public class MainActivity extends Activity implements OnScrollListener{
     TextView my_center = null;
     TextView tvLeftTitle = null;
     TextView tvRightTitle = null;
+    
+    String orgId = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -76,11 +85,10 @@ public class MainActivity extends Activity implements OnScrollListener{
 		tvMainTitle.setText(R.string.car_information);
 		mainTitleLayout = (LinearLayout)findViewById(R.id.mainTitleLayout);
 		mainTitleLayout.setVisibility(View.GONE);
-		
-		addPages();
-		
 		db = new Database(this);
 		
+		addPages();
+	
 		// 读取传入的数据
 		Intent intent = this.getIntent();
 		userType = intent.getStringExtra("userType");
@@ -133,7 +141,35 @@ public class MainActivity extends Activity implements OnScrollListener{
     		if(hasError) {
     			Toast.makeText(getApplicationContext(), resultMsg, Toast.LENGTH_SHORT).show();
     		} else {
-    			addCars(resultMsg);
+
+    			try {
+					JSONObject j = new JSONObject(resultMsg);
+
+					long offset = j.getLong("offset");
+					long count = j.getLong("count");
+					long total = j.getLong("total");
+					long newOffset = offset + count;
+					
+					if (0 == offset)
+					{
+						// 首次读取时初始化列表
+						initCarList();
+					}
+					
+					if (newOffset < total)
+					{
+						// 后台继续获取所有辆车
+				        Thread getAllCars = 
+				        		new Thread(new HttpGetThread(HttpGetType.GET_ALL_CARS, 
+				        									 getAllCarsResultHandler,
+				        								     db,
+				        								     orgId,
+				        								     "" + newOffset));  
+				        getAllCars.start();
+					}
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
     		}
     		
     	}
@@ -153,65 +189,166 @@ public class MainActivity extends Activity implements OnScrollListener{
     		if(hasError) {
     			Toast.makeText(getApplicationContext(), resultMsg, Toast.LENGTH_SHORT).show();
     		} else {
-    			addStudents(resultMsg);
+    			/*
+    			try {
+					JSONObject j = new JSONObject(resultMsg);
+
+					long offset = j.getLong("offset");
+					long count = j.getLong("count");
+					long total = j.getLong("total");
+					long newOffset = offset + count;
+					
+					if (0 == offset)
+					{
+						// 首次读取时初始化列表
+						initStudentList();
+					}
+					
+					if (newOffset < total)
+					{
+						// 后台继续获取所有学员
+				        Thread getAllCars = 
+				        		new Thread(new HttpGetThread(HttpGetType.GET_ALL_CARS, 
+				        									 getAllCarsResultHandler,
+				        								     db,
+				        								     orgId,
+				        								     "" + newOffset));  
+				        getAllCars.start();
+					}
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}*/
     		}
     	}
 	};
 	
-	public void addCars(String cars){
-		
-		ListView carList = (ListView)findViewById(R.id.car_list);
-		CarListAdapter carListAdapter = new CarListAdapter(this, db);
-		carList.setAdapter(carListAdapter);
-		carList.setOnScrollListener(new AbsListView.OnScrollListener() {
+	private Handler getAllCoachsResultHandler = new Handler() 
+	{
+    	public void handleMessage(Message msg) {
+    		String resultMsg = msg.getData().getString("resultMsg");
+    		boolean hasError = msg.getData().getBoolean("hasError");
+    		
+    		if (progressDlg.isShowing())
+    		{
+    			progressDlg.dismiss();
+    		}
+    		
+    		if(hasError) {
+    			Toast.makeText(getApplicationContext(), resultMsg, Toast.LENGTH_SHORT).show();
+    		} else {
+    			try {
+					JSONObject j = new JSONObject(resultMsg);
 
-			@Override
-			public void onScrollStateChanged(AbsListView view, int scrollState) {
-				Log.v("aaaa", "Scroll state changed!");
-			}
-
-			@Override
-			public void onScroll(AbsListView view, int firstVisibleItem,
-					int visibleItemCount, int totalItemCount) {
-				Log.v("aaaa", "from " + firstVisibleItem + " count " + visibleItemCount + "total " + totalItemCount);
-				if (firstVisibleItem + visibleItemCount < totalItemCount)
-				{
-					CarListAdapter adapter = (CarListAdapter)view.getAdapter();
+					long offset = j.getLong("offset");
+					long count = j.getLong("count");
+					long total = j.getLong("total");
+					long newOffset = offset + count;
 					
+					if (0 == offset)
+					{
+						// 首次读取时初始化列表
+						initCoachList();
+					}
+					
+					if (newOffset < total)
+					{
+						// 后台继续获取所有助理考试员
+				        Thread getAllCoachs = 
+				        		new Thread(new HttpGetThread(HttpGetType.GET_ALL_COACHS, 
+				        									 getAllCoachsResultHandler,
+				        								     db,
+				        								     orgId,
+				        								     "" + newOffset));  
+				        getAllCoachs.start();
+					}
+				} catch (JSONException e) {
+					e.printStackTrace();
 				}
-			} 
-			
-		});
-		
-		EditText searchCar = (EditText)findViewById(R.id.searchCar);
-	    searchCar.addTextChangedListener(new CarTextWatcher(carListAdapter));
-	    
-	    carList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> arg0, View view,
-					int position, long id) {
-				CarListAdapter adapter = (CarListAdapter)arg0.getAdapter();
-				List<Car> carlist = adapter.getmCarList();
-				Car car = carlist.get(position);
-				
-				Intent intent=new Intent();
-				intent.setClass(getApplicationContext(), CarDetailActivity.class);
-				intent.putExtra("jxid", ""+car._schoolId);
-				intent.putExtra("carNo", car._carNo);
-				startActivity(intent);	
-			}
-	    });
-		
-		// 获取所有学员
-        //progressDlg = ProgressDialog.show(this, "请稍候", "获取学员中...", false, false); 
-		
-        //Thread getAllStudents = 
-        //		new Thread(new HttpGetThread(HttpGetType.GET_ALL_STUDENTS,
-        //									 getAllStudentsResultHandler,
-        //								     "118",
-        //								     null));  
-        //getAllStudents.start();
-	}
+    		}
+    	}
+	};
+	
+	private Handler getAllCarNumResultHandler = new Handler() 
+	{
+    	public void handleMessage(Message msg) {
+    		String resultMsg = msg.getData().getString("resultMsg");
+    		boolean hasError = msg.getData().getBoolean("hasError");
+    		
+    		if (progressDlg.isShowing())
+    		{
+    			progressDlg.dismiss();
+    		}
+    		
+    		if(hasError) {
+    			Toast.makeText(getApplicationContext(), resultMsg, Toast.LENGTH_SHORT).show();
+    		} else {
+
+    			// 获取所有辆车
+		        Thread getAllCars = 
+		        		new Thread(new HttpGetThread(HttpGetType.GET_ALL_CARS, 
+		        									 getAllCarsResultHandler,
+		        								     db,
+		        								     orgId,
+		        								     "0"));  
+		        getAllCars.start();
+    		}
+    	}
+	};
+	
+	private Handler getAllStudentNumResultHandler = new Handler() 
+	{
+    	public void handleMessage(Message msg) {
+    		String resultMsg = msg.getData().getString("resultMsg");
+    		boolean hasError = msg.getData().getBoolean("hasError");
+    		
+    		if (progressDlg.isShowing())
+    		{
+    			progressDlg.dismiss();
+    		}
+    		
+    		if(hasError) {
+    			Toast.makeText(getApplicationContext(), resultMsg, Toast.LENGTH_SHORT).show();
+    		} else {
+    			
+				// 获取学员
+		        Thread getAllStudents = 
+		        		new Thread(new HttpGetThread(HttpGetType.GET_ALL_STUDENTS, 
+		        									 getAllStudentsResultHandler,
+		        								     db,
+		        								     orgId,
+		        								     "0"));  
+		        getAllStudents.start();
+    		}
+    	}
+	};
+	
+	private Handler getAllCoachNumResultHandler = new Handler() 
+	{
+    	public void handleMessage(Message msg) {
+    		String resultMsg = msg.getData().getString("resultMsg");
+    		boolean hasError = msg.getData().getBoolean("hasError");
+    		
+    		if (progressDlg.isShowing())
+    		{
+    			progressDlg.dismiss();
+    		}
+    		
+    		if(hasError) {
+    			Toast.makeText(getApplicationContext(), resultMsg, Toast.LENGTH_SHORT).show();
+    		} else {
+    			
+				// 获取所有助理考试员
+    			
+		        Thread getAllCoachs = 
+		        		new Thread(new HttpGetThread(HttpGetType.GET_ALL_COACHS, 
+		        									 getAllCoachsResultHandler,
+		        								     db,
+		        								     orgId,
+		        								     "0"));  
+		        getAllCoachs.start();
+    		}
+    	}
+	};
 	
 	public void addStudents(String students){
 		try {
@@ -260,6 +397,8 @@ public class MainActivity extends Activity implements OnScrollListener{
 			map4.put("data", jsonObj.getString("sjhm"));
 			listItem.add(map4);
 			
+			orgId = "" + jsonObj.getInt("orgId");
+			
 			SimpleAdapter listItemAdapter = 
 					new SimpleAdapter(this,listItem, 
 							R.layout.self_info_list_item,  
@@ -272,15 +411,163 @@ public class MainActivity extends Activity implements OnScrollListener{
 			e.printStackTrace();
 		}
 		
-		// 获取所有车辆
+		// 获取车辆总数
         progressDlg = ProgressDialog.show(this, "请稍候", "获取车辆中...", false, false); 
-        Thread getAllCars = 
-        		new Thread(new HttpGetThread(HttpGetType.GET_ALL_CARS, 
-        									 getAllCarsResultHandler,
+        Thread getCarNum = 
+        		new Thread(new HttpGetThread(HttpGetType.GET_ALL_CAR_NUM, 
+        									 getAllCarNumResultHandler,
         								     db,
-        								     "118",
+        								     orgId,
         								     null));  
-        getAllCars.start();
+        getCarNum.start();
+        
+        // 获取学员总数
+        Thread getStudentNum = 
+        		new Thread(new HttpGetThread(HttpGetType.GET_ALL_STUDENT_NUM, 
+        									 getAllStudentNumResultHandler,
+        								     db,
+        								     orgId,
+        								     null));  
+        getStudentNum.start();
+        
+        // 获取助理考试员总数
+        Thread getCoachNum = 
+        		new Thread(new HttpGetThread(HttpGetType.GET_ALL_COACH_NUM, 
+        									 getAllCoachNumResultHandler,
+        								     db,
+        								     orgId,
+        								     null));  
+        getCoachNum.start();
+	}
+	
+	private void initCarList() {
+		ListView carList = (ListView)findViewById(R.id.car_list);
+		CarListAdapter carListAdapter = new CarListAdapter(this, db);
+		carList.setAdapter(carListAdapter);
+		carList.setOnScrollListener(new AbsListView.OnScrollListener() {
+
+			@Override
+			public void onScrollStateChanged(AbsListView view, int scrollState) {
+				
+			}
+
+			@Override
+			public void onScroll(AbsListView view, int firstVisibleItem,
+					int visibleItemCount, int totalItemCount) {
+				if (firstVisibleItem + visibleItemCount == totalItemCount)
+				{
+					CarListAdapter adapter = (CarListAdapter)view.getAdapter();
+					adapter.loadNewItems();
+				}
+			} 
+			
+		});
+		
+		EditText searchCar = (EditText)findViewById(R.id.searchCar);
+	    searchCar.addTextChangedListener(new CarTextWatcher(carListAdapter));
+	    
+	    carList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View view,
+					int position, long id) {
+				CarListAdapter adapter = (CarListAdapter)arg0.getAdapter();
+				List<Car> carlist = adapter.getmCarList();
+				Car car = carlist.get(position);
+				
+				Intent intent=new Intent();
+				intent.setClass(getApplicationContext(), CarDetailActivity.class);
+				intent.putExtra("jxid", ""+car._schoolId);
+				intent.putExtra("carNo", car._carNo);
+				startActivity(intent);	
+			}
+	    });
+	}
+	
+	private void initCoachList() {
+		ListView coachList = (ListView)findViewById(R.id.coach_list);
+		CoachListAdapter coachListAdapter = new CoachListAdapter(this, db);
+		coachList.setAdapter(coachListAdapter);
+		coachList.setOnScrollListener(new AbsListView.OnScrollListener() {
+
+			@Override
+			public void onScrollStateChanged(AbsListView view, int scrollState) {
+				
+			}
+
+			@Override
+			public void onScroll(AbsListView view, int firstVisibleItem,
+					int visibleItemCount, int totalItemCount) {
+				if (firstVisibleItem + visibleItemCount == totalItemCount)
+				{
+					CoachListAdapter adapter = (CoachListAdapter)view.getAdapter();
+					adapter.loadNewItems();
+				}
+			} 
+			
+		});
+		
+		EditText searchCar = (EditText)findViewById(R.id.searchCoach);
+	    searchCar.addTextChangedListener(new CoachTextWatcher(coachListAdapter));
+	    
+	    coachList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View view,
+					int position, long id) {
+				CoachListAdapter adapter = (CoachListAdapter)arg0.getAdapter();
+				List<Coach> coachlist = adapter.getmCoachList();
+				Coach coach = coachlist.get(position);
+				/*
+				Intent intent=new Intent();
+				intent.setClass(getApplicationContext(), CarDetailActivity.class);
+				intent.putExtra("jxid", ""+car._schoolId);
+				intent.putExtra("carNo", car._carNo);
+				startActivity(intent);	
+				*/
+			}
+	    });
+	}
+	
+	private void initStudentList() {
+		ListView studentList = (ListView)findViewById(R.id.student_list);
+		StudentListAdapter studentListAdapter = new StudentListAdapter(this, db);
+		studentList.setAdapter(studentListAdapter);
+		studentList.setOnScrollListener(new AbsListView.OnScrollListener() {
+
+			@Override
+			public void onScrollStateChanged(AbsListView view, int scrollState) {
+				
+			}
+
+			@Override
+			public void onScroll(AbsListView view, int firstVisibleItem,
+					int visibleItemCount, int totalItemCount) {
+				if (firstVisibleItem + visibleItemCount == totalItemCount)
+				{
+					StudentListAdapter adapter = (StudentListAdapter)view.getAdapter();
+					adapter.loadNewItems();
+				}
+			} 
+			
+		});
+		
+		EditText searchStudent = (EditText)findViewById(R.id.searchStudent);
+		searchStudent.addTextChangedListener(new StudentTextWatcher(studentListAdapter));
+	    
+		studentList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View view,
+					int position, long id) {
+				/*CarListAdapter adapter = (CarListAdapter)arg0.getAdapter();
+				List<Car> carlist = adapter.getmCarList();
+				Car car = carlist.get(position);
+				
+				Intent intent=new Intent();
+				intent.setClass(getApplicationContext(), CarDetailActivity.class);
+				intent.putExtra("jxid", ""+car._schoolId);
+				intent.putExtra("carNo", car._carNo);
+				startActivity(intent);	*/
+			}
+	    });
 	}
 	
 	private void addPages() {

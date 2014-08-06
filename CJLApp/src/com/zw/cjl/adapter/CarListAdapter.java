@@ -19,6 +19,7 @@ import com.zw.cjl.filter.CarFilter;
 
 @SuppressLint("InflateParams")
 public class CarListAdapter extends BaseAdapter implements Filterable {
+	private final int EACH_LOAD_COUNT = 100;
 	private Database _db = null;
 	private LayoutInflater mInflater = null;
 	private CarFilter filter = null;
@@ -28,7 +29,18 @@ public class CarListAdapter extends BaseAdapter implements Filterable {
 						  Database db) {
 		mInflater = LayoutInflater.from(context);
 		_db = db;
-		mCarList = _db.getCars(0, 10);
+		mCarList = _db.getCars(0, EACH_LOAD_COUNT);
+	}
+	
+	// TODO: 添加判断是否已经获得数据库全部数据的判断，如果是，则不再load
+	// TODO: 为filter添加滑动到底部时自动加入新数据的功能
+	public void loadNewItems()
+	{
+		List<Car> list = _db.getCars(getCount(), EACH_LOAD_COUNT);
+		if (list.size() > 0) {
+			mCarList.addAll(list);
+			notifyDataSetChanged();
+		}
 	}
 
 	public void setmCarList(List<Car> mCarList) {

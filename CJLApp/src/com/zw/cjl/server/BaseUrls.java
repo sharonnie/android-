@@ -14,10 +14,16 @@ public class BaseUrls {
 		return "app/findAssistantDetail?identity=" + identity;
 	}
 	
-	// 3. 获取所有学员
-	public static String allStudents(String orgId)
+	// 3-1. 获取学员数量
+	public static String allStudentNumber(String orgId)
 	{
-		return "app/findAllStudents?orgId=" + orgId;
+		return "app/findAllStudentsNo?orgId=" + orgId;
+	}
+	
+	// 3-2. 获取所有学员
+	public static String allStudents(String orgId, String offset ,String limit)
+	{
+		return "app/findAllStudents?orgId=" + orgId + "&start=" + offset + "&limit=" + limit;
 	}
 	
 	// 4. 获取学员测试情况
@@ -32,10 +38,16 @@ public class BaseUrls {
 		return "app/findRecord?identity=" + identity + "&cityDivision=" + cityDivision;
 	}
 	
-	// 6. 获取所有助理考试员
-	public static String allCoachs(String orgId)
+	// 6-1. 获取助理考试员数量
+	public static String allCoachNumber(String orgId)
 	{
-		return "app/findAllCoaches?orgId=" + orgId;
+		return "app/findAllCoachesNo?orgId=" + orgId;
+	}
+	
+	// 6-2. 获取所有助理考试员
+	public static String allCoachs(String orgId, String offset, String limit)
+	{
+		return "app/findAllCoaches?orgId=" + orgId + "&start=" + offset + "&limit=" + limit;
 	}
 	
 	// 7. 获取助理考试员及关联学员
@@ -44,10 +56,16 @@ public class BaseUrls {
 		return "app/findCoachAndStudents?identity=" + identity;
 	}
 	
-	// 8. 获取所有车辆信息
-	public static String allCars(String orgId)
+	// 8-1. 获取车辆总数
+	public static String allCarNumber(String orgId)
 	{
-		return "app/findAllCars?orgId=" + orgId;
+		return "app/findAllCarsNo?orgId=" + orgId;
+	}
+	
+	// 8-2. 获取所有车辆
+	public static String allCars(String orgId, String offset, String limit)
+	{
+		return "app/findAllCars?orgId=" + orgId + "&start=" + offset + "&limit=" + limit;
 	}
 	
 	// 9. 获取车辆详细信息

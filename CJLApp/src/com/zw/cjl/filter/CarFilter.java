@@ -27,7 +27,7 @@ public class CarFilter extends Filter {
             results.values = mCarList;
         	results.count = mCarList.size();
         } else {  
-        	List<Car> list = _db.queryCars(constraint.toString(), 100);
+        	List<Car> list = _db.queryCars(constraint.toString(), 0, 100);
         	
         	results.values = list;
         	results.count = list.size();

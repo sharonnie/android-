@@ -2,7 +2,7 @@ package com.zw.cjl.server;
 
 public class TeleUrls {
 	private static final String ip = "http://220.163.43.27:12080/";
-	//private static final String ip = "http://192.168.1.117:8888/platform/";
+	//private static final String ip = "http://192.168.1.105:8888/platform/";
 	
 	// 业务员
 	public static String assistantLogin(String username, String password)
@@ -16,9 +16,14 @@ public class TeleUrls {
 	}
 	
 	// 学员
-	public static String allStudents(String orgId)
+	public static String allStudentNum(String orgId)
 	{
-		return ip + BaseUrls.allStudents(orgId);
+		return ip + BaseUrls.allStudentNumber(orgId);
+	}
+	
+	public static String allStudents(String orgId, String offset, String limit)
+	{
+		return ip + BaseUrls.allStudents(orgId, offset, limit);
 	}
 	
 	public static String studentLogin(String username, String password)
@@ -42,9 +47,14 @@ public class TeleUrls {
 		return ip + BaseUrls.coachLogin(username, password);
 	}
 	
-	public static String allCoachs(String orgId)
+	public static String allCoachNum(String orgId)
 	{
-		return ip + BaseUrls.allCoachs(orgId);
+		return ip + BaseUrls.allCoachNumber(orgId);
+	}
+	
+	public static String allCoachs(String orgId, String offset, String limit)
+	{
+		return ip + BaseUrls.allCoachs(orgId, offset, limit);
 	}
 	
 	public static String coachAndStudents(String identity)
@@ -53,9 +63,14 @@ public class TeleUrls {
 	}
 	
 	// 车辆
-	public static String allCars(String orgId)
+	public static String allCarNum(String orgId)
 	{
-		return ip + BaseUrls.allCars(orgId);
+		return ip + BaseUrls.allCarNumber(orgId);
+	}
+	
+	public static String allCars(String orgId, String offset, String limit)
+	{
+		return ip + BaseUrls.allCars(orgId, offset, limit);
 	}
 	
 	public static String carDetail(String jxid, String carNo)
