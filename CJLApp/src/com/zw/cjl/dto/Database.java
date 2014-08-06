@@ -109,21 +109,22 @@ public class Database {
 
 	private void createStudentTable() {
 		db.execSQL("DROP TABLE IF EXISTS " + STUDENT_TABLE_NAME);  
-		/*
-		db.execSQL("CREATE TABLE IF NOT EXISTS students " +
-        		"(id INTEGER PRIMARY KEY, " +
+		
+		db.execSQL("CREATE TABLE IF NOT EXISTS " +
+				STUDENT_TABLE_NAME +
+        		" (id INTEGER PRIMARY KEY, " +
         		"jxid INTEGER, " +
-        		"xysl INTEGER, " +
-        		"xbry VARCHAR(64), " +
-        		"xjcx VARCHAR(64), " +
+        		"sfzmhm VARCHAR(64), " +
+        		"division VARCHAR(64), " +
+        		"xykh VARCHAR(64), " +
+        		"jxmc VARCHAR(64), " +
         		"xm VARCHAR(64), " +
         		"sjhm VARCHAR(64), " +
-        		"sfzmhm VARCHAR(64), " +
-        		"jxmc VARCHAR(64), " +
-        		"division VARCHAR(64), " +
+        		"xbmc VARCHAR(64), " +
         		"cityDivision VARCHAR(64), " +
-        		"cphm VARCHAR(64))");  
-        		*/
+        		"sqcx VARCHAR(64), " +
+        		"sqcxmc VARCHAR(64))");  
+        		
     }
 	
 	public List<Car> getCars(int offset, int limit) {
@@ -143,9 +144,9 @@ public class Database {
 			
 			while (cursor.moveToNext())
 			{
-				Car c = new Car(cursor.getInt(cursor.getColumnIndex("id")),
-						cursor.getInt(cursor.getColumnIndex("orgId")),
-						cursor.getInt(cursor.getColumnIndex("schoolId")),
+				Car c = new Car(cursor.getLong(cursor.getColumnIndex("id")),
+						cursor.getLong(cursor.getColumnIndex("orgId")),
+						cursor.getLong(cursor.getColumnIndex("schoolId")),
 						cursor.getString(cursor.getColumnIndex("ownerName")),
 						cursor.getString(cursor.getColumnIndex("schoolName")),
 						cursor.getString(cursor.getColumnIndex("carKind")),
@@ -186,9 +187,9 @@ public class Database {
 			
 			while (cursor.moveToNext())
 			{
-				Coach c = new Coach(cursor.getInt(cursor.getColumnIndex("id")),
-						cursor.getInt(cursor.getColumnIndex("jxid")),
-						cursor.getInt(cursor.getColumnIndex("xysl")),
+				Coach c = new Coach(cursor.getLong(cursor.getColumnIndex("id")),
+						cursor.getLong(cursor.getColumnIndex("jxid")),
+						cursor.getLong(cursor.getColumnIndex("xysl")),
 						cursor.getString(cursor.getColumnIndex("xbry")),
 						cursor.getString(cursor.getColumnIndex("xjcx")),
 						cursor.getString(cursor.getColumnIndex("xm")),
@@ -200,6 +201,46 @@ public class Database {
 						cursor.getString(cursor.getColumnIndex("cphm")));
 				
 				list.add(c);
+			}
+			
+			cursor.close();
+		}
+		
+		return list;
+	}
+	
+	public List<Student> getStudents(int offset, int limit) 
+	{
+			
+		List<Student> list = new ArrayList<Student>();
+		
+		if (offset < studentCount && limit > 0)
+		{
+			Cursor cursor = db.query(STUDENT_TABLE_NAME, 
+									 null, 
+									 null, 
+									 null, 
+									 null, 
+									 null, 
+									 null, 
+									 offset + "," + limit);		
+			
+			while (cursor.moveToNext())
+			{
+				Student s = new Student(cursor.getLong(cursor.getColumnIndex("id")),
+						cursor.getLong(cursor.getColumnIndex("jxid")),
+						cursor.getString(cursor.getColumnIndex("xykh")),
+						cursor.getString(cursor.getColumnIndex("xbmc")),
+						cursor.getString(cursor.getColumnIndex("sfzmhm")),
+						cursor.getString(cursor.getColumnIndex("sqcxmc")),
+						cursor.getString(cursor.getColumnIndex("sjhm")),
+						cursor.getString(cursor.getColumnIndex("xm")),
+						cursor.getString(cursor.getColumnIndex("sqcx")),
+						cursor.getString(cursor.getColumnIndex("division")),
+						cursor.getString(cursor.getColumnIndex("cityDivision")),
+						cursor.getString(cursor.getColumnIndex("jxmc")));
+				
+				list.add(s);
 			}
 			
 			cursor.close();
@@ -223,9 +264,9 @@ public class Database {
 		
 		while (cursor.moveToNext())
 		{
-			Car c = new Car(cursor.getInt(cursor.getColumnIndex("id")),
-					cursor.getInt(cursor.getColumnIndex("orgId")),
-					cursor.getInt(cursor.getColumnIndex("schoolId")),
+			Car c = new Car(cursor.getLong(cursor.getColumnIndex("id")),
+					cursor.getLong(cursor.getColumnIndex("orgId")),
+					cursor.getLong(cursor.getColumnIndex("schoolId")),
 					cursor.getString(cursor.getColumnIndex("ownerName")),
 					cursor.getString(cursor.getColumnIndex("schoolName")),
 					cursor.getString(cursor.getColumnIndex("carKind")),
@@ -262,9 +303,9 @@ public class Database {
 		
 		while (cursor.moveToNext())
 		{
-			Coach c = new Coach(cursor.getInt(cursor.getColumnIndex("id")),
-					cursor.getInt(cursor.getColumnIndex("jxid")),
-					cursor.getInt(cursor.getColumnIndex("xysl")),
+			Coach c = new Coach(cursor.getLong(cursor.getColumnIndex("id")),
+					cursor.getLong(cursor.getColumnIndex("jxid")),
+					cursor.getLong(cursor.getColumnIndex("xysl")),
 					cursor.getString(cursor.getColumnIndex("xbry")),
 					cursor.getString(cursor.getColumnIndex("xjcx")),
 					cursor.getString(cursor.getColumnIndex("xm")),
@@ -283,51 +324,12 @@ public class Database {
 		return list;
 	}
 	
-	public List<Student> getStudents(int offset, int limit) {
-		
-		List<Student> list = new ArrayList<Student>();
-		/*
-		Cursor cursor = db.query("cars", 
-								 null, 
-								 null, 
-								 null, 
-								 null, 
-								 null, 
-								 null, 
-								 offset + "," + limit);		
-		
-		while (cursor.moveToNext())
-		{
-			Car c = new Car(cursor.getInt(cursor.getColumnIndex("id")),
-					cursor.getInt(cursor.getColumnIndex("orgId")),
-					cursor.getInt(cursor.getColumnIndex("schoolId")),
-					cursor.getString(cursor.getColumnIndex("ownerName")),
-					cursor.getString(cursor.getColumnIndex("schoolName")),
-					cursor.getString(cursor.getColumnIndex("carKind")),
-					cursor.getString(cursor.getColumnIndex("status")),
-					cursor.getString(cursor.getColumnIndex("cityDivision")),
-					cursor.getString(cursor.getColumnIndex("simNo")),
-					cursor.getString(cursor.getColumnIndex("schoolCode")),
-					cursor.getString(cursor.getColumnIndex("carType")),
-					cursor.getString(cursor.getColumnIndex("carNo")),
-					cursor.getString(cursor.getColumnIndex("division")),
-					cursor.getString(cursor.getColumnIndex("deviceNo")),
-					cursor.getString(cursor.getColumnIndex("ownerPhone")));
-			
-			list.add(c);
-		}
-		
-		cursor.close();
-		*/
-		return list;
-	}
-	
 	public List<Student> queryStudents(String having, int offset, int limit) {
 		List<Student> list = new ArrayList<Student>();
-		/*
+		
 		Cursor cursor = db.query("students", 
 				                 null, 
-				                 "ownerName LIKE upper('"+having+"%') or carNo LIKE upper('%"+having+"%')", 
+				                 "xm LIKE upper('"+having+"%') or sjhm LIKE upper('%"+having+"%')", 
 				                 null,
 				                 null, 
 				                 null, 
@@ -336,27 +338,24 @@ public class Database {
 		
 		while (cursor.moveToNext())
 		{
-			Car c = new Car(cursor.getInt(cursor.getColumnIndex("id")),
-					cursor.getInt(cursor.getColumnIndex("orgId")),
-					cursor.getInt(cursor.getColumnIndex("schoolId")),
-					cursor.getString(cursor.getColumnIndex("ownerName")),
-					cursor.getString(cursor.getColumnIndex("schoolName")),
-					cursor.getString(cursor.getColumnIndex("carKind")),
-					cursor.getString(cursor.getColumnIndex("status")),
-					cursor.getString(cursor.getColumnIndex("cityDivision")),
-					cursor.getString(cursor.getColumnIndex("simNo")),
-					cursor.getString(cursor.getColumnIndex("schoolCode")),
-					cursor.getString(cursor.getColumnIndex("carType")),
-					cursor.getString(cursor.getColumnIndex("carNo")),
+			Student s = new Student(cursor.getLong(cursor.getColumnIndex("id")),
+					cursor.getLong(cursor.getColumnIndex("jxid")),
+					cursor.getString(cursor.getColumnIndex("xykh")),
+					cursor.getString(cursor.getColumnIndex("xbmc")),
+					cursor.getString(cursor.getColumnIndex("sfzmhm")),
+					cursor.getString(cursor.getColumnIndex("sqcxmc")),
+					cursor.getString(cursor.getColumnIndex("sjhm")),
+					cursor.getString(cursor.getColumnIndex("xm")),
+					cursor.getString(cursor.getColumnIndex("sqcx")),
 					cursor.getString(cursor.getColumnIndex("division")),
-					cursor.getString(cursor.getColumnIndex("deviceNo")),
-					cursor.getString(cursor.getColumnIndex("ownerPhone")));
+					cursor.getString(cursor.getColumnIndex("cityDivision")),
+					cursor.getString(cursor.getColumnIndex("jxmc")));
 			
-			list.add(c);
+			list.add(s);
 		}
 		
 		cursor.close();
-		*/
+		
 		return list;
 	}
 	
@@ -419,7 +418,31 @@ public class Database {
 		}
 	}
 	
-	public void insertStudent(Student s) {
+	public void insertStudent(List<Student> studentList) {
+		db.beginTransaction();
+		try {
+				
+			for (Student s : studentList)
+			{
+				ContentValues values = new ContentValues();
+				values.put("id", s.id);
+				values.put("jxid", s.jxid);
+				values.put("xykh", s.xykh);
+				values.put("xbmc", s.xbmc);
+				values.put("sfzmhm", s.sfzmhm);
+				values.put("sqcxmc", s.sqcxmc);
+				values.put("sjhm", s.sjhm);
+				values.put("xm", s.xm);
+				values.put("sqcx", s.sqcx);
+				values.put("division", s.division);
+				values.put("cityDivision", s.cityDivision);
+				values.put("jxmc", s.jxmc);
 		
+				db.insert(STUDENT_TABLE_NAME, null, values);
+			}
+		} finally {
+			db.setTransactionSuccessful();
+			db.endTransaction();
+		}
 	}
 }

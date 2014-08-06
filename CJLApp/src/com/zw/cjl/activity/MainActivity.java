@@ -37,12 +37,15 @@ import com.zw.cjl.adapter.StudentListAdapter;
 import com.zw.cjl.dto.Car;
 import com.zw.cjl.dto.Coach;
 import com.zw.cjl.dto.Database;
+import com.zw.cjl.dto.Student;
 import com.zw.cjl.network.HttpGetType;
 import com.zw.cjl.pager.CustomViewPager;
 import com.zw.cjl.thread.HttpGetThread;
 import com.zw.cjl.watcher.CarTextWatcher;
 import com.zw.cjl.watcher.CoachTextWatcher;
 import com.zw.cjl.watcher.StudentTextWatcher;
+
+// TODO: 将人员页面放到一个新的ViewAdapter里面
 
 @SuppressLint({ "HandlerLeak", "InflateParams" })
 public class MainActivity extends Activity implements OnScrollListener{
@@ -189,7 +192,7 @@ public class MainActivity extends Activity implements OnScrollListener{
     		if(hasError) {
     			Toast.makeText(getApplicationContext(), resultMsg, Toast.LENGTH_SHORT).show();
     		} else {
-    			/*
+    			
     			try {
 					JSONObject j = new JSONObject(resultMsg);
 
@@ -207,17 +210,17 @@ public class MainActivity extends Activity implements OnScrollListener{
 					if (newOffset < total)
 					{
 						// 后台继续获取所有学员
-				        Thread getAllCars = 
-				        		new Thread(new HttpGetThread(HttpGetType.GET_ALL_CARS, 
-				        									 getAllCarsResultHandler,
+				        Thread getAllStudents = 
+				        		new Thread(new HttpGetThread(HttpGetType.GET_ALL_STUDENTS, 
+				        									 getAllStudentsResultHandler,
 				        								     db,
 				        								     orgId,
 				        								     "" + newOffset));  
-				        getAllCars.start();
+				        getAllStudents.start();
 					}
 				} catch (JSONException e) {
 					e.printStackTrace();
-				}*/
+				}
     		}
     	}
 	};
@@ -557,10 +560,10 @@ public class MainActivity extends Activity implements OnScrollListener{
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View view,
 					int position, long id) {
-				/*CarListAdapter adapter = (CarListAdapter)arg0.getAdapter();
-				List<Car> carlist = adapter.getmCarList();
-				Car car = carlist.get(position);
-				
+				StudentListAdapter adapter = (StudentListAdapter)arg0.getAdapter();
+				List<Student> studentlist = adapter.getmStudentList();
+				Student student = studentlist.get(position);
+				/*
 				Intent intent=new Intent();
 				intent.setClass(getApplicationContext(), CarDetailActivity.class);
 				intent.putExtra("jxid", ""+car._schoolId);

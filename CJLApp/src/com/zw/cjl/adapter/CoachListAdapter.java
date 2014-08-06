@@ -74,7 +74,7 @@ public class CoachListAdapter extends BaseAdapter implements Filterable {
 	
 	final class TextViewHolder {
 		public TextView coachName;
-		public TextView coachSex;
+		public TextView coachStuNum;
 		public TextView coachPhone;
 	}
 
@@ -87,7 +87,7 @@ public class CoachListAdapter extends BaseAdapter implements Filterable {
 			convertView = mInflater.inflate(R.layout.coach_list_item, null);
 			item = new TextViewHolder();
 			item.coachName = (TextView)convertView.findViewById(R.id.coachName);
-			item.coachSex = (TextView)convertView.findViewById(R.id.coachSex);
+			item.coachStuNum = (TextView)convertView.findViewById(R.id.coachStudentNum);
 			item.coachPhone = (TextView)convertView.findViewById(R.id.coachPhone);
 			convertView.setTag(item);
 		}
@@ -99,7 +99,7 @@ public class CoachListAdapter extends BaseAdapter implements Filterable {
 		Coach coach = mCoachList.get(position);
 		
 		item.coachName.setText(coach.xm);
-		item.coachSex.setText(coach.xbry);
+		item.coachStuNum.setText(""+coach.xysl);
 		item.coachPhone.setText(coach.sjhm);
 		
 		return convertView;

@@ -2,6 +2,7 @@ package com.zw.cjl.dto;
 
 public class Student {
 	public long id = 0;
+	public long jxid = 0;
 	public String xykh = null;
 	public String xbmc = null;
 	public String sfzmhm = null;
@@ -11,10 +12,10 @@ public class Student {
 	public String sqcx = null;
 	public String division = null;
 	public String cityDivision = null;
-	public String jxid = null;
 	public String jxmc = null;
 	
-	public Student (int id,
+	public Student (long id,
+					long jxid,
 					String xykh,
 					String xbmc,
 					String sfzmhm,
@@ -24,7 +25,6 @@ public class Student {
 					String sqcx,
 					String division,
 					String cityDivision,
-					String jxid,
 					String jxmc)
 	{
 		this.id = id;

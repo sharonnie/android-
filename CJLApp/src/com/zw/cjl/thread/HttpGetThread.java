@@ -14,6 +14,7 @@ import android.os.Message;
 import com.zw.cjl.dto.Car;
 import com.zw.cjl.dto.Coach;
 import com.zw.cjl.dto.Database;
+import com.zw.cjl.dto.Student;
 import com.zw.cjl.format.Status;
 import com.zw.cjl.network.HttpGetType;
 import com.zw.cjl.network.HttpRequest;
@@ -157,18 +158,53 @@ public class HttpGetThread implements Runnable {
 			
 			break;
 		case GET_ALL_STUDENTS:
-			break;
-		case GET_ALL_COACHS:
 			try {
-				//jsonObj = new JSONObject(resultMsg);
-				//JSONArray jsonArray = new JSONArray(jsonObj.getString("coach"));
-				List<Coach> coachList = new ArrayList<Coach>();
-				int count = 1;//jsonArray.length();
+				jsonObj = new JSONObject(resultMsg);
+				JSONArray jsonArray = new JSONArray(jsonObj.getString("students"));
+				List<Student> studentList = new ArrayList<Student>();
+				int count = jsonArray.length();
 				
 				for (int i=0; i<count; i++)
 				{
-					//JSONObject e = jsonArray.getJSONObject(i);
-					JSONObject e = new JSONObject(resultMsg);
+					JSONObject e = jsonArray.getJSONObject(i);
+					Student s = new Student(e.getLong("id"),
+								 		e.getLong("jxid"),
+								 		e.getString("xykh"),
+								 		e.getString("xbmc"),
+								 		e.getString("sfzmhm"),
+								 		e.getString("sqcxmc"),
+								 		e.getString("sjhm"),
+								 		e.getString("xm"),
+								 		e.getString("sqcx"),
+								 		e.getString("division"),
+								 		e.getString("cityDivision"),
+								 		e.getString("jxmc"));
+					
+					studentList.add(s);
+				}
+				_db.insertStudent(studentList);
+				
+				resultMsg="{\"offset\":"
+						+mArg1
+						+",\"count\":"
+						+count
+						+",\"total\":"
+						+_db.getStudentCount()
+						+"}";
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+			break;
+		case GET_ALL_COACHS:
+			try {
+				jsonObj = new JSONObject(resultMsg);
+				JSONArray jsonArray = new JSONArray(jsonObj.getString("coaches"));
+				List<Coach> coachList = new ArrayList<Coach>();
+				int count = jsonArray.length();
+				
+				for (int i=0; i<count; i++)
+				{
+					JSONObject e = jsonArray.getJSONObject(i);
 					Coach c = new Coach(e.getLong("id"),
 								 		e.getLong("jxid"),
 								 		e.getLong("xysl"),

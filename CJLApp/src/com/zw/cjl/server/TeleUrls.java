@@ -1,8 +1,8 @@
 package com.zw.cjl.server;
 
 public class TeleUrls {
-	private static final String ip = "http://220.163.43.27:12080/";
-	//private static final String ip = "http://192.168.1.105:8888/platform/";
+	//private static final String ip = "http://220.163.43.27:12080/";
+	private static final String ip = "http://192.168.1.105:8888/platform/";
 	
 	// ÒµÎñÔ±
 	public static String assistantLogin(String username, String password)

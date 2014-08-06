@@ -10,7 +10,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.TextView;
 
+import com.zw.cjl.activity.R;
 import com.zw.cjl.dto.Database;
 import com.zw.cjl.dto.Student;
 import com.zw.cjl.filter.StudentFilter;
@@ -68,24 +70,24 @@ public class StudentListAdapter extends BaseAdapter implements Filterable {
 	public long getItemId(int position) {
 		return 0;
 	}
-	/*
+	
 	final class TextViewHolder {
-		public TextView carNo;
-		public TextView ownerName;
-		public TextView status;
+		public TextView studentName;
+		public TextView studentCardType;
+		public TextView studentPhone;
 	}
-*/
+	
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		/*TextViewHolder item  = null;
+		TextViewHolder item  = null;
 		
 		if (null == convertView)
 		{
-			convertView = mInflater.inflate(R.layout.car_list_item, null);
+			convertView = mInflater.inflate(R.layout.student_list_item, null);
 			item = new TextViewHolder();
-			item.carNo = (TextView)convertView.findViewById(R.id.carNo);
-			item.ownerName = (TextView)convertView.findViewById(R.id.ownerName);
-			item.status = (TextView)convertView.findViewById(R.id.status);
+			item.studentName = (TextView)convertView.findViewById(R.id.studentName);
+			item.studentCardType = (TextView)convertView.findViewById(R.id.studentCardType);
+			item.studentPhone = (TextView)convertView.findViewById(R.id.studentPhone);
 			convertView.setTag(item);
 		}
 		else
@@ -93,12 +95,12 @@ public class StudentListAdapter extends BaseAdapter implements Filterable {
 			item = (TextViewHolder)convertView.getTag();
 		}
 		
-		Car car = mCarList.get(position);
+		Student student = mStudentList.get(position);
 		
-		item.carNo.setText(car._carNo);
-		item.ownerName.setText(car._ownerName);
-		item.status.setText(car._status);
-		*/
+		item.studentName.setText(student.xm);
+		item.studentCardType.setText(student.sqcx);
+		item.studentPhone.setText(student.sjhm);
+		
 		return convertView;
 	}
 

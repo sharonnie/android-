@@ -1,9 +1,9 @@
 package com.zw.cjl.dto;
 
 public class Car {
-	public int _id = 0;
-	public int _orgId = 0;
-	public int _schoolId = 0;
+	public long _id = 0;
+	public long _orgId = 0;
+	public long _schoolId = 0;
 	public String _ownerName = null;
 	public String _schoolName = null;
 	public String _carKind = null;
@@ -17,9 +17,9 @@ public class Car {
 	public String _deviceNo = null;
 	public String _ownerPhone = null;
 	
-	public Car (int id,
-				int orgId,
-				int schoolId,
+	public Car (long id,
+				long orgId,
+				long schoolId,
 				String ownerName,
 				String schoolName,
 				String carKind,
