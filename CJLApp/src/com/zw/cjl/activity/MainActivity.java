@@ -55,8 +55,6 @@ public class MainActivity extends Activity implements OnScrollListener{
 
 	private String userType = null;
 	private String identity = null;
-	
-	private long carNum = 0;
 
 	private ProgressDialog progressDlg;
 
@@ -115,11 +113,6 @@ public class MainActivity extends Activity implements OnScrollListener{
     	public void handleMessage(Message msg) {
     		String resultMsg = msg.getData().getString("resultMsg");
     		boolean hasError = msg.getData().getBoolean("hasError");
-    		
-    		if (progressDlg.isShowing())
-    		{
-    			progressDlg.dismiss();
-    		}
     		
     		if(hasError) {
     			Toast.makeText(getApplicationContext(), resultMsg, Toast.LENGTH_SHORT).show();
@@ -184,11 +177,6 @@ public class MainActivity extends Activity implements OnScrollListener{
     		String resultMsg = msg.getData().getString("resultMsg");
     		boolean hasError = msg.getData().getBoolean("hasError");
     		
-    		if (progressDlg.isShowing())
-    		{
-    			progressDlg.dismiss();
-    		}
-    		
     		if(hasError) {
     			Toast.makeText(getApplicationContext(), resultMsg, Toast.LENGTH_SHORT).show();
     		} else {
@@ -231,11 +219,6 @@ public class MainActivity extends Activity implements OnScrollListener{
     		String resultMsg = msg.getData().getString("resultMsg");
     		boolean hasError = msg.getData().getBoolean("hasError");
     		
-    		if (progressDlg.isShowing())
-    		{
-    			progressDlg.dismiss();
-    		}
-    		
     		if(hasError) {
     			Toast.makeText(getApplicationContext(), resultMsg, Toast.LENGTH_SHORT).show();
     		} else {
@@ -276,12 +259,7 @@ public class MainActivity extends Activity implements OnScrollListener{
     	public void handleMessage(Message msg) {
     		String resultMsg = msg.getData().getString("resultMsg");
     		boolean hasError = msg.getData().getBoolean("hasError");
-    		
-    		if (progressDlg.isShowing())
-    		{
-    			progressDlg.dismiss();
-    		}
-    		
+  
     		if(hasError) {
     			Toast.makeText(getApplicationContext(), resultMsg, Toast.LENGTH_SHORT).show();
     		} else {
@@ -303,12 +281,7 @@ public class MainActivity extends Activity implements OnScrollListener{
     	public void handleMessage(Message msg) {
     		String resultMsg = msg.getData().getString("resultMsg");
     		boolean hasError = msg.getData().getBoolean("hasError");
-    		
-    		if (progressDlg.isShowing())
-    		{
-    			progressDlg.dismiss();
-    		}
-    		
+ 
     		if(hasError) {
     			Toast.makeText(getApplicationContext(), resultMsg, Toast.LENGTH_SHORT).show();
     		} else {
@@ -330,12 +303,7 @@ public class MainActivity extends Activity implements OnScrollListener{
     	public void handleMessage(Message msg) {
     		String resultMsg = msg.getData().getString("resultMsg");
     		boolean hasError = msg.getData().getBoolean("hasError");
-    		
-    		if (progressDlg.isShowing())
-    		{
-    			progressDlg.dismiss();
-    		}
-    		
+ 
     		if(hasError) {
     			Toast.makeText(getApplicationContext(), resultMsg, Toast.LENGTH_SHORT).show();
     		} else {
@@ -415,7 +383,6 @@ public class MainActivity extends Activity implements OnScrollListener{
 		}
 		
 		// 获取车辆总数
-        progressDlg = ProgressDialog.show(this, "请稍候", "获取车辆中...", false, false); 
         Thread getCarNum = 
         		new Thread(new HttpGetThread(HttpGetType.GET_ALL_CAR_NUM, 
         									 getAllCarNumResultHandler,
@@ -479,8 +446,8 @@ public class MainActivity extends Activity implements OnScrollListener{
 				
 				Intent intent=new Intent();
 				intent.setClass(getApplicationContext(), CarDetailActivity.class);
-				intent.putExtra("jxid", ""+car._schoolId);
-				intent.putExtra("carNo", car._carNo);
+				intent.putExtra("jxid", car._schoolId);
+				intent.putExtra("carNo", car._carNo.substring(1, 6));
 				startActivity(intent);	
 			}
 	    });

@@ -11,4 +11,12 @@ public class Status {
 		}
 		return result;
 	}
+	
+	public static String carOnlineToString(String status) {
+		String result = "ÔÚÏß";
+		if (status.equals("0")) {
+			result = "ÀëÏß";
+		} 
+		return result;
+	}
 }

@@ -115,6 +115,18 @@ public class HttpRequest {
 		return result;
 	}
 	
+	public static String carDetail(String jxid, String carNo) {
+		String result = null;
+		
+		if (userTeleNetwork) {
+			result = httpRequest(TeleUrls.carDetail(jxid, carNo));
+		} else {
+			result = httpRequest(MobileUrls.carDetail(jxid, carNo));
+		}
+		
+		return result;
+	}
+	
 	public static String httpRequest(String string) {
 		String result = null;
 		HttpURLConnection conn = null;

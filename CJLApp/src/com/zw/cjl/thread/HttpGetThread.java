@@ -74,6 +74,10 @@ public class HttpGetThread implements Runnable {
 		case GET_ALL_CARS:
 			result = HttpRequest.allCars(mArg0, mArg1, EVERY_TIME_GET_LIMIT);
 			break;
+		
+		case GET_CAR_DETAIL:
+			result = HttpRequest.carDetail(mArg0, mArg1);
+			break;
 			
 		default:
 			break;
