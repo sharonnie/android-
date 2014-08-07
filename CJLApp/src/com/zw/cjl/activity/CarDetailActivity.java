@@ -29,7 +29,7 @@ public class CarDetailActivity extends Activity {
 	
 	private String carNo;
 	private long jxid;
-	Activity detailActivity = this;
+	private Activity detailActivity = this;
 	private ProgressDialog progressDlg;
 	
 	@Override

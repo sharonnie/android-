@@ -486,13 +486,15 @@ public class MainActivity extends Activity implements OnScrollListener{
 				CoachListAdapter adapter = (CoachListAdapter)arg0.getAdapter();
 				List<Coach> coachlist = adapter.getmCoachList();
 				Coach coach = coachlist.get(position);
-				/*
+				
 				Intent intent=new Intent();
-				intent.setClass(getApplicationContext(), CarDetailActivity.class);
-				intent.putExtra("jxid", ""+car._schoolId);
-				intent.putExtra("carNo", car._carNo);
+				intent.setClass(getApplicationContext(), CoachDetailActivity.class);
+				intent.putExtra("xm", coach.xm);
+				intent.putExtra("identity", coach.sfzmhm);
+				intent.putExtra("sjhm", coach.sjhm);
+				intent.putExtra("cphm", coach.cphm);
+				intent.putExtra("xysl", coach.xysl);
 				startActivity(intent);	
-				*/
 			}
 	    });
 	}

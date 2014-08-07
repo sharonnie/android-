@@ -15,10 +15,10 @@
     
     <TextView
 	    android:id="@+id/centerTextTitle"
-	    android:layout_width="match_parent"
+	    android:layout_width="wrap_content"
 	    android:layout_height="fill_parent"
-	    android:layout_toRightOf="@+id/leftImageButton"
 	    android:gravity="center"
+	    android:layout_centerInParent="true"
 	    android:layout_marginTop="5dip"
 	    android:layout_marginBottom="5dip"
 	    android:background="@color/welcome_blue"
@@ -29,7 +29,6 @@
         android:id="@+id/rightImageButton"
 	    android:layout_width="50dip"
 	    android:layout_height="fill_parent"
-	    android:layout_toRightOf="@+id/centerTextTitle"
 	    android:layout_alignParentRight="true"
 	    android:gravity="center"
 	    android:contentDescription="@string/hello_world"

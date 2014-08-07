@@ -41,6 +41,10 @@
             android:name=".StudentDetailActivity"
             android:theme="@style/titlebarstyle" >
         </activity>
+        <activity
+            android:name=".CoachDetailActivity"
+            android:theme="@style/titlebarstyle" > >
+        </activity>
     </application>
 
 </manifest>

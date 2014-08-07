@@ -103,6 +103,18 @@ public class HttpRequest {
 		return result;
 	}
 	
+	public static String coachDetail(String identity) {
+		String result = null;
+		
+		if (userTeleNetwork) {
+			result = httpRequest(TeleUrls.coachAndStudents(identity));
+		} else {
+			result = httpRequest(MobileUrls.coachAndStudents(identity));
+		}
+		
+		return result;
+	}
+	
 	public static String allCarNum(String orgId) {
 		String result = null;
 		
