@@ -19,4 +19,16 @@ public class Status {
 		} 
 		return result;
 	}
+	
+	public static String validToString(Integer isVal) {
+		String result = "";
+		if(isVal==0) {
+			result = "[无效]";
+		} else if(isVal==1) {
+			result = "[有效]";
+		} else if(isVal==2) {
+			result = "[部份有效]";
+		}
+		return result;
+	}
 }
