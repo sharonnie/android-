@@ -91,6 +91,10 @@ public class HttpGetThread implements Runnable {
 			result = HttpRequest.carDetail(mArg0, mArg1);
 			break;
 			
+		case GET_CAR_LOCATION:
+			result = HttpRequest.carLocation(mArg0, mArg1);
+			break;
+			
 		default:
 			break;
 		}
@@ -254,7 +258,6 @@ public class HttpGetThread implements Runnable {
 			try {
 				jsonObj = new JSONObject(resultMsg);
 				_db.setCarCount(jsonObj.getLong("carAll"));
-				resultMsg="获取数据成功";
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
@@ -264,7 +267,6 @@ public class HttpGetThread implements Runnable {
 			try {
 				jsonObj = new JSONObject(resultMsg);
 				_db.setCoachCount(jsonObj.getLong("coachAll"));
-				resultMsg="获取数据成功";
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
@@ -274,7 +276,6 @@ public class HttpGetThread implements Runnable {
 			try {
 				jsonObj = new JSONObject(resultMsg);
 				_db.setStudentCount(jsonObj.getLong("studentAll"));
-				resultMsg="获取数据成功";
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
@@ -283,7 +284,6 @@ public class HttpGetThread implements Runnable {
 		default:
 			break;
 		}
-		
 		
 		Message message = new Message();
         Bundle bundle = new Bundle();

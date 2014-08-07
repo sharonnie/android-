@@ -33,8 +33,6 @@ public class CoachListAdapter extends BaseAdapter implements Filterable {
 		mCoachList = _db.getCoachs(0, EACH_LOAD_COUNT);
 	}
 	
-	// TODO: 添加判断是否已经获得数据库全部数据的判断，如果是，则不再load
-	// TODO: 为filter添加滑动到底部时自动加入新数据的功能
 	public void loadNewItems()
 	{
 		List<Coach> list = _db.getCoachs(getCount(), EACH_LOAD_COUNT);

@@ -53,7 +53,7 @@ public class MainActivity extends Activity implements OnScrollListener{
 	// 用于退出应用
 	private long mExitTime = 0;
 
-	private String userType = null;
+	//private String userType = null;
 	private String identity = null;
 
 	private ProgressDialog progressDlg;
@@ -71,6 +71,10 @@ public class MainActivity extends Activity implements OnScrollListener{
     TextView my_center = null;
     TextView tvLeftTitle = null;
     TextView tvRightTitle = null;
+    
+    EditText searchCar = null;
+    EditText searchStudent = null;
+    EditText searchCoach = null;
     
     String orgId = null;
 
@@ -92,7 +96,7 @@ public class MainActivity extends Activity implements OnScrollListener{
 	
 		// 读取传入的数据
 		Intent intent = this.getIntent();
-		userType = intent.getStringExtra("userType");
+		//userType = intent.getStringExtra("userType");
         identity = intent.getStringExtra("identity");
         
         // 获取业务员详细信息
@@ -288,6 +292,14 @@ public class MainActivity extends Activity implements OnScrollListener{
     			
     			Toast.makeText(getApplicationContext(), resultMsg, Toast.LENGTH_SHORT).show();
     		} else {
+    			try {
+					JSONObject e = new JSONObject(resultMsg);
+					String carNum = e.getString("carAll");
+					searchCar = (EditText)findViewById(R.id.searchCar);
+					searchCar.setHint("在["+carNum+"]条数据中搜索");
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
 
     			// 获取所有辆车
 		        Thread getAllCars = 
@@ -314,6 +326,14 @@ public class MainActivity extends Activity implements OnScrollListener{
         		}
     			Toast.makeText(getApplicationContext(), resultMsg, Toast.LENGTH_SHORT).show();
     		} else {
+    			try {
+					JSONObject e = new JSONObject(resultMsg);
+					String studentNum = e.getString("studentAll");
+					searchStudent = (EditText)findViewById(R.id.searchStudent);
+					searchStudent.setHint("在["+studentNum+"]条数据中搜索");
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
     			
 				// 获取学员
 		        Thread getAllStudents = 
@@ -340,7 +360,14 @@ public class MainActivity extends Activity implements OnScrollListener{
         		}
     			Toast.makeText(getApplicationContext(), resultMsg, Toast.LENGTH_SHORT).show();
     		} else {
-    			
+    			try {
+					JSONObject e = new JSONObject(resultMsg);
+					String coachNum = e.getString("coachAll");
+					searchCoach = (EditText)findViewById(R.id.searchCoach);
+					searchCoach.setHint("在["+coachNum+"]条数据中搜索");
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
 				// 获取所有助理考试员
     			
 		        Thread getAllCoachs = 
@@ -353,24 +380,6 @@ public class MainActivity extends Activity implements OnScrollListener{
     		}
     	}
 	};
-	
-	public void addStudents(String students){
-		try {
-			JSONObject jsonObj = new JSONObject(students);
-			/*
-			JSONArray jsonArray = new JSONArray(jsonObj.getString("cars"));
-
-			ListView myInfoList = (ListView)findViewById(R.id.car_list);
-			CarListAdapter carListAdapter = new CarListAdapter(this, jsonArray);
-			myInfoList.setAdapter(carListAdapter);
-			
-			EditText searchCar = (EditText)findViewById(R.id.searchCar);
-		    searchCar.addTextChangedListener(new CarTextWatcher(carListAdapter));
-			*/
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-	}
 	
 	public void addMyCenter(String infos)
 	{
@@ -457,11 +466,15 @@ public class MainActivity extends Activity implements OnScrollListener{
 			@Override
 			public void onScroll(AbsListView view, int firstVisibleItem,
 					int visibleItemCount, int totalItemCount) {
-				if (firstVisibleItem + visibleItemCount == totalItemCount)
+				if (0 == searchCar.getText().length())
 				{
-					CarListAdapter adapter = (CarListAdapter)view.getAdapter();
-					adapter.loadNewItems();
+					if (firstVisibleItem + visibleItemCount == totalItemCount)
+					{
+						CarListAdapter adapter = (CarListAdapter)view.getAdapter();
+						adapter.loadNewItems();
+					}
 				}
+				
 			} 
 			
 		});
@@ -500,10 +513,13 @@ public class MainActivity extends Activity implements OnScrollListener{
 			@Override
 			public void onScroll(AbsListView view, int firstVisibleItem,
 					int visibleItemCount, int totalItemCount) {
-				if (firstVisibleItem + visibleItemCount == totalItemCount)
+				if (0 == searchCoach.getText().length())
 				{
-					CoachListAdapter adapter = (CoachListAdapter)view.getAdapter();
-					adapter.loadNewItems();
+					if (firstVisibleItem + visibleItemCount == totalItemCount)
+					{
+						CoachListAdapter adapter = (CoachListAdapter)view.getAdapter();
+						adapter.loadNewItems();
+					}
 				}
 			} 
 			
@@ -546,10 +562,13 @@ public class MainActivity extends Activity implements OnScrollListener{
 			@Override
 			public void onScroll(AbsListView view, int firstVisibleItem,
 					int visibleItemCount, int totalItemCount) {
-				if (firstVisibleItem + visibleItemCount == totalItemCount)
+				if (0 == searchStudent.getText().length())
 				{
-					StudentListAdapter adapter = (StudentListAdapter)view.getAdapter();
-					adapter.loadNewItems();
+					if (firstVisibleItem + visibleItemCount == totalItemCount)
+					{
+						StudentListAdapter adapter = (StudentListAdapter)view.getAdapter();
+						adapter.loadNewItems();
+					}	
 				}
 			} 
 			

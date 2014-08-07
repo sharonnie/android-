@@ -79,9 +79,8 @@ public class TeleUrls {
 	}
 	
 	public static String historyTrace(String deviceNo,
-								  	  String startTime,
-								  	  String endTime)
+								  	  String limit)
 	{
-		return ip + BaseUrls.historyTrace(deviceNo, startTime, endTime);
+		return ip + BaseUrls.historyTrace(deviceNo, limit);
 	}
 }

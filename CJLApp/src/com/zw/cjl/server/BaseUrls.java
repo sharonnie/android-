@@ -76,12 +76,10 @@ public class BaseUrls {
 	
 	// 10. 获取车辆GPS信息
 	public static String historyTrace(String deviceNo, 
-									  String startTime, 
-									  String endTime)
+									  String limit)
 	{
 		return "app/historyTrace?deviceNo=" + deviceNo 
-				+ "&startTime=" + startTime 
-				+ "&endTime=" + endTime;
+				+ "&limit=" + limit;
 	}
 	
 	// 11. 学员登录

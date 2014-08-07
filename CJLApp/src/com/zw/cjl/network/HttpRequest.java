@@ -163,6 +163,18 @@ public class HttpRequest {
 		return result;
 	}
 	
+	public static String carLocation(String deviceNo, String limit) {
+		String result = null;
+		
+		if (userTeleNetwork) {
+			result = httpRequest(TeleUrls.historyTrace(deviceNo, limit));
+		} else {
+			result = httpRequest(MobileUrls.historyTrace(deviceNo, limit));
+		}
+		
+		return result;
+	}
+	
 	public static String httpRequest(String string) {
 		String result = null;
 		HttpURLConnection conn = null;
