@@ -79,6 +79,18 @@ public class HttpRequest {
 		return result;
 	}
 	
+	public static String studentRecord(String identity, String cityDivision) {
+		String result = null;
+		
+		if (userTeleNetwork) {
+			result = httpRequest(TeleUrls.studentRecord(identity, cityDivision));
+		} else {
+			result = httpRequest(MobileUrls.studentRecord(identity, cityDivision));
+		}
+		
+		return result;
+	}
+	
 	public static String allCoachNum(String orgId) {
 		String result = null;
 		

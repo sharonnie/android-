@@ -115,6 +115,11 @@ public class MainActivity extends Activity implements OnScrollListener{
     		boolean hasError = msg.getData().getBoolean("hasError");
     		
     		if(hasError) {
+    			if (progressDlg.isShowing())
+        		{
+        			progressDlg.dismiss();
+        		}
+    			
     			Toast.makeText(getApplicationContext(), resultMsg, Toast.LENGTH_SHORT).show();
     		} else {
     			addMyCenter(resultMsg);
@@ -135,6 +140,11 @@ public class MainActivity extends Activity implements OnScrollListener{
     		}
     		
     		if(hasError) {
+    			if (progressDlg.isShowing())
+        		{
+        			progressDlg.dismiss();
+        		}
+    			
     			Toast.makeText(getApplicationContext(), resultMsg, Toast.LENGTH_SHORT).show();
     		} else {
 
@@ -178,6 +188,11 @@ public class MainActivity extends Activity implements OnScrollListener{
     		boolean hasError = msg.getData().getBoolean("hasError");
     		
     		if(hasError) {
+    			if (progressDlg.isShowing())
+        		{
+        			progressDlg.dismiss();
+        		}
+    			
     			Toast.makeText(getApplicationContext(), resultMsg, Toast.LENGTH_SHORT).show();
     		} else {
     			
@@ -220,6 +235,11 @@ public class MainActivity extends Activity implements OnScrollListener{
     		boolean hasError = msg.getData().getBoolean("hasError");
     		
     		if(hasError) {
+    			if (progressDlg.isShowing())
+        		{
+        			progressDlg.dismiss();
+        		}
+    			
     			Toast.makeText(getApplicationContext(), resultMsg, Toast.LENGTH_SHORT).show();
     		} else {
     			try {
@@ -261,6 +281,11 @@ public class MainActivity extends Activity implements OnScrollListener{
     		boolean hasError = msg.getData().getBoolean("hasError");
   
     		if(hasError) {
+    			if (progressDlg.isShowing())
+        		{
+        			progressDlg.dismiss();
+        		}
+    			
     			Toast.makeText(getApplicationContext(), resultMsg, Toast.LENGTH_SHORT).show();
     		} else {
 
@@ -283,6 +308,10 @@ public class MainActivity extends Activity implements OnScrollListener{
     		boolean hasError = msg.getData().getBoolean("hasError");
  
     		if(hasError) {
+    			if (progressDlg.isShowing())
+        		{
+        			progressDlg.dismiss();
+        		}
     			Toast.makeText(getApplicationContext(), resultMsg, Toast.LENGTH_SHORT).show();
     		} else {
     			
@@ -305,6 +334,10 @@ public class MainActivity extends Activity implements OnScrollListener{
     		boolean hasError = msg.getData().getBoolean("hasError");
  
     		if(hasError) {
+    			if (progressDlg.isShowing())
+        		{
+        			progressDlg.dismiss();
+        		}
     			Toast.makeText(getApplicationContext(), resultMsg, Toast.LENGTH_SHORT).show();
     		} else {
     			
@@ -443,7 +476,7 @@ public class MainActivity extends Activity implements OnScrollListener{
 				CarListAdapter adapter = (CarListAdapter)arg0.getAdapter();
 				List<Car> carlist = adapter.getmCarList();
 				Car car = carlist.get(position);
-				
+				//Car car = (Car)adapter.getItem(position);
 				Intent intent=new Intent();
 				intent.setClass(getApplicationContext(), CarDetailActivity.class);
 				intent.putExtra("jxid", car._schoolId);
@@ -536,6 +569,7 @@ public class MainActivity extends Activity implements OnScrollListener{
 				Intent intent=new Intent();
 				intent.setClass(getApplicationContext(), StudentDetailActivity.class);
 				intent.putExtra("identity", student.sfzmhm);
+				intent.putExtra("cityDivision", student.cityDivision);
 				startActivity(intent);	
 			}
 	    });
@@ -647,7 +681,7 @@ public class MainActivity extends Activity implements OnScrollListener{
 		}
 	}
 	
-	public void setTabsUnselected()
+	private void setTabsUnselected()
 	{
 		cars.setBackgroundResource(R.drawable.tab_unselect);
 		cars.setTextColor(getResources().getColor(R.color.white));

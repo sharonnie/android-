@@ -43,7 +43,15 @@
         </activity>
         <activity
             android:name=".CoachDetailActivity"
-            android:theme="@style/titlebarstyle" > >
+            android:theme="@style/titlebarstyle" >
+        </activity>
+        <activity
+            android:name=".StudentRecordActivity"
+            android:theme="@style/titlebarstyle" >
+        </activity>
+        <activity
+            android:name=".CarLocationActivity"
+            android:theme="@style/titlebarstyle" >
         </activity>
     </application>
 

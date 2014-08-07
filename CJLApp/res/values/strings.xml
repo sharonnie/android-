@@ -22,8 +22,13 @@
     <string name="search">搜索</string>
     <string name="student">学员</string>
     <string name="coach">助理考试员</string>
-    <string name="title_activity_car_detail">车辆信息</string>
-    <string name="title_activity_student">StudentActivity</string>
-    <string name="title_activity_coach_detail">CoachDetailActivity</string>
+    <string name="car_info">车辆信息</string>
+    <string name="valid">有效</string>
+    <string name="partial_valid">部分有效</string>
+    <string name="invalid">无效</string>
+    <string name="meter">里程</string>
+    <string name="timespan">时长</string>
+    <string name="average_speed">平均速度</string>
+    <string name="title_activity_car_location">车辆位置</string>
 
 </resources>

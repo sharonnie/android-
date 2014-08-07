@@ -63,6 +63,10 @@ public class HttpGetThread implements Runnable {
 			result = HttpRequest.studentDetail(mArg0);
 			break;
 			
+		case GET_STUDENT_RECORD:
+			result = HttpRequest.studentRecord(mArg0, mArg1);
+			break;
+			
 		case GET_ALL_COACH_NUM:
 			result = HttpRequest.allCoachNum(mArg0);
 			break;

@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -48,6 +49,20 @@ public class CarDetailActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				detailActivity.finish();
+			}
+		});
+		
+		ImageButton rbtn = (ImageButton)findViewById(R.id.rightImageButton);
+		rbtn.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				Intent intent=new Intent();
+				intent.setClass(getApplicationContext(), CarLocationActivity.class);
+				//intent.putExtra("deviceNo", student.sfzmhm);
+				//intent.putExtra("startTime", student.cityDivision);
+				//intent.putExtra("endTime", student.cityDivision);
+				startActivity(intent);	
 			}
 		});
 		
