@@ -175,6 +175,43 @@ public class HttpRequest {
 		return result;
 	}
 	
+	/*
+	public static String orderInfo(String orgId, String start, String limit) {
+		String result = null;
+		
+		if (userTeleNetwork) {
+			result = httpRequest(TeleUrls.orderedStudent(orgId, start, limit));
+		} else {
+			result = httpRequest(MobileUrls.orderedStudent(orgId, start, limit));
+		}
+		
+		return result;
+	}*/
+	
+	public static String orderedStudent(String orgId, String start, String limit) {
+		String result = null;
+		
+		if (userTeleNetwork) {
+			result = httpRequest(TeleUrls.orderedStudent(orgId, start, limit));
+		} else {
+			result = httpRequest(MobileUrls.orderedStudent(orgId, start, limit));
+		}
+		
+		return result;
+	}
+	
+	public static String orderNum(String orgId) {
+		String result = null;
+		
+		if (userTeleNetwork) {
+			result = httpRequest(TeleUrls.orderNum(orgId));
+		} else {
+			result = httpRequest(MobileUrls.orderNum(orgId));
+		}
+		
+		return result;
+	}
+	
 	public static String httpRequest(String string) {
 		String result = null;
 		HttpURLConnection conn = null;

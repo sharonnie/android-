@@ -31,6 +31,7 @@ public class CarDetailActivity extends Activity {
 	private Activity detailActivity = this;
 	//private ProgressDialog progressDlg;
 	private String deviceNo = null;
+	private ImageButton rbtn = null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +51,10 @@ public class CarDetailActivity extends Activity {
 				detailActivity.finish();
 			}
 		});
+		
+		rbtn = (ImageButton)findViewById(R.id.rightImageButton);
+		//rbtn.setBackgroundResource(R.drawable.icon_map);
+		rbtn.setImageResource(R.drawable.icon_map);
 		
 		Intent intent = this.getIntent();
 		jxid = intent.getLongExtra("jxid", 0);
@@ -147,7 +152,6 @@ public class CarDetailActivity extends Activity {
 			
 			deviceNo = jsonObj.getString("deviceNo");
 			
-			ImageButton rbtn = (ImageButton)findViewById(R.id.rightImageButton);
 			rbtn.setOnClickListener(new OnClickListener(){
 
 				@Override

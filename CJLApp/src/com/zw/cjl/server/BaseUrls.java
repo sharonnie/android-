@@ -93,4 +93,22 @@ public class BaseUrls {
 	{
 		return "app/loadObj?type=1&identity=" + identity + "&phone=" + phone;
 	}
+	
+	// 13. 获取约考信息
+	public static String orderInfo(String identity, String phone)
+	{
+		return "app/loadObj?type=1&identity=" + identity + "&phone=" + phone;
+	}
+	
+	// 14. 获取预约人员
+	public static String orderedStudent(String orgId, String start, String limit)
+	{
+		return "app/findReserveRecord?orgId=" + orgId + "&start=" + start + "&limit=" + limit;
+	}
+	
+	// 获取预约总数
+	public static String orderNum(String orgId)
+	{
+		return "app/findReserveRecordAll?orgId=" + orgId;
+	}
 }

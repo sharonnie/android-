@@ -14,6 +14,7 @@ import android.os.Message;
 import com.zw.cjl.dto.Car;
 import com.zw.cjl.dto.Coach;
 import com.zw.cjl.dto.Database;
+import com.zw.cjl.dto.Order;
 import com.zw.cjl.dto.Student;
 import com.zw.cjl.format.Status;
 import com.zw.cjl.network.HttpGetType;
@@ -93,6 +94,18 @@ public class HttpGetThread implements Runnable {
 			
 		case GET_CAR_LOCATION:
 			result = HttpRequest.carLocation(mArg0, mArg1);
+			break;
+			
+		case GET_ALL_ORDER_NUM:
+			result = HttpRequest.orderNum(mArg0);
+			break;
+			
+		case GET_ORDER_INFO:
+			//result = HttpRequest.carLocation(mArg0, mArg1);
+			break;
+			
+		case GET_ORDER_STUDENT:
+			result = HttpRequest.orderedStudent(mArg0, mArg1, "100");
 			break;
 			
 		default:
@@ -177,6 +190,7 @@ public class HttpGetThread implements Runnable {
 			}
 			
 			break;
+			
 		case GET_ALL_STUDENTS:
 			try {
 				jsonObj = new JSONObject(resultMsg);
@@ -210,6 +224,44 @@ public class HttpGetThread implements Runnable {
 						+count
 						+",\"total\":"
 						+_db.getStudentCount()
+						+"}";
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+			break;
+			
+		case GET_ORDER_STUDENT:
+			try {
+				jsonObj = new JSONObject(resultMsg);
+				JSONArray jsonArray = new JSONArray(jsonObj.getString("reserveRecord"));
+				List<Order> orderList = new ArrayList<Order>();
+				int count = jsonArray.length();
+				
+				for (int i=0; i<count; i++)
+				{
+					JSONObject e = jsonArray.getJSONObject(i);
+					Order o = new Order(e.getString("id"),
+								 		e.getString("xm"),
+								 		e.getString("sfzh"),
+								 		Status.orderStatusToString(e.getString("jd")),
+								 		Status.orderOrderTypeToString(e.getString("yylx")),
+								 		e.getString("kscx"),
+								 		e.getString("yksj"),
+								 		e.getString("kcmc"),
+								 		e.getString("tjsj"),
+								 		Status.orderStatusToString(e.getInt("zt")),
+								 		e.getString("shyy"));
+					
+					orderList.add(o);
+				}
+				_db.insertOrder(orderList);
+				
+				resultMsg="{\"offset\":"
+						+mArg1
+						+",\"count\":"
+						+count
+						+",\"total\":"
+						+_db.getOrderCount()
 						+"}";
 			} catch (JSONException e) {
 				e.printStackTrace();
@@ -280,6 +332,16 @@ public class HttpGetThread implements Runnable {
 				e.printStackTrace();
 			}
 			break;
+			
+		case GET_ALL_ORDER_NUM:
+			try {
+				jsonObj = new JSONObject(resultMsg);
+				_db.setOrderCount(jsonObj.getLong("reserveRecordAll"));
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+			break;
+			
 			
 		default:
 			break;

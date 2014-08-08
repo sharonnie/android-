@@ -13,10 +13,21 @@ public class Database {
 	private static final String CAR_TABLE_NAME = "cars";
 	private static final String COACH_TABLE_NAME = "coachs";
 	private static final String STUDENT_TABLE_NAME = "students";
+	private static final String ORDER_TABLE_NAME = "orders";
 	
 	long carCount = 0;
 	long studentCount = 0;
 	long coachCount = 0;
+	long orderCount = 0;
+	
+	public long getOrderCount() {
+		return orderCount;
+	}
+
+	public void setOrderCount(long orderCount) {
+		this.orderCount = orderCount;
+	}
+
 	SQLiteDatabase db = null;
 	Context ctx;
 	
@@ -51,6 +62,7 @@ public class Database {
 		createCarTable();
 		createCoachTable();
 		createStudentTable();
+		createOrderTable();
 	}
 	
 	public void close(){
@@ -59,13 +71,6 @@ public class Database {
 			db.close();
 			db = null;
 		}		
-	}
-	
-	public int getCarTableRows() {
-		int num = 0;
-		Cursor cursor = db.query(CAR_TABLE_NAME, new String[]{"id"}, null, null, null, null, null);
-		num = cursor.getCount();
-		return num;
 	}
 	
 	private void createCarTable() {
@@ -124,6 +129,25 @@ public class Database {
         		"cityDivision VARCHAR(64), " +
         		"sqcx VARCHAR(64), " +
         		"sqcxmc VARCHAR(64))");  
+        		
+    }
+	
+	private void createOrderTable() {
+		db.execSQL("DROP TABLE IF EXISTS " + ORDER_TABLE_NAME);  
+		
+		db.execSQL("CREATE TABLE IF NOT EXISTS " +
+				ORDER_TABLE_NAME +
+        		" (id VARCHAR(64) PRIMARY KEY, " +
+        		"name VARCHAR(64), " +
+        		"identity VARCHAR(64), " +
+        		"stage VARCHAR(64), " +
+        		"type VARCHAR(64), " +
+        		"sqcx VARCHAR(64), " +
+        		"examDate VARCHAR(64), " +
+        		"examLocation VARCHAR(64), " +
+        		"commitDate VARCHAR(64), " +
+        		"status VARCHAR(64), " +
+        		"reason VARCHAR(64))");  
         		
     }
 	
@@ -249,6 +273,45 @@ public class Database {
 		return list;
 	}
 	
+	public List<Order> getOrders(int offset, int limit) 
+	{
+			
+		List<Order> list = new ArrayList<Order>();
+		
+		if (offset < orderCount && limit > 0)
+		{
+			Cursor cursor = db.query(ORDER_TABLE_NAME, 
+									 null, 
+									 null, 
+									 null, 
+									 null, 
+									 null, 
+									 null, 
+									 offset + "," + limit);		
+			
+			while (cursor.moveToNext())
+			{
+				Order o = new Order(cursor.getString(cursor.getColumnIndex("id")),
+						cursor.getString(cursor.getColumnIndex("name")),
+						cursor.getString(cursor.getColumnIndex("identity")),
+						cursor.getString(cursor.getColumnIndex("stage")),
+						cursor.getString(cursor.getColumnIndex("type")),
+						cursor.getString(cursor.getColumnIndex("sqcx")),
+						cursor.getString(cursor.getColumnIndex("examDate")),
+						cursor.getString(cursor.getColumnIndex("examLocation")),
+						cursor.getString(cursor.getColumnIndex("commitDate")),
+						cursor.getString(cursor.getColumnIndex("status")),
+						cursor.getString(cursor.getColumnIndex("reason")));
+				
+				list.add(o);
+			}
+			
+			cursor.close();
+		}
+		
+		return list;
+	}
+	
 	public List<Car> queryCars(String having, int offset, int limit) 
 	{
 		List<Car> list = new ArrayList<Car>();
@@ -359,6 +422,40 @@ public class Database {
 		return list;
 	}
 	
+	public List<Order> queryOrders(String having, int offset, int limit) {
+		List<Order> list = new ArrayList<Order>();
+		
+		Cursor cursor = db.query(ORDER_TABLE_NAME, 
+				                 null, 
+				                 "name LIKE upper('"+having+"%') or examDate LIKE upper('%"+having+"%')", 
+				                 null,
+				                 null, 
+				                 null, 
+				                 null, 
+				                 offset + "," + limit);	
+		
+		while (cursor.moveToNext())
+		{
+			Order o = new Order(cursor.getString(cursor.getColumnIndex("id")),
+					cursor.getString(cursor.getColumnIndex("name")),
+					cursor.getString(cursor.getColumnIndex("identity")),
+					cursor.getString(cursor.getColumnIndex("stage")),
+					cursor.getString(cursor.getColumnIndex("type")),
+					cursor.getString(cursor.getColumnIndex("sqcx")),
+					cursor.getString(cursor.getColumnIndex("examDate")),
+					cursor.getString(cursor.getColumnIndex("examLocation")),
+					cursor.getString(cursor.getColumnIndex("commitDate")),
+					cursor.getString(cursor.getColumnIndex("status")),
+					cursor.getString(cursor.getColumnIndex("reason")));
+			
+			list.add(o);
+		}
+		
+		cursor.close();
+		
+		return list;
+	}
+	
 	public void insertCars(List<Car> carList) {
 		db.beginTransaction();
 		try {
@@ -439,6 +536,33 @@ public class Database {
 				values.put("jxmc", s.jxmc);
 		
 				db.insert(STUDENT_TABLE_NAME, null, values);
+			}
+		} finally {
+			db.setTransactionSuccessful();
+			db.endTransaction();
+		}
+	}
+	
+	public void insertOrder(List<Order> orderList) {
+		db.beginTransaction();
+		try {
+				
+			for (Order o : orderList)
+			{
+				ContentValues values = new ContentValues();
+				values.put("id", o.id);
+				values.put("name", o.name);
+				values.put("identity", o.identity);
+				values.put("stage", o.stage);
+				values.put("type", o.type);
+				values.put("sqcx", o.sqcx);
+				values.put("examDate", o.examDate);
+				values.put("examLocation", o.examLocation);
+				values.put("commitDate", o.commitDate);
+				values.put("status", o.status);
+				values.put("reason", o.reason);
+		
+				db.insert(ORDER_TABLE_NAME, null, values);
 			}
 		} finally {
 			db.setTransactionSuccessful();

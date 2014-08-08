@@ -82,4 +82,22 @@ public class MobileUrls {
 	{
 		return ip + BaseUrls.historyTrace(deviceNo, limit);
 	}
+	
+	public static String orderInfo(String deviceNo,
+		  	  String limit)
+	{
+		return ip + BaseUrls.orderInfo(deviceNo, limit);
+	}
+	
+	public static String orderedStudent(String orgId,
+		  	  							String start,
+		  	  							String limit)
+	{
+		return ip + BaseUrls.orderedStudent(orgId, start, limit);
+	}
+	
+	public static String orderNum(String orgId)
+	{
+	return ip + BaseUrls.orderNum(orgId);
+	}
 }

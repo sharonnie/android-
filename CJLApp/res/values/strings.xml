@@ -26,9 +26,11 @@
     <string name="valid">有效</string>
     <string name="partial_valid">部分有效</string>
     <string name="invalid">无效</string>
-    <string name="meter">里程</string>
-    <string name="timespan">时长</string>
-    <string name="average_speed">平均速度</string>
+    <string name="meter">里程:</string>
+    <string name="timespan">时长:</string>
+    <string name="average_speed">平均速度:</string>
+    <string name="coach_colon">助理考试员:</string>
     <string name="title_activity_car_location">车辆位置</string>
+    <string name="title_activity_order_detail">OrderDetailActivity</string>
 
 </resources>

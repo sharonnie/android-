@@ -5,20 +5,29 @@
     android:focusableInTouchMode="true"
     android:focusable="true"
     android:background="#EFEEE8">
-
-	<EditText
-	    android:id="@+id/searchCar"
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
-	    android:singleLine="true"
-	    android:hint="@string/search">
-	</EditText>
+    <LinearLayout 
+        android:id="@+id/searchLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/search_input"
+        android:orientation="horizontal">
+        
+        <EditText
+		    android:id="@+id/searchCar"
+		    android:layout_width="0dp"
+		    android:layout_height="wrap_content"
+		    android:singleLine="true"
+		    android:layout_weight="1"
+		    android:hint="@string/search">
+		</EditText>
+    </LinearLayout>
+	
 	
     <com.zw.cjl.view.CarListView
         android:id="@+id/car_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/searchCar"
+        android:layout_below="@+id/searchLayout"
         android:background="#EFEEE8"
         android:orientation="vertical" >
     </com.zw.cjl.view.CarListView>

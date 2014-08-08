@@ -7,11 +7,11 @@
 
     <TextView
         android:id="@+id/selfInfoName"
-        android:layout_marginLeft="10dip"
+        android:layout_marginLeft="20dip"
         android:textColor="@color/black"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:layout_gravity="center"
         android:layout_weight="3" />
 
@@ -20,8 +20,9 @@
         android:textColor="@color/black"
         android:layout_width="0dp"
         android:layout_height="wrap_content" 
+        android:singleLine="true"
         android:textSize="20sp"
         android:layout_gravity="center"
-        android:layout_weight="8" />
+        android:layout_weight="7" />
 
 </LinearLayout>

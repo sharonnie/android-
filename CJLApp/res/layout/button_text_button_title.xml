@@ -9,6 +9,7 @@
 	    android:layout_width="50dip"
 	    android:layout_height="fill_parent"
 	    android:layout_alignParentLeft="true"
+	    android:src="@drawable/back"
 	    android:gravity="center"
 	    android:contentDescription="@string/hello_world"
 	    android:background="@color/welcome_blue"/>
@@ -29,6 +30,7 @@
         android:id="@+id/rightImageButton"
 	    android:layout_width="50dip"
 	    android:layout_height="fill_parent"
+	    android:layout_marginRight="10dp"
 	    android:layout_alignParentRight="true"
 	    android:gravity="center"
 	    android:contentDescription="@string/hello_world"

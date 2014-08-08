@@ -33,16 +33,19 @@ import android.widget.Toast;
 import com.zw.cjl.adapter.CarListAdapter;
 import com.zw.cjl.adapter.CoachListAdapter;
 import com.zw.cjl.adapter.CustomPageAdapter;
+import com.zw.cjl.adapter.OrderListAdapter;
 import com.zw.cjl.adapter.StudentListAdapter;
 import com.zw.cjl.dto.Car;
 import com.zw.cjl.dto.Coach;
 import com.zw.cjl.dto.Database;
+import com.zw.cjl.dto.Order;
 import com.zw.cjl.dto.Student;
 import com.zw.cjl.network.HttpGetType;
 import com.zw.cjl.pager.CustomViewPager;
 import com.zw.cjl.thread.HttpGetThread;
 import com.zw.cjl.watcher.CarTextWatcher;
 import com.zw.cjl.watcher.CoachTextWatcher;
+import com.zw.cjl.watcher.OrderTextWatcher;
 import com.zw.cjl.watcher.StudentTextWatcher;
 
 // TODO: 将人员页面放到一个新的ViewAdapter里面
@@ -75,6 +78,7 @@ public class MainActivity extends Activity implements OnScrollListener{
     EditText searchCar = null;
     EditText searchStudent = null;
     EditText searchCoach = null;
+    EditText searchOrder = null;
     
     String orgId = null;
 
@@ -232,6 +236,52 @@ public class MainActivity extends Activity implements OnScrollListener{
     	}
 	};
 	
+	private Handler getAllOrderResultHandler = new Handler() 
+	{
+    	public void handleMessage(Message msg) {
+    		String resultMsg = msg.getData().getString("resultMsg");
+    		boolean hasError = msg.getData().getBoolean("hasError");
+    		
+    		if(hasError) {
+    			if (progressDlg.isShowing())
+        		{
+        			progressDlg.dismiss();
+        		}
+    			
+    			Toast.makeText(getApplicationContext(), resultMsg, Toast.LENGTH_SHORT).show();
+    		} else {
+    			try {
+					JSONObject j = new JSONObject(resultMsg);
+
+					long offset = j.getLong("offset");
+					long count = j.getLong("count");
+					long total = j.getLong("total");
+					long newOffset = offset + count;
+					
+					if (0 == offset)
+					{
+						// 首次读取时初始化列表
+						initOrderList();
+					}
+					
+					if (newOffset < total)
+					{
+						// 后台继续获取所有预约
+				        Thread getAllOrder = 
+				        		new Thread(new HttpGetThread(HttpGetType.GET_ORDER_STUDENT, 
+				        									 getAllOrderResultHandler,
+				        								     db,
+				        								     orgId,
+				        								     "" + newOffset));  
+				        getAllOrder.start();
+					}
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+    		}
+    	}
+	};
+	
 	private Handler getAllCoachsResultHandler = new Handler() 
 	{
     	public void handleMessage(Message msg) {
@@ -296,7 +346,7 @@ public class MainActivity extends Activity implements OnScrollListener{
 					JSONObject e = new JSONObject(resultMsg);
 					String carNum = e.getString("carAll");
 					searchCar = (EditText)findViewById(R.id.searchCar);
-					searchCar.setHint("在["+carNum+"]条数据中搜索");
+					searchCar.setHint(carNum+"条数据，您可以按[车牌]或[姓名]搜索");
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
@@ -330,7 +380,7 @@ public class MainActivity extends Activity implements OnScrollListener{
 					JSONObject e = new JSONObject(resultMsg);
 					String studentNum = e.getString("studentAll");
 					searchStudent = (EditText)findViewById(R.id.searchStudent);
-					searchStudent.setHint("在["+studentNum+"]条数据中搜索");
+					searchStudent.setHint(studentNum+"条数据，您可以按[姓名]或[手机]搜索");
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
@@ -343,6 +393,40 @@ public class MainActivity extends Activity implements OnScrollListener{
 		        								     orgId,
 		        								     "0"));  
 		        getAllStudents.start();
+    		}
+    	}
+	};
+	
+	private Handler getAllOrderNumResultHandler = new Handler() 
+	{
+    	public void handleMessage(Message msg) {
+    		String resultMsg = msg.getData().getString("resultMsg");
+    		boolean hasError = msg.getData().getBoolean("hasError");
+ 
+    		if(hasError) {
+    			if (progressDlg.isShowing())
+        		{
+        			progressDlg.dismiss();
+        		}
+    			Toast.makeText(getApplicationContext(), resultMsg, Toast.LENGTH_SHORT).show();
+    		} else {
+    			try {
+					JSONObject e = new JSONObject(resultMsg);
+					String orderNum = e.getString("reserveRecordAll");
+					searchOrder = (EditText)findViewById(R.id.searchOrder);
+					searchOrder.setHint(orderNum+"条数据 您可以按[姓名]搜索");
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+				// 获取所有助理考试员
+    			
+		        Thread getAllOrders = 
+		        		new Thread(new HttpGetThread(HttpGetType.GET_ORDER_STUDENT, 
+		        									 getAllOrderResultHandler,
+		        								     db,
+		        								     orgId,
+		        								     "0"));  
+		        getAllOrders.start();
     		}
     	}
 	};
@@ -364,7 +448,7 @@ public class MainActivity extends Activity implements OnScrollListener{
 					JSONObject e = new JSONObject(resultMsg);
 					String coachNum = e.getString("coachAll");
 					searchCoach = (EditText)findViewById(R.id.searchCoach);
-					searchCoach.setHint("在["+coachNum+"]条数据中搜索");
+					searchCoach.setHint(coachNum+"条数据，您可以按[姓名]或[手机]搜索");
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
@@ -450,6 +534,15 @@ public class MainActivity extends Activity implements OnScrollListener{
         								     orgId,
         								     null));  
         getCoachNum.start();
+        
+        // 获取预约总数
+        Thread getOrderNum = 
+        		new Thread(new HttpGetThread(HttpGetType.GET_ALL_ORDER_NUM, 
+        									 getAllOrderNumResultHandler,
+        								     db,
+        								     orgId,
+        								     null));  
+        getOrderNum.start();
 	}
 	
 	private void initCarList() {
@@ -499,6 +592,61 @@ public class MainActivity extends Activity implements OnScrollListener{
 	    });
 	}
 	
+	private void initOrderList() {
+		ListView orderList = (ListView)findViewById(R.id.order_list);
+		OrderListAdapter orderListAdapter = new OrderListAdapter(this, db);
+		orderList.setAdapter(orderListAdapter);
+		orderList.setOnScrollListener(new AbsListView.OnScrollListener() {
+
+			@Override
+			public void onScrollStateChanged(AbsListView view, int scrollState) {
+				
+			}
+
+			@Override
+			public void onScroll(AbsListView view, int firstVisibleItem,
+					int visibleItemCount, int totalItemCount) {
+				if (0 == searchOrder.getText().length())
+				{
+					if (firstVisibleItem + visibleItemCount == totalItemCount)
+					{
+						OrderListAdapter adapter = (OrderListAdapter)view.getAdapter();
+						adapter.loadNewItems();
+					}
+				}
+			} 
+			
+		});
+		
+		EditText searchCar = (EditText)findViewById(R.id.searchOrder);
+	    searchCar.addTextChangedListener(new OrderTextWatcher(orderListAdapter));
+	    
+	    orderList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View view,
+					int position, long id) {
+				OrderListAdapter adapter = (OrderListAdapter)arg0.getAdapter();
+				List<Order> orderlist = adapter.getmOrderList();
+				Order order = orderlist.get(position);
+				
+				Intent intent=new Intent();
+				intent.setClass(getApplicationContext(), OrderDetailActivity.class);
+				intent.putExtra("name", order.name);
+				intent.putExtra("identity", order.identity);
+				intent.putExtra("stage", order.stage);
+				intent.putExtra("type", order.type);
+				intent.putExtra("sqcx", order.sqcx);
+				intent.putExtra("examDate", order.examDate);
+				intent.putExtra("examLocation", order.examLocation);
+				intent.putExtra("commitDate", order.commitDate);
+				intent.putExtra("status", order.status);
+				intent.putExtra("reason", order.reason);
+				startActivity(intent);
+				
+			}
+	    });
+	}
+	
 	private void initCoachList() {
 		ListView coachList = (ListView)findViewById(R.id.coach_list);
 		CoachListAdapter coachListAdapter = new CoachListAdapter(this, db);
@@ -539,6 +687,7 @@ public class MainActivity extends Activity implements OnScrollListener{
 				Intent intent=new Intent();
 				intent.setClass(getApplicationContext(), CoachDetailActivity.class);
 				intent.putExtra("xm", coach.xm);
+				intent.putExtra("jxid", coach.jxid);
 				intent.putExtra("identity", coach.sfzmhm);
 				intent.putExtra("sjhm", coach.sjhm);
 				intent.putExtra("cphm", coach.cphm);
