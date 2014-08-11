@@ -60,7 +60,7 @@
         android:layout_alignRight="@+id/password"
         android:layout_below="@+id/password"
         android:text="@string/remember_password"
-        android:textColor="@color/gray" />
+        android:textColor="@color/white" />
     
     <Button
         android:id="@+id/loginButton"
