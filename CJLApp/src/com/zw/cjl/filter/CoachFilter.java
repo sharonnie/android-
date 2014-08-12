@@ -27,7 +27,7 @@ public class CoachFilter extends Filter {
             results.values = mCoachList;
         	results.count = mCoachList.size();
         } else {  
-        	List<Coach> list = _db.queryCoachs(constraint.toString(), 0, 100);
+        	List<Coach> list = _db.queryCoachs(constraint.toString(), 0, 1000);
         	
         	results.values = list;
         	results.count = list.size();

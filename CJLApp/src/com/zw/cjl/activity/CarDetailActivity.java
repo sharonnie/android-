@@ -167,4 +167,10 @@ public class CarDetailActivity extends Activity {
 			e.printStackTrace();
 		}
 	}
+	
+	@Override
+	public void finish() {
+		super.finish();
+		overridePendingTransition(R.anim.left_in, R.anim.right_out);
+	}
 }

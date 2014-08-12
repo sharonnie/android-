@@ -10,9 +10,9 @@ import com.zw.cjl.dto.Student;
 
 public class StudentFilter extends Filter {
 
-	private StudentListAdapter mAdapter;
 	private List<Student> mStudentList = null;
 	private Database _db = null;
+	private StudentListAdapter mAdapter;
 
 	public StudentFilter(StudentListAdapter adapter, List<Student> list, Database db) {
 		mAdapter = adapter;
@@ -26,8 +26,8 @@ public class StudentFilter extends Filter {
         if (constraint == null || constraint.length() == 0) {  
             results.values = mStudentList;
         	results.count = mStudentList.size();
-        } else {  
-        	List<Student> list = _db.queryStudents(constraint.toString(), 0, 100);
+        } else {
+        	List<Student> list = _db.queryStudents(constraint.toString(), 0, 1000);
         	
         	results.values = list;
         	results.count = list.size();

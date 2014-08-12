@@ -24,6 +24,7 @@ import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -68,10 +69,21 @@ public class MainActivity extends Activity implements OnScrollListener{
 	LinearLayout mainTitleLayout = null;
 	Database db = null;
 	
-	TextView cars = null;
-    TextView personal = null;
-    TextView orders = null;
-    TextView my_center = null;
+	LinearLayout cars = null;
+	LinearLayout personal = null;
+	LinearLayout orders = null;
+	LinearLayout my_center = null;
+	
+	ImageView car_image = null;
+	ImageView personal_image = null;
+	ImageView order_image = null;
+	ImageView info_center_image = null;
+	
+	TextView car_text = null;
+	TextView personal_text = null;
+	TextView order_text = null;
+	TextView info_center_text = null;
+	
     TextView tvLeftTitle = null;
     TextView tvRightTitle = null;
     
@@ -588,6 +600,7 @@ public class MainActivity extends Activity implements OnScrollListener{
 				intent.putExtra("jxid", car._schoolId);
 				intent.putExtra("carNo", car._carNo.substring(1, 6));
 				startActivity(intent);	
+				overridePendingTransition(R.anim.right_in, R.anim.left_out);
 			}
 	    });
 	}
@@ -642,7 +655,7 @@ public class MainActivity extends Activity implements OnScrollListener{
 				intent.putExtra("status", order.status);
 				intent.putExtra("reason", order.reason);
 				startActivity(intent);
-				
+				overridePendingTransition(R.anim.right_in, R.anim.left_out);
 			}
 	    });
 	}
@@ -693,6 +706,7 @@ public class MainActivity extends Activity implements OnScrollListener{
 				intent.putExtra("cphm", coach.cphm);
 				intent.putExtra("xysl", coach.xysl);
 				startActivity(intent);	
+				overridePendingTransition(R.anim.right_in, R.anim.left_out);
 			}
 	    });
 	}
@@ -738,7 +752,8 @@ public class MainActivity extends Activity implements OnScrollListener{
 				intent.setClass(getApplicationContext(), StudentDetailActivity.class);
 				intent.putExtra("identity", student.sfzmhm);
 				intent.putExtra("cityDivision", student.cityDivision);
-				startActivity(intent);	
+				startActivity(intent);
+				overridePendingTransition(R.anim.right_in, R.anim.left_out);
 			}
 	    });
 	}
@@ -759,10 +774,21 @@ public class MainActivity extends Activity implements OnScrollListener{
         // TODO: 优化后台页面数量
         mainViewPager.setOffscreenPageLimit(4);
         
-        cars = (TextView) findViewById(R.id.cars);
-        personal = (TextView) findViewById(R.id.personal);
-        orders = (TextView) findViewById(R.id.orders);
-        my_center = (TextView) findViewById(R.id.my_center);
+        cars = (LinearLayout)findViewById(R.id.cars);
+        personal = (LinearLayout)findViewById(R.id.personal);
+        orders = (LinearLayout)findViewById(R.id.orders);
+        my_center = (LinearLayout)findViewById(R.id.my_center);
+        
+        car_image = (ImageView)findViewById(R.id.cars_image);
+        personal_image = (ImageView)findViewById(R.id.personal_image);
+        order_image = (ImageView)findViewById(R.id.orders_image);
+        info_center_image = (ImageView)findViewById(R.id.my_center_image);
+        
+        car_text = (TextView)findViewById(R.id.cars_text);
+        personal_text = (TextView)findViewById(R.id.personal_text);
+        order_text = (TextView)findViewById(R.id.orders_text);
+        info_center_text = (TextView)findViewById(R.id.my_center_text);
+        
         tvLeftTitle = (TextView)findViewById(R.id.leftTitle);
         tvRightTitle = (TextView)findViewById(R.id.rightTitle);
         
@@ -784,6 +810,7 @@ public class MainActivity extends Activity implements OnScrollListener{
 		
 		@Override
 		public void onClick(View v) {
+			
 			switch (index)
 			{
 			case 0:
@@ -793,8 +820,8 @@ public class MainActivity extends Activity implements OnScrollListener{
 				
 				setTabsUnselected();
 				
-				cars.setBackgroundResource(R.drawable.tab_select);
-				cars.setTextColor(getResources().getColor(R.color.welcome_blue));
+				car_image.setBackgroundResource(R.drawable.car_select);
+				car_text.setTextColor(getResources().getColor(R.color.welcome_blue));
 				break;
 			case 1:
 				mainTitleLayout.setVisibility(View.VISIBLE);
@@ -802,8 +829,8 @@ public class MainActivity extends Activity implements OnScrollListener{
 				
 				setTabsUnselected();
 				
-				personal.setBackgroundResource(R.drawable.tab_select);
-				personal.setTextColor(getResources().getColor(R.color.welcome_blue));
+				personal_image.setBackgroundResource(R.drawable.personal_select);
+				personal_text.setTextColor(getResources().getColor(R.color.welcome_blue));
 				
 				tvLeftTitle.setBackgroundResource(R.drawable.tab_select);
 				tvLeftTitle.setTextColor(getResources().getColor(R.color.welcome_blue));
@@ -815,8 +842,8 @@ public class MainActivity extends Activity implements OnScrollListener{
 				
 				setTabsUnselected();
 				
-				personal.setBackgroundResource(R.drawable.tab_select);
-				personal.setTextColor(getResources().getColor(R.color.welcome_blue));
+				personal_image.setBackgroundResource(R.drawable.personal_select);
+				personal_text.setTextColor(getResources().getColor(R.color.welcome_blue));
 				
 				tvRightTitle.setBackgroundResource(R.drawable.tab_select);
 				tvRightTitle.setTextColor(getResources().getColor(R.color.welcome_blue));
@@ -829,8 +856,8 @@ public class MainActivity extends Activity implements OnScrollListener{
 				
 				setTabsUnselected();
 				
-				orders.setBackgroundResource(R.drawable.tab_select);
-				orders.setTextColor(getResources().getColor(R.color.welcome_blue));
+				order_image.setBackgroundResource(R.drawable.order_select);
+				order_text.setTextColor(getResources().getColor(R.color.welcome_blue));
 				
 				break;
 			case 4:
@@ -839,8 +866,8 @@ public class MainActivity extends Activity implements OnScrollListener{
 				tvMainTitle.setText(R.string.my_center);
 				setTabsUnselected();
 				
-				my_center.setBackgroundResource(R.drawable.tab_select);
-				my_center.setTextColor(getResources().getColor(R.color.welcome_blue));
+				info_center_image.setBackgroundResource(R.drawable.info_center_select);
+				info_center_text.setTextColor(getResources().getColor(R.color.welcome_blue));
 				
 				break;
 			}
@@ -851,23 +878,24 @@ public class MainActivity extends Activity implements OnScrollListener{
 	
 	private void setTabsUnselected()
 	{
-		cars.setBackgroundResource(R.drawable.tab_unselect);
-		cars.setTextColor(getResources().getColor(R.color.white));
+		car_image.setBackgroundResource(R.drawable.car_unselect);
+		car_text.setTextColor(getResources().getColor(R.color.text_gray));
 		
-		personal.setBackgroundResource(R.drawable.tab_unselect);
-		personal.setTextColor(getResources().getColor(R.color.white));
+		personal_image.setBackgroundResource(R.drawable.personal_unselect);
+		personal_text.setTextColor(getResources().getColor(R.color.text_gray));
 		
-		orders.setBackgroundResource(R.drawable.tab_unselect);
-		orders.setTextColor(getResources().getColor(R.color.white));
+		order_image.setBackgroundResource(R.drawable.order_unselect);
+		order_text.setTextColor(getResources().getColor(R.color.text_gray));
 		
-		my_center.setBackgroundResource(R.drawable.tab_unselect);
-		my_center.setTextColor(getResources().getColor(R.color.white));
+		info_center_image.setBackgroundResource(R.drawable.info_center_unselect);
+		info_center_text.setTextColor(getResources().getColor(R.color.text_gray));
 		
 		tvLeftTitle.setBackgroundResource(R.drawable.tab_unselect);
 		tvLeftTitle.setTextColor(getResources().getColor(R.color.white));
 		
 		tvRightTitle.setBackgroundResource(R.drawable.tab_unselect);
 		tvRightTitle.setTextColor(getResources().getColor(R.color.white));
+		
 	}
 	
 	// 实现连按两次退出当前应用

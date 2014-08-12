@@ -3,6 +3,7 @@ package com.zw.cjl.activity;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -40,7 +41,20 @@ public class LoginActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
+				
 		getViews();
+		
+		//Context context = getWindow().getContext();        
+
+		//TelephonyManager tm = 
+		//		(TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);    
+		
+		//String IMEI = tm.getDeviceId();
+		//String s1 = tm.getSimSerialNumber();
+		//String s2 = tm.getLine1Number();
+		//String s = "111";
+		//byte[] b = s.getBytes();
+		//char[] c = Base64.encode(b);
 		
 		Intent intent = getIntent();
 		userType = intent.getStringExtra("userType");
@@ -99,6 +113,12 @@ public class LoginActivity extends Activity {
 		});
 	}
 	
+	public void onClickNetworkTest(View v) {
+		Intent intent = new Intent();
+		intent.setClass(getApplicationContext(), NetworkTestActivity.class);
+		startActivity(intent);
+	}
+	
 	//响应点击登录
 	public void onClickLogin(View v) {
 		// 保存密码
@@ -117,6 +137,9 @@ public class LoginActivity extends Activity {
     	@Override
     	public void run() {
     		String result = null;
+    		
+    		//strUsername = Security.strEncode(strUsername);
+    		//strPassword = Security.strEncode(strPassword);
     		
     		// 助理考试员登录
     		if (userType.equals("1"))
@@ -218,6 +241,7 @@ public class LoginActivity extends Activity {
 	}
 	
 	// 处理结果
+	@SuppressLint("HandlerLeak")
 	private Handler loginResultHandler = new Handler() {
     	public void handleMessage(Message msg) {
     		String resultMsg = msg.getData().getString("resultMsg");

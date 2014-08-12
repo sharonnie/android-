@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="test_network">测试网络</string>
     <string name="app_name">长距离系统</string>
     <string name="hello_world">Hello world!</string>
     <string name="copyright">云南省公安厅交通警察总队©</string>
@@ -30,7 +31,14 @@
     <string name="timespan">时长:</string>
     <string name="average_speed">平均速度:</string>
     <string name="coach_colon">助理考试员:</string>
-    <string name="title_activity_car_location">车辆位置</string>
-    <string name="title_activity_order_detail">OrderDetailActivity</string>
+    <string name="title_activity_network_test">网络测试</string>
+    <string name="title">长距离服务器访问测试</string>
+    <string name="nsTest">域名访问测试</string>
+    <string name="cmTest">移动网络访问测试</string>
+    <string name="ctTest">电信网络访问测试</string>
+    <string name="nsTestResult"/>
+    <string name="cmTestResult"/>
+    <string name="ctTestResult"/>
+    <string name="buttonText">开始测试</string>
 
 </resources>
