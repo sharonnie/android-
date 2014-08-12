@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="100dip"
+    android:background="#EFEEE8"
+    android:orientation="vertical" >
+
+    <LinearLayout 
+        android:layout_width="match_parent"
+	    android:layout_height="25dip"
+	    android:background="#EFEEE8"
+	    android:orientation="horizontal" >
+	    
+	    <TextView
+	        android:layout_marginLeft="10dip"
+	        android:textColor="@color/black"
+	        android:layout_width="wrap_content"
+	        android:layout_height="match_parent"
+	        android:textSize="20sp"
+	        android:text="@string/meter"
+	        android:layout_gravity="center"
+	        android:gravity="center_vertical" />
+	
+	    <TextView
+	        android:id="@+id/licheng"
+	        android:textColor="@color/black"
+	        android:layout_width="0dp"
+	        android:layout_height="match_parent" 
+	        android:layout_marginLeft="5dp"
+	        android:textSize="20sp"
+	        android:layout_gravity="center"
+	        android:gravity="center_vertical"
+	        android:layout_weight="5" />
+	    
+	    <TextView
+	        android:textColor="@color/black"
+	        android:layout_width="wrap_content"
+	        android:layout_height="match_parent" 
+	        android:text="@string/timespan"
+	        android:textSize="20sp"
+	        android:layout_gravity="center"
+	        android:gravity="center_vertical" />
+	    
+	    <TextView
+	        android:id="@+id/shichang"
+	        android:textColor="@color/black"
+	        android:layout_width="0dp"
+	        android:layout_height="match_parent" 
+	        android:layout_marginLeft="5dp"
+	        android:textSize="20sp"
+	        android:layout_gravity="center"
+	        android:gravity="center_vertical"
+	        android:layout_weight="5" />
+	    
+	</LinearLayout>
+	
+    <LinearLayout 
+        android:layout_width="match_parent"
+	    android:layout_height="25dip"
+	    android:background="#EFEEE8"
+	    android:orientation="horizontal" >
+	    <TextView
+	        android:layout_marginLeft="10dip"
+	        android:textColor="@color/gray"
+	        android:layout_width="wrap_content"
+	        android:layout_height="match_parent"
+	        android:textSize="18sp"
+	        android:text="@string/coach_colon"
+	        android:layout_gravity="center"
+	        android:gravity="center_vertical" />
+	
+	    <TextView
+	        android:id="@+id/zhulikaoshiyuan"
+	        android:textColor="@color/gray"
+	        android:layout_width="0dp"
+	        android:layout_height="match_parent" 
+	        android:layout_marginLeft="5dp"
+	        android:textSize="18sp"
+	        android:layout_gravity="center"
+	        android:gravity="center_vertical"
+	        android:layout_weight="2" />
+	</LinearLayout>
+
+    <LinearLayout 
+        android:layout_width="match_parent"
+	    android:layout_height="25dip"
+	    android:background="#EFEEE8"
+	    android:orientation="horizontal" >
+	    <TextView
+	        android:layout_marginLeft="10dip"
+	        android:textColor="@color/gray"
+	        android:layout_width="wrap_content"
+	        android:layout_height="match_parent"
+	        android:textSize="18sp"
+	        android:layout_gravity="center"
+	        android:gravity="center_vertical"
+	        android:text="@string/average_speed" />
+	
+	    <TextView
+	        android:id="@+id/pingjunsudu"
+	        android:textColor="@color/gray"
+	        android:layout_width="0dp"
+	        android:layout_height="match_parent" 
+	        android:textSize="18sp"
+	        android:layout_marginLeft="5dp"
+	        android:layout_gravity="center"
+	        android:gravity="center_vertical"
+	        android:layout_weight="2" />
+	</LinearLayout>
+	
+    <LinearLayout 
+        android:layout_width="match_parent"
+	    android:layout_height="25dip"
+	    android:background="#EFEEE8"
+	    android:orientation="horizontal" >
+	    <TextView
+	        android:id="@+id/kaishiriqi"
+	        android:layout_marginLeft="11dip"
+	        android:textColor="@color/gray"
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent" 
+	        android:textSize="16sp"
+	        android:layout_gravity="center"
+	        android:gravity="center_vertical" />
+	</LinearLayout>
+</LinearLayout>

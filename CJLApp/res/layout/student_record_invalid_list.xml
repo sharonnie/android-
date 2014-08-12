@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusableInTouchMode="true"
+    android:focusable="true"
+    android:background="#EFEEE8">
+
+    <ListView
+        android:id="@+id/student_record_invalid_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#EFEEE8"
+        android:orientation="vertical" >
+    </ListView>
+    
+</RelativeLayout>

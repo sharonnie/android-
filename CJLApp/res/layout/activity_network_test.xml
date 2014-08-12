@@ -1,0 +1,156 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#EFEEE8"
+    tools:context="${relativePackage}.${activityClass}" >
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+		android:layout_marginLeft="30dp"
+		android:layout_marginRight="30dp"
+        android:layout_marginTop="50dp"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:textColor="@color/welcome_blue"
+        android:text="@string/title" />
+    
+    <CheckBox
+        android:id="@+id/cb_nstest"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title"
+        android:layout_alignLeft="@id/title"
+        android:layout_alignRight="@id/title"
+        android:layout_marginTop="30dp"
+        android:textColor="@color/black"
+        android:text="@string/nsTest" />
+    
+    <TextView
+        android:id="@+id/tv_nstest"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/cb_nstest"
+        android:layout_alignLeft="@id/title"
+        android:layout_alignRight="@id/title"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/black"
+        android:text="@string/nsTestResult" />
+    
+    <TextView
+        android:id="@+id/tv_nstest_result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@id/tv_nstest"
+        android:layout_alignBottom="@id/tv_nstest"
+        android:textSize="18sp"
+        android:textColor="@color/black"
+        android:text="@string/nsTestResult" />
+    
+    <ProgressBar
+        android:id="@+id/pb_nstest"
+        style="?android:attr/progressBarStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/cb_nstest"
+   		android:layout_alignTop="@+id/tv_nstest" />
+    
+    <CheckBox
+        android:id="@+id/cb_cmtest"
+        android:layout_below="@id/tv_nstest"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/title"
+        android:layout_alignRight="@id/title"
+        android:layout_marginTop="15dp"
+        android:textColor="@color/black"
+        android:text="@string/cmTest" />
+    
+    <TextView
+        android:id="@+id/tv_cmtest"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/cb_cmtest"
+        android:layout_alignLeft="@id/title"
+        android:layout_alignRight="@id/title"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/black"
+        android:text="@string/cmTestResult" />
+    
+    <TextView
+        android:id="@+id/tv_cmtest_result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@id/tv_cmtest"
+        android:layout_alignBottom="@id/tv_cmtest"
+        android:textSize="18sp"
+        android:textColor="@color/black"
+        android:text="@string/cmTestResult" />
+    
+    <ProgressBar
+        android:id="@+id/pb_cmtest"
+        style="?android:attr/progressBarStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/cb_cmtest"
+   		android:layout_alignTop="@+id/tv_cmtest" />
+    
+    
+    <CheckBox
+        android:id="@+id/cb_cttest"
+        android:layout_below="@id/tv_cmtest"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/title"
+        android:layout_alignRight="@id/title"
+        android:layout_marginTop="15dp"
+        android:paddingTop="0dp"
+        android:textColor="@color/black"
+        android:text="@string/ctTest" />
+    
+    <TextView
+        android:id="@+id/tv_cttest"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/cb_cttest"
+        android:layout_alignLeft="@id/title"
+        android:layout_alignRight="@id/title"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/black"
+        android:text="@string/ctTestResult" />
+    
+    <TextView
+        android:id="@+id/tv_cttest_result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@id/tv_cttest"
+        android:layout_alignBottom="@id/tv_cttest"
+        android:textSize="18sp"
+        android:textColor="@color/black"
+        android:text="@string/ctTestResult" />
+    
+    <ProgressBar
+        android:id="@+id/pb_cttest"
+        style="?android:attr/progressBarStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/cb_cttest"
+   		android:layout_alignTop="@+id/tv_cttest" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="fill_parent"
+        android:layout_height="40dip"
+        android:layout_below="@id/tv_cttest"
+        android:layout_alignLeft="@id/title"
+        android:layout_alignRight="@id/title"
+        android:layout_marginTop="20dp"
+        android:text="@string/buttonText"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:background="@drawable/rounded_button"
+        android:onClick="startTest" />
+ 
+</RelativeLayout>

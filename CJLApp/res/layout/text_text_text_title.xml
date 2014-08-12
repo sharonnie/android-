@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_vertical" >
+	
+    <ImageButton
+	    android:id="@+id/backButton"
+	    android:layout_width="50dip"
+	    android:layout_height="fill_parent"
+	    android:contentDescription="@string/hello_world"
+	    android:gravity="center"
+	    android:src="@drawable/back"
+	    android:layout_marginTop="5dip"
+	    android:layout_marginBottom="5dip"
+	    android:background="@color/welcome_blue"/>
+	
+	<LinearLayout 
+		android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"
+	    android:layout_marginTop="5dip"
+	    android:layout_marginBottom="5dip"
+	    android:layout_marginLeft="50dip"
+	    android:layout_marginRight="50dip"
+	    android:layout_gravity="center_vertical"
+	    android:orientation="horizontal" >
+	    
+		    <TextView
+			    android:id="@+id/validTitle"
+			    android:layout_width="fill_parent"
+			    android:layout_height="fill_parent"
+			    android:layout_weight="1.0"
+			    android:gravity="center"
+			    android:layout_marginTop="2dip"
+			    android:layout_marginBottom="2dip"
+			    android:text="@string/valid"
+			    android:background="@drawable/tab_select"
+			    android:textColor="@color/welcome_blue"
+			    android:textSize="18.0dip" />
+		
+		    <TextView
+		        android:id="@+id/patialValidTitle"
+		        android:layout_width="fill_parent"
+		        android:layout_height="fill_parent"
+		        android:layout_weight="1.0"
+		        android:gravity="center"
+			    android:layout_marginTop="2dip"
+			    android:layout_marginBottom="2dip"
+		        android:text="@string/partial_valid"
+		        android:background="@drawable/tab_unselect"
+		        android:textColor="@color/white"
+		        android:textSize="18.0dip" />
+		    
+		    <TextView
+		        android:id="@+id/invalidTitle"
+		        android:layout_width="fill_parent"
+		        android:layout_height="fill_parent"
+		        android:layout_weight="1.0"
+		        android:gravity="center"
+			    android:layout_marginTop="2dip"
+			    android:layout_marginBottom="2dip"
+		        android:text="@string/invalid"
+		        android:background="@drawable/tab_unselect"
+		        android:textColor="@color/white"
+		        android:textSize="18.0dip" />
+    	</LinearLayout>
+    
+</RelativeLayout>
